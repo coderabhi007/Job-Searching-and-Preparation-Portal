@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 const authSchema=new mongoose.Schema({
+    userType: {
+        type: String,
+        enum: ["User", "Company", "Interviewer"], 
+        required: true,
+      },
     email:{
         type:String,
         required:true
@@ -24,5 +29,30 @@ authSchema.pre("save",async function(next){
 })
 authSchema.methods.comparePassword=async function(password){
     return await bcrypt.compare(password,this.password)
+}
+authSchema.methods.generateAccessToken = function(){
+    return jwt.sign(
+        {
+            _id: this._id,
+            email: this.email,
+            userType: this.userType
+        },
+        process.env.ACCESS_TOKEN_SECRET,
+        {
+            expiresIn: process.env.ACCESS_TOKEN_EXPIRY
+        }
+    )
+}
+authSchema.methods.generateRefreshToken = function(){
+    return jwt.sign(
+        {
+            _id: this._id,
+            
+        },
+        process.env.REFRESH_TOKEN_SECRET,
+        {
+            expiresIn: process.env.REFRESH_TOKEN_EXPIRY
+        }
+    )
 }
 export const  auth=mongoose.model('Auth',authSchema);
