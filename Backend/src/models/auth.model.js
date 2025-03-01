@@ -17,12 +17,12 @@ const authSchema=new mongoose.Schema({
     },
 
 },{timestamps:true})
-auth.pre("save",async function(next){
+authSchema.pre("save",async function(next){
     if(!this.isModified("password")) return next()
         this.password = await bcrypt.hash(this.password, 10)
     next()
 })
-auth.methods.comparePassword(async function(password){
+authSchema.methods.comparePassword=async function(password){
     return await bcrypt.compare(password,this.password)
-})
-export const  auth=mongoose.model('auth',authSchema);
+}
+export const  auth=mongoose.model('Auth',authSchema);

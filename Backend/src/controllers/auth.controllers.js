@@ -1,5 +1,5 @@
-import ApiError from '../errors/ApiError.js';
-import ApiResponse from '../responses/ApiResponse.js';
+import {ApiError} from '../util/ApiError.js';
+import {ApiResponse} from '../util/ApiResponse.js';
 import {auth as Auth} from '../models/auth.model.js';
 import Email from '../util/Email.js';
 async function Register(req,res){
@@ -27,3 +27,4 @@ async function Register(req,res){
         return res.status(500).json(new ApiError(500, "Internal Server Error"));
     }
 }
+export {Register};

@@ -1,2 +1,2 @@
-const DB_NAME='JOB';
+const DB_NAME='job'
 export {DB_NAME};
