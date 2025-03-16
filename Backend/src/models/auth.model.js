@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 const authSchema=new mongoose.Schema({
     userType: {
         type: String,
@@ -23,36 +24,62 @@ const authSchema=new mongoose.Schema({
 
 },{timestamps:true})
 authSchema.pre("save",async function(next){
-    if(!this.isModified("password")) return next()
-        this.password = await bcrypt.hash(this.password, 10)
-    next()
+    try {
+        console.log("Pre-save Hook Triggered for:", this.email); // Debugging Log
+
+        // Check if password is modified
+        if (!this.isModified("password")) {
+            console.log("Password not modified, skipping hash.");
+            return next();
+        }
+
+        console.log("Hashing password...");
+        this.password = await bcrypt.hash(this.password, 10);
+        console.log("Password hashed successfully!");
+
+        next();
+    } catch (error) {
+        console.error("Error hashing password:", error);
+        next(error);
+    }
 })
 authSchema.methods.comparePassword=async function(password){
-    return await bcrypt.compare(password,this.password)
+     const isMatch=await bcrypt.compare(password,this.password);
+     console.log(isMatch)
+        return isMatch;
 }
 authSchema.methods.generateAccessToken = function(){
-    return jwt.sign(
-        {
-            _id: this._id,
-            email: this.email,
-            userType: this.userType
-        },
-        process.env.ACCESS_TOKEN_SECRET,
-        {
-            expiresIn: process.env.ACCESS_TOKEN_EXPIRY
-        }
-    )
+   
+
+   try {
+     
+
+        const token = jwt.sign(
+            { _id: this._id, email: this.email, userType: this.userType },
+            process.env.ACCESS_TOKEN_SECRET,
+            { expiresIn: process.env.ACCESS_TOKEN_EXPIRY }
+        );
+
+        
+        return token;
+    } catch (error) {
+        console.error("Error generating access token:", error.message);
+    }
 }
 authSchema.methods.generateRefreshToken = function(){
-    return jwt.sign(
-        {
-            _id: this._id,
-            
-        },
-        process.env.REFRESH_TOKEN_SECRET,
-        {
-            expiresIn: process.env.REFRESH_TOKEN_EXPIRY
-        }
-    )
+    try {
+     
+
+        const token = jwt.sign(
+            { _id: this._id },
+            process.env.REFRESH_TOKEN_SECRET,
+            { expiresIn: process.env.REFRESH_TOKEN_EXPIRY }
+        );
+
+      
+        return token;
+    } catch (error) {
+        console.error("Error generating refresh token:", error.message);
+    }
 }
 export const  auth=mongoose.model('Auth',authSchema);
