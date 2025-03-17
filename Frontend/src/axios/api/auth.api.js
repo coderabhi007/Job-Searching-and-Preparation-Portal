@@ -23,5 +23,5 @@ async function register(email,password,userType,conformPassword) {//"User"
     }
 }
 
-
+export  { register };
 export  { login };

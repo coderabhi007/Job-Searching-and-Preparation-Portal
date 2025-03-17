@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import {login} from '../axios/api/auth.api.js'
+import { sendOtp } from "../axios/api/otp.api.js";
+import { verifyOtp } from "../axios/api/otp.api.js";
+import {register} from "../axios/api/auth.api.js";
 function Login() {
     const [isRightPanelActive, setIsRightPanelActive] = useState(false);
 
@@ -7,14 +10,58 @@ function Login() {
     const handleSignInClick = () => setIsRightPanelActive(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
+    const [otp, setOtp] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [otpSent, setOtpSent] = useState(false);
+    const [otpVerified, setOtpVerified] = useState(false);
+    const [timer, setTimer] = useState(120);
+    const [isTimerActive, setIsTimerActive] = useState(false);
     const handleLogin = async (e) => {
         console.log("Login Response:", e);
         e.preventDefault();
         const response = await login(email, password, "User");
         console.log("Login Response:", response);
     };
-
+    const startTimer = () => {
+        setIsTimerActive(true);
+        let timeLeft = 120;
+        const interval = setInterval(() => {
+          timeLeft--;
+          setTimer(timeLeft);
+          if (timeLeft <= 0) {
+            clearInterval(interval);
+            setIsTimerActive(false);
+          }
+        }, 1000);
+      };
+    
+      const handleSendOtp = async () => {
+        const res = await sendOtp(email);
+        if (res?.success) {
+          setOtpSent(true);
+          startTimer();
+        } else {
+          alert(res?.message || "Failed to send OTP");
+        }
+      };
+    
+      const handleVerifyOtp = async () => {
+        const res = await verifyOtp(email, otp);
+        if (res?.success) {
+          setOtpVerified(true);
+        } else {
+          alert(res?.message || "Invalid OTP");
+        }
+      };
+    
+      const handleRegister = async () => {
+        if (password !== confirmPassword) {
+          alert("Passwords do not match");
+          return;
+        }
+        const res = await register(email, password, "User", confirmPassword);
+        alert(res?.message || "Registration Successful!");
+      };
     return (
         <div
             className={`relative mx-auto my-10 max-w-[900px] min-h-[600px] rounded-lg shadow-2xl overflow-hidden bg-[#1E3A8A] transition-all duration-500 ${isRightPanelActive ? "right-panel-active" : ""
@@ -27,41 +74,73 @@ function Login() {
                         : "opacity-0 z-0"
                     }`}
             >
-                <form className="text-center text-white">
-                    <h1 className="font-extrabold text-2xl mb-6">Create Account</h1>
-                    <div className="flex justify-center items-center gap-4 mb-6">
-                        <div className="flex items-center justify-center w-12 h-12 border border-gray-300 rounded-full bg-white text-gray-700 hover:bg-gray-100">
-                            G {/* Placeholder for Google Login */}
-                        </div>
-                    </div>
-                    <p className="text-sm text-gray-300 mb-4">or use your email for registration</p>
-                    <input
-                        type="text"
-                        placeholder="Name"
-                        className="w-full p-4 text-gray-800 mb-4 rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                    />
-                    <input
-                        type="email"
-                        placeholder="Email"
-                        className="w-full p-4 mb-4 text-gray-800 rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                    />
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        className="w-full p-4 mb-4 text-gray-800 rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                    />
-                    <input
-                        type="password"
-                        placeholder="Confirm Password"
-                        className="w-full p-4 mb-4 text-gray-800 rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                    />
-                    <button
-                        type="submit"
-                        className="px-10 py-3 mt-4 text-gray-800 rounded-full bg-purple-600 text-white uppercase font-bold hover:bg-purple-700"
-                    >
-                        Sign Up
-                    </button>
-                </form>
+                <form className="text-center">
+        <h1 className="font-extrabold text-2xl mb-6">Create Account</h1>
+
+        <input
+          type="email"
+          placeholder="Email"
+          className="w-full p-4 mb-4 text-gray-800 rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          disabled={otpSent}
+        />
+
+        {!otpSent ? (
+          <button
+            type="button"
+            onClick={handleSendOtp}
+            className="w-full px-6 py-3 cursor-pointer mb-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+          >
+            Get OTP
+          </button>
+        ) : (
+          <>
+            <input
+              type="text"
+              placeholder="Enter OTP"
+              className="w-full p-4 mb-4 text-gray-800 rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+              disabled={otpVerified}
+            />
+            <button
+              type="button"
+              onClick={handleVerifyOtp}
+              className="w-full px-6 py-3 mb-4 bg-green-500 text-white rounded-lg hover:bg-green-600"
+              disabled={!isTimerActive}
+            >
+              Verify OTP ({timer}s)
+            </button>
+          </>
+        )}
+
+        {otpVerified && (
+          <>
+            <input
+              type="password"
+              placeholder="Password"
+              className="w-full p-4 mb-4 text-gray-800 rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Confirm Password"
+              className="w-full p-4 mb-4 text-gray-800 rounded-lg bg-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+            <button
+              type="button"
+              onClick={handleRegister}
+              className="w-full px-10 py-3 mt-4 bg-purple-800 text-white uppercase font-bold rounded-lg hover:bg-purple-900"
+            >
+              Sign Up
+            </button>
+          </>
+        )}
+      </form>
             </div>
 
             {/* Sign In Section */}
