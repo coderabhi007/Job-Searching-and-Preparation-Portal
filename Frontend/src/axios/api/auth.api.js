@@ -22,6 +22,14 @@ async function register(email,password,userType,conformPassword) {//"User"
         return error.response.data;
     }
 }
-
+async function resetPassword(email,newPassword,isConformed) {
+    try {
+        const response = await axiosInstance.post("auth/resetpassword", { email, newPassword, isConformed });
+        return response.data;
+    } catch (error) {
+        return error.response.data;
+    }
+}
 export  { register };
 export  { login };
+export { resetPassword };
