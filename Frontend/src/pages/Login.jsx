@@ -3,6 +3,8 @@ import {login} from '../axios/api/auth.api.js'
 import { sendOtp } from "../axios/api/otp.api.js";
 import { verifyOtp } from "../axios/api/otp.api.js";
 import {register} from "../axios/api/auth.api.js";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function Login() {
     const [isRightPanelActive, setIsRightPanelActive] = useState(false);
 
@@ -17,10 +19,16 @@ function Login() {
     const [timer, setTimer] = useState(120);
     const [isTimerActive, setIsTimerActive] = useState(false);
     const handleLogin = async (e) => {
-        console.log("Login Response:", e);
+        
         e.preventDefault();
         const response = await login(email, password, "User");
         console.log("Login Response:", response);
+        if(response.success){
+          toast.success("User Login successfully!"); // Success message
+        }
+        else{
+          toast.error("Invalid Email or Password");
+        }
     };
     const startTimer = () => {
         setIsTimerActive(true);
@@ -40,8 +48,9 @@ function Login() {
         if (res?.success) {
           setOtpSent(true);
           startTimer();
+          toast.success("OTP sent successfully!"); // Success message
         } else {
-          alert(res?.message || "Failed to send OTP");
+          toast.error(res?.message || "Failed to send OTP"); // Error message
         }
       };
     
@@ -49,18 +58,20 @@ function Login() {
         const res = await verifyOtp(email, otp);
         if (res?.success) {
           setOtpVerified(true);
+          toast.success("OTP Verified successfully !"); // Success message
         } else {
-          alert(res?.message || "Invalid OTP");
+          toast.error(res?.message || "Invalid OTP");
+         
         }
       };
     
       const handleRegister = async () => {
         if (password !== confirmPassword) {
-          alert("Passwords do not match");
+          toast.error(res?.message || "Passwords do not match");
           return;
         }
         const res = await register(email, password, "User", confirmPassword);
-        alert(res?.message || "Registration Successful!");
+        toast.success("Registration Successful!"); // Success message
       };
     return (
         <div
