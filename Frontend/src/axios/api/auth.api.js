@@ -2,7 +2,7 @@
 import axiosInstance from "../axiosConfig";
 async function login(email,password,userType) {//"User"
     try {
-        const response = await axiosInstance.post("/auth/login", { email, password, userType });
+        const response = await axiosInstance.post("auth/login", { email, password, userType });
         console.log(response.data);
         return response.data;
 
@@ -13,7 +13,7 @@ async function login(email,password,userType) {//"User"
 }
 async function register(email,password,userType,conformPassword) {//"User"
     try {
-        const response = await axiosInstance.post("/auth/register", { email, password, userType ,conformPassword});
+        const response = await axiosInstance.post("auth/register", { email, password, userType ,conformPassword});
         console.log(response.data);
         return response.data;
 
