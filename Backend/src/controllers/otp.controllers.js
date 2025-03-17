@@ -7,7 +7,7 @@ async function sendOtp(req,res){
         //console.log(req.body);
         let email=req.body.email;
 
-      //  console.log(email);
+    //  console.log(email);
         let Createdotp=Math.floor(100000 + Math.random() * 900000);
         Email(email,"OTP for account verification",`Your OTP is ${Createdotp}`);
         const otpCreated= await Otp.create({email,otp:Createdotp});

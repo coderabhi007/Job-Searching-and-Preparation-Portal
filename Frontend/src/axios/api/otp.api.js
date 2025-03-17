@@ -2,7 +2,8 @@ import axiosInstance from "../axiosConfig";
  
 async function sendOtp(email) {
     try {
-        const response = await axiosInstance.post('/otp/send-otp', { email });
+    
+        const response = await axiosInstance.post('otp/send-otp', { email });
         //console.log(response);
         return response.data;
     }
@@ -13,7 +14,7 @@ async function sendOtp(email) {
 }
 async function  verifyOtp(email,otp) {
     try {
-        const response = await axiosInstance.post('/verify-otp', { email, otp });
+        const response = await axiosInstance.post('otp/verify-otp', { email, otp });
         return response.data;
     }
     catch (error) {
