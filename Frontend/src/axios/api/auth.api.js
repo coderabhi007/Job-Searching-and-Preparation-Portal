@@ -39,6 +39,15 @@ async function resetPassword(email,newPassword,isConformed) {
         return error.response?.data;
     }
  }
+ async function RegisterByEmail(email) {
+    try {
+        const response = await axiosInstance.post("auth/google-register", { email });
+        return response.data;
+    } catch (error) {
+        console.log(error)
+        return error.response?.data;
+    }
+ }
  export {isRegisterd};
 export  { register };
 export  { login };

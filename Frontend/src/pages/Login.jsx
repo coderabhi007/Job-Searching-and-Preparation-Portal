@@ -75,6 +75,17 @@ function Login() {
     }
   };
 
+  const handleRegisterByGoogle = async () => {
+    const res = await RegisterByEmail(email);
+    if (res?.success) {
+      setOtpVerified(true);
+      toast.success("OTP Verified successfully !"); // Success message
+    } else {
+      toast.error(res?.message || "Invalid OTP");
+
+    }
+  };
+
   const handleRegister = async () => {
     if (password !== confirmPassword) {
       toast.error(res?.message || "Passwords do not match");
