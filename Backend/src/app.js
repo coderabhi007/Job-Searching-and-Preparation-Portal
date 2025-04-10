@@ -12,7 +12,8 @@ app.use(Express.static("public"))
 app.use(cookieParser())
 import authRouter from './Routes/auth.routes.js'
 import otpRouter from './Routes/otp.routes.js'
+import companyRouter from './Routes/company.routes.js'
 app.use('/api/v1/auth',authRouter)
 app.use('/api/v1/otp',otpRouter)
-
+app.use('/api/v1/company',companyRouter)
 export default app;

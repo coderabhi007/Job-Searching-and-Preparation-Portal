@@ -2,7 +2,7 @@ import { auth } from "../models/auth.model.js";
 import { ApiError } from "../util/ApiError.js";
 import { ApiResponse } from "../util/ApiResponse.js";
 import jwt from "jsonwebtoken";
-async function Auth(req,res){
+async function Auth(req,res,next){
     try {
         const refreshToken = req.cookies.refreshToken;
         const accessToken = req.cookies.accessToken;
@@ -11,7 +11,7 @@ async function Auth(req,res){
 
             if(user){
                 req.user=user;
-                next();
+               return next();
             }
         }
         if(refreshToken){
@@ -29,8 +29,9 @@ async function Auth(req,res){
         }
         return res.status(401).json(new ApiError(401,"Unauthorized"));
     } catch (error) {
+        console.log("error in auth middleware",error);
         return res.status(500).json(new ApiError(500, "Internal Server Error"));
         
     }
 }
-export default Auth;
+export { Auth};

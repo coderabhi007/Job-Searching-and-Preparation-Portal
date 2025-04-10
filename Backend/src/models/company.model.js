@@ -1,7 +1,11 @@
 import mongoose from "mongoose";
 const companySchema = new mongoose.Schema({
+    authId:{
+        type: mongoose.Schema.Types.ObjectId, ref: 'auth', required: true
+
+    },
     companyName: { type: String, required: true, unique: true },
-    branches: [{ type: String }],// // Branches of the company
+    locations: [{ type: String }],// // Branches of the company
     email: { type: String, required: true }, // General company email
     contactNumber: { type: String }, // General company phone
     hrName: { type: String },         // HR contact person
@@ -12,7 +16,7 @@ const companySchema = new mongoose.Schema({
     members: { type: Number },        // Total employees
     websiteLink: { type: String },
     establishment: { type: Number },  // Year of establishment
-    createdAt: { type: Date, default: Date.now }
+    logo: { type: String },           // URL or path to the logo
 },{ timestamps: true });
 
 const Company = mongoose.model("Company", companySchema);

@@ -9,7 +9,7 @@ import JobPost from "../models/jobPost.model.js";
 async function createJobPost(req, res) {
     try {
         const companyId = req.user._id;
-        const company = await Company.findById(companyId);
+        const company = await Company.findBy({authId:companyId});
         if (!company) {
             return res.status(404).json(new ApiError(404, "Company not found"));
         }
@@ -28,11 +28,15 @@ async function createJobPost(req, res) {
 
 async function updatePost(req, res) {
     try {
-        const companyId = req.user._id;
+        const authId = req.user._id;
         const jobId = req.params.id;
         const job = req.body;
-
-        const updatedJob = await Job.findOneAndUpdate({ companyId, _id: jobId }, job, { new: true });
+        const company = await Company.findBy({authId});
+        if (!company) {
+            return res.status(404).json(new ApiError(404, "Company not found"));
+        }
+        const companyId = company._id;
+        const updatedJob = await Job.findOneAndUpdate({companyId , _id: jobId }, job, { new: true });
         if (!updatedJob) {
             return res.status(404).json(new ApiError(404, "Job not found"));
         }
@@ -45,7 +49,12 @@ async function updatePost(req, res) {
 
 async function getAllJobPostings(req, res) {
     try {
-        const companyId = req.user._id;
+        const authId = req.user._id;
+        const company = await Company.findBy({authId});
+        if (!company) {
+            return res.status(404).json(new ApiError(404, "Company not found"));
+        }
+      const  companyId = company._id;
         const jobs = await Job.find({ companyId });
 
         if (!jobs || jobs.length === 0) {
@@ -61,14 +70,13 @@ async function getAllJobPostings(req, res) {
 async function applyForJob(req, res) {
     try {
         const jobId = req.params.id;
-        const userId = req.user._id;
+        const authId = req.user._id;
 
         const job = await Job.findById(jobId);
         if (!job) {
             return res.status(404).json(new ApiError(404, "Job not found"));
         }
-
-        const user = await User.findById(userId);
+        const user = await User.find({authId});
         if (!user) {
             return res.status(404).json(new ApiError(404, "User not found"));
         }
@@ -98,7 +106,13 @@ async function getAllJobPosts(req, res) {
 
 async function getAppliedJobs(req, res) {
     try {
-        const userId = req.user._id;
+        const authId = req.user._id;
+        const user = await User.find({ authId });
+        if (!user) {
+
+            return res.status(404).json(new ApiError(404, "User not found"));
+        }
+        const userId = user._id;
         const jobApplications = await JobApplication.find({ userId });
 
         if (!jobApplications || jobApplications.length === 0) {
@@ -135,7 +149,7 @@ async function getJobById(req, res) {
 
 async function updateJobStatus(req, res) {
     try {
-        const companyId = req.user._id;
+       // const companyId = req.user._id;
         const jobId = req.params.id;
         const { status } = req.body;
 
@@ -157,7 +171,6 @@ async function updateApplicationStatus(req, res) {
     try {
         const jobId = req.params.id;
         const { userId, status } = req.body;
-
         let application = await JobApplication.findOne({ jobId, userId });
         if (!application) {
             return res.status(404).json(new ApiError(404, "Application not found"));
@@ -232,7 +245,12 @@ async function getRejectedUsers(req, res) {
 
 async function getAppliedJobsByUser(req, res) {
     try {
-        const userId = req.user._id;
+        const authId = req.user._id;
+        const user = await User.find({authId});
+        if (!user) {
+            return res.status(404).json(new ApiError(404, "User not found"));
+        }
+        const userId = user._id;
         const applications = await JobApplication.find({ userId });
 
         if (!applications || applications.length === 0) {
