@@ -2,7 +2,7 @@ import axiosInstance from "../axiosConfig";
  
 async function sendOtp(email) {
     try {
-    
+    console.log(email);
         const response = await axiosInstance.post('otp/send-otp', { email });
         //console.log(response);
         return response.data;
