@@ -37,7 +37,7 @@ const Login = () => {
 
         if (response.success) {
             toast.success("User Login successfully!");
-            dispatch(setUser(response.data.data));
+            dispatch(setUser(response.data.data.userType));
             console.log(response)
             if (response.data.data.userType === "User") {
                 navigate("/");
@@ -46,6 +46,7 @@ const Login = () => {
             } else {
                 navigate("/interviewer");
             }
+
         } else {
             toast.error(response.message || "Invalid email");
         }
