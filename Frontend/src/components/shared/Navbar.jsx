@@ -9,24 +9,29 @@ import axios from 'axios'
 import { USER_API_END_POINT } from '@/utils/constant'
 import { setUser } from '@/redux/authSlice'
 import { toast } from 'sonner'
-
+import { Logout } from '@/axios/api/auth.api';
 const Navbar = () => {
     const { user } = useSelector(store => store.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const logoutHandler = async () => {
-        try {
-            const res = await axios.get(`${USER_API_END_POINT}/logout`, { withCredentials: true });
-            if (res.data.success) {
-                dispatch(setUser(null));
-                navigate("/");
-                toast.success(res.data.message);
-            }
-        } catch (error) {
-            console.log(error);
-            toast.error(error.response.data.message);
+
+        //const res = await axios.get(`${USER_API_END_POINT}/logout`, { withCredentials: true });
+        const res = await Logout();
+        console.log(res);
+        if (res.success) {
+            dispatch(setUser(null));
+            navigate("/");
+            toast.success(res.message);
         }
+        else {
+            if (res.statusCode == 401)
+                dispatch(setUser(null));
+            else
+                toast.error(res.message || "Invalid email");
+        }
+
     }
     return (
         <div className='bg-white'>
@@ -62,39 +67,33 @@ const Navbar = () => {
                         ) : (
                             <Popover>
                                 <PopoverTrigger asChild>
-                                    <Avatar className="cursor-pointer">
+                                    <Avatar className="cursor-pointer bg-gray-600">
                                         <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn" />
                                     </Avatar>
                                 </PopoverTrigger>
                                 <PopoverContent className="w-80">
-                                    <div className=''>
-                                        <div className='flex gap-2 space-y-2'>
-                                            <Avatar className="cursor-pointer">
-                                                <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn" />
-                                            </Avatar>
+                                    <div className=' p-4 rounded'>
+                                        <div className='flex gap-3 items-center'>
                                             <div>
                                                 <h4 className='font-medium'>{user?.fullname}</h4>
                                                 <p className='text-sm text-muted-foreground'>{user?.profile?.bio}</p>
+                                                <Button variant="link" className="p-0 h-auto mt-1">
+                                                    <Link to="/profile">View Profile</Link>
+                                                </Button>
                                             </div>
                                         </div>
-                                        <div className='flex flex-col my-2 text-gray-600'>
-                                            {
-                                                user && user.role === 'student' && (
-                                                    <div className='flex w-fit items-center gap-2 cursor-pointer'>
-                                                        <User2 />
-                                                        <Button variant="link"> <Link to="/profile">View Profile</Link></Button>
-                                                    </div>
-                                                )
-                                            }
-
-                                            <div className='flex w-fit items-center gap-2 cursor-pointer'>
+                                        <div className='flex flex-col mt-4 text-gray-600'>
+                                            <div className='flex items-center gap-2 cursor-pointer'>
                                                 <LogOut />
-                                                <Button onClick={logoutHandler} variant="link">Logout</Button>
+                                                <Button onClick={logoutHandler} variant="link" className="p-0 h-auto">
+                                                    Logout
+                                                </Button>
                                             </div>
                                         </div>
                                     </div>
                                 </PopoverContent>
                             </Popover>
+
                         )
                     }
 

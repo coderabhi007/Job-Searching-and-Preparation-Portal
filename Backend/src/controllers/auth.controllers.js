@@ -156,20 +156,49 @@ async function resetPassword(req,res){
     }
 }
 //create logout function wich will clear the cookies
-async function logout(req,res){
+
+async function logout(req, res) {
     try {
-        //clear refrsh token from db
-        const auth=await Auth.findById(req.user._id);
-        auth.refreshToken=null; 
-        await auth.save({validateBefore
-        :false})    
-       
-        //clear cookies
-        res.clearCookie("accessToken")
-        .clearCookie("refreshToken").ApiError(200,{},"User logged out successfully");
+        console.log("🔒 Logout route hit");
+
+        const auth = await Auth.findById(req.user._id);
+        if (!auth) {
+            console.log("❌ User not found");
+            return res.status(404).json(new ApiError(404, {}, "User not found"));
+        }
+
+        // Invalidate token
+        auth.refreshToken = null;
+        await auth.save({ validateBeforeSave: false });
+        console.log("✅ Refresh token cleared");
+
+        // Define cookie options
+        const cookieOptions = {
+            httpOnly: true,
+            secure: true,
+            sameSite: "Strict",
+        };
+
+        // Clear cookies BEFORE sending any response
+        console.log("🍪 Clearing cookies");
+        res.clearCookie("accessToken", cookieOptions);
+        res.clearCookie("refreshToken", cookieOptions);
+
+        // 🛑 Now send the response and return to prevent further execution
+        console.log("📤 Sending success response");
+        return res.status(200).json(new ApiResponse(200, {}, "User logged out successfully"));
+
     } catch (error) {
-        return res.status(500).json(new ApiError(500, "Internal Server Error"));
-        
+        console.error("🔥 Logout error:", error);
+
+        if (!res.headersSent) {
+            return res.status(500).json(new ApiError(500, {}, "Internal Server Error"));
+        } else {
+            console.warn("⚠️ Headers already sent, cannot respond again");
+        }
     }
 }
-export {Register,Login,resetPassword,googleRegister,googleLogin,isRegisterd};
+
+
+
+export {Register,Login,resetPassword,googleRegister,googleLogin,isRegisterd,logout};
