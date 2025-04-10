@@ -4,6 +4,7 @@ import { sendOtp } from "../axios/api/otp.api.js";
 import { verifyOtp } from "../axios/api/otp.api.js";
 import { register } from "../axios/api/auth.api.js";
 import { toast } from "react-toastify";
+import { isRegisterd } from "../axios/api/auth.api.js";
 import "react-toastify/dist/ReactToastify.css";
 function Login() {
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
@@ -42,6 +43,15 @@ function Login() {
       }
     }, 1000);
   };
+  const handleSignUp=async()=>{
+    const res = await isRegisterd(email);
+    if (res?.success) {
+      handleSendOtp();
+     
+    } else {
+      toast.error(res?.message || "Failed to send OTP"); // Error message
+    }
+  }
 
   const handleSendOtp = async () => {
     const res = await sendOtp(email);
@@ -100,7 +110,7 @@ function Login() {
           {!otpSent && !otpVerified && (
             <button
               type="button"
-              onClick={handleSendOtp}
+              onClick={handleSignUp}
               className="w-full px-6 py-3 cursor-pointer mb-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
             >
               Get OTP

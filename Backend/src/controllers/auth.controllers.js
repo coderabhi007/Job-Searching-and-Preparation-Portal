@@ -169,4 +169,4 @@ async function logout(req,res){
         
     }
 }
-export {Register,Login,resetPassword,googleRegister,googleLogin};
+export {Register,Login,resetPassword,googleRegister,googleLogin,isRegisterd};
