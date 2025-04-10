@@ -35,7 +35,8 @@ async function resetPassword(email,newPassword,isConformed) {
         const response = await axiosInstance.post("auth/isRegisterd", { email });
         return response.data;
     } catch (error) {
-        return error.response.data;
+        console.log(error)
+        return error.response?.data;
     }
  }
  export {isRegisterd};
