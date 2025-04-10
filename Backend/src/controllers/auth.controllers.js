@@ -3,6 +3,22 @@ import {ApiResponse} from '../util/ApiResponse.js';
 import {auth as Auth} from '../models/auth.model.js';
 import Email from '../util/Email.js';
 import jwt from 'jsonwebtoken';
+async function isRegisterd(req,res){
+    try{
+        let {email}=req.body;
+        if(!email) return res.status(400).json(new ApiError(101,"Email not present"));
+        //email regex
+        if(!email.match(/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/)) return res.status(400).json(new ApiError(105,"Invalid email"));
+        const existedUser= await Auth.findOne({email});
+       // console.log(existedUser);
+        if(!existedUser) return res.status(201).json(new ApiResponse(201,"User not found"));
+        //if user is not registered then return 200 status code with message
+        return res.status(400).json(new ApiError(400,{},"User is already registered"));
+    }
+    catch(error){
+        return res.status(500).json(new ApiError(500, "Internal Server Error"));
+    }
+}
 async function Register(req,res){
     try {
         let {email,userType}=req.body;
