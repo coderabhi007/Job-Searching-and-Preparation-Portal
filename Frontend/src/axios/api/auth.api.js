@@ -1,19 +1,21 @@
 
 import axiosInstance from "../axiosConfig";
-async function login(email,password,userType) {//"User"
+async function login(email,password,role) {//"User"
     try {
-        const response = await axiosInstance.post("auth/login", { email, password, userType });
+        console.log(email);
+        console.log(role);
+        const response = await axiosInstance.post("auth/login", { email, password, userType:role });
         console.log(response.data);
         return response.data;
 
     } catch (error) {
-        console.log(error.response.data);
-        return error.response.data;
+        console.log(error.response);
+        return error.response?.data;
     }
 }
-async function register(email,password,userType,conformPassword) {//"User"
+async function register(user) {//"User"
     try {
-        const response = await axiosInstance.post("auth/register", { email, password, userType ,conformPassword});
+        const response = await axiosInstance.post("auth/register", user);
         console.log(response.data);
         return response.data;
 

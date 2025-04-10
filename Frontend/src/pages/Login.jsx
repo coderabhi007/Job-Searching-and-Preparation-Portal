@@ -31,6 +31,7 @@ function Login() {
       toast.error("Invalid Email or Password");
     }
   };
+  
   const startTimer = () => {
     setIsTimerActive(true);
     let timeLeft = 120;

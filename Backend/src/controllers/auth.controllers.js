@@ -23,6 +23,7 @@ async function isRegisterd(req,res){
 }
 async function Register(req,res){
     try {
+       // console.log(req.body)
         let {email,userType}=req.body;
         if(!email) return res.status(400).json(new ApiError(101,"Email not present"));
         //email regex
