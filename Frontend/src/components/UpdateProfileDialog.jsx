@@ -99,16 +99,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                                     className="col-span-3"
                                 />
                             </div>
-                            <div className='grid grid-cols-4 items-center gap-4'>
-                                <Label htmlFor="number" className="text-right">Number</Label>
-                                <Input
-                                    id="number"
-                                    name="number"
-                                    value={input.phoneNumber}
-                                    onChange={changeEventHandler}
-                                    className="col-span-3"
-                                />
-                            </div>
+                            
                             <div className='grid grid-cols-4 items-center gap-4'>
                                 <Label htmlFor="bio" className="text-right">Bio</Label>
                                 <Input

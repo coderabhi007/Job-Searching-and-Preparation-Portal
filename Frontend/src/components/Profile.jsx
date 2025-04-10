@@ -39,10 +39,7 @@ const Profile = () => {
                         <Mail />
                         <span>{user?.email}</span>
                     </div>
-                    <div className='flex items-center gap-3 my-2'>
-                        <Contact />
-                        <span>{user?.phoneNumber}</span>
-                    </div>
+                    
                 </div>
                 <div className='my-5'>
                     <h1>Skills</h1>

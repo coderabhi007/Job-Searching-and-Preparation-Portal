@@ -1,16 +1,16 @@
 
 import axiosInstance from "../axiosConfig";
-async function login(email,password,role) {//"User"
-    try {
-        console.log(email);
-        console.log(role);
-        const response = await axiosInstance.post("auth/login", { email, password, userType:role });
-        console.log(response.data);
-        return response.data;
 
+
+ async function login(email, password, userType) {
+    try {
+        const response = await axiosInstance.post("auth/login", { email, password, userType });
+        return { success: true, data: response.data };
     } catch (error) {
-        console.log(error.response);
-        return error.response?.data;
+        return {
+            success: false,
+            message: error?.response?.data?.message || "Login failed",
+        };
     }
 }
 async function register(user) {//"User"
@@ -50,6 +50,16 @@ async function resetPassword(email,newPassword,isConformed) {
         return error.response?.data;
     }
  }
+ async function Logout() {
+    try {
+        const response = await axiosInstance.get("auth/logout");
+        return response.data;
+    } catch (error) {
+        console.log(error)
+        return error.response?.data;
+    }
+ }
+ export {Logout};
  export {isRegisterd};
 export  { register };
 export  { login };

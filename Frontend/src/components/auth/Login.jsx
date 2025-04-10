@@ -11,7 +11,8 @@ import { toast } from 'sonner'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoading, setUser } from '@/redux/authSlice'
 import { Loader2 } from 'lucide-react'
-import {login } from '@/axios/api/auth.api';
+import { login } from '@/axios/api/auth.api';
+
 const Login = () => {
 
 
@@ -26,29 +27,30 @@ const Login = () => {
 
 
     const handleLogin = async (e) => {
-
         e.preventDefault();
-        const response = await login(email, password, role);
-        console.log("Login Response:", response);
-    
-        if (response.success) {
-            toast.success("User Login successfully!"); // Success message
-        console.log("response",response);
-        if(response.data.userType=="User"){
-            navigate("/");
-        }
-        else if(response.data.userType=="Company"){
-            navigate("/company");
-        }
-        else{
-            navigate("/interviewer");
-        }
-        }
-        else {
-            toast.error(response.message || "Invalid email");
 
+        dispatch(setLoading(true));
+
+        const response = await login(email, password, role);
+        console.log(response);
+        dispatch(setLoading(false));
+
+        if (response.success) {
+            toast.success("User Login successfully!");
+            dispatch(setUser(response.data.data));
+            console.log(response)
+            if (response.data.data.userType === "User") {
+                navigate("/");
+            } else if (response.data.data.userType === "Company") {
+                navigate("/company");
+            } else {
+                navigate("/interviewer");
+            }
+        } else {
+            toast.error(response.message || "Invalid email");
         }
     };
+
     useEffect(() => {
         if (user) {
             navigate("/");
@@ -66,7 +68,7 @@ const Login = () => {
                             type="email"
                             value={email}
                             name="email"
-                            onChange={(e)=>setEmail(e.target.value)}
+                            onChange={(e) => setEmail(e.target.value)}
                             placeholder="patel@gmail.com"
                         />
                     </div>
@@ -77,7 +79,7 @@ const Login = () => {
                             type="password"
                             value={password}
                             name="password"
-                            onChange={(e)=>setPassword(e.target.value)}
+                            onChange={(e) => setPassword(e.target.value)}
                             placeholder="patel@gmail.com"
                         />
                     </div>
