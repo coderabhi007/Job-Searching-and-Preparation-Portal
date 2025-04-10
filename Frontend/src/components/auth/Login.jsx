@@ -30,11 +30,23 @@ const Login = () => {
         e.preventDefault();
         const response = await login(email, password, role);
         console.log("Login Response:", response);
+    
         if (response.success) {
             toast.success("User Login successfully!"); // Success message
+        console.log("response",response);
+        if(response.data.userType=="User"){
+            navigate("/");
+        }
+        else if(response.data.userType=="Company"){
+            navigate("/company");
+        }
+        else{
+            navigate("/interviewer");
+        }
         }
         else {
             toast.error(response.message || "Invalid email");
+
         }
     };
     useEffect(() => {
