@@ -82,4 +82,5 @@ authSchema.methods.generateRefreshToken = function(){
         console.error("Error generating refresh token:", error.message);
     }
 }
+
 export const  auth=mongoose.model('Auth',authSchema);
