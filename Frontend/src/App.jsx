@@ -17,21 +17,24 @@ import Applicants from './components/admin/Applicants'
 import ProtectedRoute from './components/admin/ProtectedRoute'
 import Company from './components/Company'
 import Interviewer from './components/Interviewer'
-
+import CompanyProtectedRoute from './components/admin/CompanyProtectedRoute'
+import InterviwerProtectedRoute from './components/admin/InterviwerProtectedRoute'
+import MoreCompanyInfo from './components/MoreCompanyInfo'
+import CompanyInfo from './components/CompanyInfo'
 
 const appRouter = createBrowserRouter([
   {
     path: '/',
-    element: <Home />
+    element: <ProtectedRoute><Home /></ProtectedRoute>
   },
   {
     path: '/company',
-    element: <Company />
+    element: <CompanyProtectedRoute><Company /></CompanyProtectedRoute>
     
   }, 
   {
     path: '/Interviewer',
-    element: <Interviewer />
+    element: <InterviwerProtectedRoute><Interviewer /></InterviwerProtectedRoute>
     
   }, 
   {
@@ -57,6 +60,14 @@ const appRouter = createBrowserRouter([
   {
     path: "/profile",
     element: <Profile />
+  },
+  {
+    path: "/company/moreInfo",
+    element: <MoreCompanyInfo />
+  },
+  {
+    path: "/companyInfo",
+    element:<CompanyProtectedRoute> <CompanyInfo/></CompanyProtectedRoute>
   },
   // admin ke liye yha se start hoga
   {

@@ -9,10 +9,10 @@ import axios from 'axios'
 import { USER_API_END_POINT } from '@/utils/constant'
 import { toast } from 'sonner'
 import { useDispatch, useSelector } from 'react-redux'
-import { setLoading, setUser } from '@/redux/authSlice'
+import { setData, setLoading, setUser } from '@/redux/authSlice'
 import { Loader2 } from 'lucide-react'
 import { login } from '@/axios/api/auth.api';
-
+import { Exist } from '@/axios/api/company.api'
 const Login = () => {
 
 
@@ -32,17 +32,35 @@ const Login = () => {
         dispatch(setLoading(true));
 
         const response = await login(email, password, role);
-        console.log(response);
+        //console.log("user",user);
         dispatch(setLoading(false));
 
         if (response.success) {
             toast.success("User Login successfully!");
             dispatch(setUser(response.data.data.userType));
+            //console.log(user);
+           // console.log((store)=>store.auth);
+
+
             console.log(response)
             if (response.data.data.userType === "User") {
                 navigate("/");
             } else if (response.data.data.userType === "Company") {
-                navigate("/company");
+                const response = await Exist();
+                console.log("response",response);
+
+                // if(response.data.data=="User and company exist"){
+                //     console.log("response.data.massage",response.data?.message?.company);
+                //     dispatch(setData(response.data?.message?.company));
+                //     navigate("/companyInfo");
+                    
+                // }else{
+                //     navigate("/company");
+                // }
+
+                dispatch(setData(response.data?.message?.company));
+                 navigate("/companyInfo");
+                
             } else {
                 navigate("/interviewer");
             }
