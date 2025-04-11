@@ -90,15 +90,32 @@ async function addLogo(req,res){
         return res.status(500).json(new ApiError("Internal Server Error", error.message));
     }
 }
-async function updateCompanyDeatils(){
-    try{
-        const authId=req.userId;        //find and update company details
-        const details=req.body;
-        const updatedCompany=await Company.findOneAndUpdate({authId:authId},{$set:{...details}},{new:true});
-        return res.status(200).json(new ApiResponse("Company details updated successfully", updatedCompany));
+async function updateCompanyDeatils(req, res) {
+    try {
+      const authId = req.user._id;
+      const details = req.body;
+        console.log("details",details);
+        console.log("authId",authId);
+      const updatedCompany = await Company.findOneAndUpdate(
+        { authId: authId },
+        { $set: { ...details } },
+        { new: true, runValidators: true }
+      );
+  
+      console.log(updatedCompany);
+  
+      if (!updatedCompany) {
+        return res.status(404).json(new ApiError(404, "Company not found."));
+      }
+  
+      return res
+        .status(200)
+        .json(new ApiResponse("Company details updated successfully", updatedCompany));
+    } catch (error) {
+      return res
+        .status(500)
+        .json(new ApiError(500, "Internal Server Error", error.message));
     }
-    catch(error){
-        return res.status(500).json(new ApiError("Internal Server Error", error.message));
-    }
-}
+  }
+  
 export {createCompanyDetails,hrDetail,addLogo,updateCompanyDeatils,isUserExist};

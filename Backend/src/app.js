@@ -13,7 +13,9 @@ app.use(cookieParser())
 import authRouter from './Routes/auth.routes.js'
 import otpRouter from './Routes/otp.routes.js'
 import companyRouter from './Routes/company.routes.js'
+import jobRouter from './Routes/job.routes.js'
 app.use('/api/v1/auth',authRouter)
 app.use('/api/v1/otp',otpRouter)
 app.use('/api/v1/company',companyRouter)
+app.use('/api/v1/job',jobRouter)
 export default app;
