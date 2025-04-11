@@ -68,6 +68,7 @@ const PostJob = () => {
                         <div>
                             <Label>Title</Label>
                             <Input
+                            
                                 type="text"
                                 name="title"
                                 value={input.title}

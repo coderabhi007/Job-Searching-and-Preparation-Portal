@@ -6,6 +6,7 @@ const companySlice = createSlice({
         singleCompany:null,
         companies:[],
         searchCompanyByText:"",
+        
     },
     reducers:{
         // actions

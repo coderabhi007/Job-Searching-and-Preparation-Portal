@@ -18,7 +18,7 @@ router.route('/getJobById/:id').get(Auth,getJobById);
 router.route('/updateJobStatus/:jobId').put(Auth,updateJobStatus);
 router.route('/updateApplicationStatus').put(Auth,updateApplicationStatus);
 router.route('/getAppliedJobsByUser').get(Auth,getAppliedJobsByUser);
-router.route('/getAplliedusers').get(Auth,getAplliedusers);
+router.route('/getAplliedusers/:id').get(Auth,getAplliedusers);
 router.route('/getSelectedUsers').get(Auth,getSelectedUsers);
 router.route('/getRejectedUsers').get(Auth,getRejectedUsers);
 export default router;

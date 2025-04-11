@@ -205,6 +205,7 @@ async function updateApplicationStatus(req, res) {
 async function getAplliedusers(req, res) {
     try {
         const jobId = req.params.id;
+        console.log("Abhishek")
         const applications = await JobApplication.find({ jobId });
 
         if (!applications || applications.length === 0) {

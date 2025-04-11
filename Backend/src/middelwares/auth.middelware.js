@@ -6,11 +6,12 @@ async function Auth(req,res,next){
     try {
         const refreshToken = req.cookies?.refreshToken;
         const accessToken = req.cookies?.accessToken;
-        //console.log("ABhi")
+        console.log("ABhi")
 
           
         if(accessToken) {
             const user = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+            console.log(user);
             if (!user) return res.status(401).json(new ApiError(401, "Unauthorized"));
             req.user = user;
             return next();

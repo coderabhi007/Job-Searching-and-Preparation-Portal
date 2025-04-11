@@ -22,6 +22,10 @@ import InterviwerProtectedRoute from './components/admin/InterviwerProtectedRout
 import MoreCompanyInfo from './components/MoreCompanyInfo'
 import CompanyInfo from './components/CompanyInfo'
 import CompanyProfile from './components/CompanyProfile'
+import PostJobCompany from './components/PostJobCompany'
+import GetAllJobs from './components/GetAllJobs'
+import JobDetails from './components/JobDetails'
+import JobTable from './components/JobTable'
 
 const appRouter = createBrowserRouter([
   {
@@ -31,13 +35,13 @@ const appRouter = createBrowserRouter([
   {
     path: '/company',
     element: <CompanyProtectedRoute><Company /></CompanyProtectedRoute>
-    
-  }, 
+
+  },
   {
     path: '/Interviewer',
     element: <InterviwerProtectedRoute><Interviewer /></InterviwerProtectedRoute>
-    
-  }, 
+
+  },
   {
     path: '/login',
     element: <Login />
@@ -50,9 +54,14 @@ const appRouter = createBrowserRouter([
     path: "/jobs",
     element: <Jobs />
   },
+
   {
     path: "/description/:id",
     element: <JobDescription />
+  },
+  {
+    path: "/company/post",
+    element: <PostJobCompany />
   },
   {
     path: "/browse",
@@ -67,37 +76,50 @@ const appRouter = createBrowserRouter([
     element: <CompanyProfile />
   },
   {
+    path: "/company/getAlljob",
+    element: <GetAllJobs />
+  },
+  {
+    path: "/jobTable/:jobId",
+    element: <JobTable />
+  },
+  {
+    path: "/company/getAlljob/:jobId",
+    element: <JobDetails />
+
+  },
+  {
     path: "/company/moreInfo",
     element: <MoreCompanyInfo />
   },
   {
     path: "/companyInfo",
-    element:<CompanyProtectedRoute> <CompanyInfo/></CompanyProtectedRoute>
+    element: <CompanyProtectedRoute> <CompanyInfo /></CompanyProtectedRoute>
   },
   // admin ke liye yha se start hoga
   {
-    path:"/admin/companies",
-    element: <Companies/>
+    path: "/admin/companies",
+    element: <Companies />
   },
   {
-    path:"/admin/companies/create",
-    element: <CompanyCreate/>
+    path: "/admin/companies/create",
+    element: <CompanyCreate />
   },
   {
-    path:"/admin/companies/:id",
-    element:<CompanySetup/>
+    path: "/admin/companies/:id",
+    element: <CompanySetup />
   },
   {
-    path:"/admin/jobs",
-    element:<AdminJobs/>
+    path: "/admin/jobs",
+    element: <AdminJobs />
   },
   {
-    path:"/admin/jobs/create",
-    element:<PostJob/>
+    path: "/admin/jobs/create",
+    element: <PostJob />
   },
   {
-    path:"/admin/jobs/:id/applicants",
-    element:<Applicants/>
+    path: "/admin/jobs/:id/applicants",
+    element: <Applicants />
   },
 
 ])

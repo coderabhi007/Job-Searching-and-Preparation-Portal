@@ -37,6 +37,9 @@ const jobPostSchema = new mongoose.Schema({
   location: [{ type: String }],                       // optional (could be branch-specific)
   deadline: { type: Date },  
   jobType:{type:String},
+  description:{
+    type:String
+  },
   position:{
     type:Number,
     required:true
