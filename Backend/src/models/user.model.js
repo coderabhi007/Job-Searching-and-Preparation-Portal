@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
-    authID:{
+    authId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Auth",
+        required:true,
     },
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
@@ -16,7 +17,31 @@ const userSchema = new mongoose.Schema({
     branch: { type: String}, // e.g. "Computer Science"
     cgpa: { type: Number }, // e.g. 8.5
     experience: { type: Number }, // in years
-    skills: [{ type: String }],
+    skills: [{
+        type: String,
+        enum: [
+          'JavaScript',
+          'Python',
+          'Java',
+          'C++',
+          'React',
+          'Node.js',
+          'Express',
+          'MongoDB',
+          'SQL',
+          'HTML',
+          'CSS',
+          'TypeScript',
+          'Django',
+          'Flask',
+          'AWS',
+          'Docker',
+          'Kubernetes',
+          'Git',
+          'Linux',
+          'REST API'
+        ]
+      }],
     resume: { type: String }, // file path or cloud link
     description: { type: String },
     githubProfile: { type: String },
