@@ -5,7 +5,10 @@ const authSlice = createSlice({
     initialState:{
         loading:false,
         user:null,
-        data:{}
+        data:{},
+        companyData:{},
+        hrData:{},
+        logoFile:null
     },
     reducers:{
         // actions
@@ -13,14 +16,26 @@ const authSlice = createSlice({
             state.loading = action.payload;
         },
         setUser:(state, action) => {
-            console.log("vaibhav"+action.payload);
+            //console.log("vaibhav"+action.payload);
             state.user = action.payload;
         },
         setData:(state, action) => {
-            console.log("vaibhav"+action.payload);
+           // console.log("vaibhav"+action.payload);
             state.data = action.payload;
+        },
+        setCompanyData:(state, action) => {
+            //console.log("vaibhav"+action.payload);
+            state.companyData = action.payload;
+        },
+        setHrData:(state, action) => {
+            //console.log("vaibhav"+action.payload);
+            state.hrData = action.payload;
+        },
+        setLogoFile:(state, action) => {
+           // console.log("vaibhav"+action.payload);
+            state.logoFile = action.payload;
         }
     }
 });
-export const {setLoading, setUser,setData} = authSlice.actions;
+export const {setLoading, setUser,setData,setCompanyData,setHrData,setLogoFile} = authSlice.actions;
 export default authSlice.reducer;

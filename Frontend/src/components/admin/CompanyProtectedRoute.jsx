@@ -24,6 +24,9 @@ const CompanyProtectedRoute = ({children}) => {
             console.log("ABhishek");
             navigate("/company")
           }
+          else if(user=="Company" && data){
+            navigate("/companyInfo")
+          }
         }
     },[]);
 

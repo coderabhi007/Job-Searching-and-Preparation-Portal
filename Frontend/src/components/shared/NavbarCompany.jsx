@@ -81,7 +81,7 @@ const NavbarCompany = () => {
                                                 <h4 className='font-medium'>{user?.fullname}</h4>
                                                 <p className='text-sm text-muted-foreground'>{user?.profile?.bio}</p>
                                                 <Button variant="link" className="p-0 h-auto mt-1">
-                                                    <Link to="/profile">View Profile</Link>
+                                                    <Link to="/companyProfile">View Profile</Link>
                                                 </Button>
                                             </div>
                                         </div>

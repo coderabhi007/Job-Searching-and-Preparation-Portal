@@ -48,6 +48,44 @@ async function Exist() {
         };
     }
 }
+
+async function UpdateCompanyProfile(companyData) {
+    try {
+        const response = await axiosInstance.put("company/update",companyData);
+        return { success: true, data: response.data };
+    } catch (error) {
+        console.log(error);
+        return {
+            success: false,
+            message: error?.response?.data?.message,
+        };
+    }
+}
+async function UpdateHrProfile(hrData) {
+    try {
+        const response = await axiosInstance.post("company/hr",hrData);
+        return { success: true, data: response.data };
+    } catch (error) {
+        return {
+            success: false,
+            message: error?.response?.data?.message,
+        };
+    }
+}
+async function UpdateLogo(logoFile) {
+    try {
+        const response = await axiosInstance.post("company/logo",logoFile);
+        return { success: true, data: response.data };
+    } catch (error) {
+        return {
+            success: false,
+            message: error?.response?.data?.message,
+        };
+    }
+}
+export{UpdateHrProfile}
+export{UpdateLogo};
+export{UpdateCompanyProfile}
 export{Exist};
 export { companyMoreInfo };
 export { Logo };
