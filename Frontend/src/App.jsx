@@ -21,6 +21,7 @@ import CompanyProtectedRoute from './components/admin/CompanyProtectedRoute'
 import InterviwerProtectedRoute from './components/admin/InterviwerProtectedRoute'
 import MoreCompanyInfo from './components/MoreCompanyInfo'
 import CompanyInfo from './components/CompanyInfo'
+import CompanyProfile from './components/CompanyProfile'
 
 const appRouter = createBrowserRouter([
   {
@@ -62,6 +63,10 @@ const appRouter = createBrowserRouter([
     element: <Profile />
   },
   {
+    path: "/companyProfile",
+    element: <CompanyProfile />
+  },
+  {
     path: "/company/moreInfo",
     element: <MoreCompanyInfo />
   },
@@ -72,27 +77,27 @@ const appRouter = createBrowserRouter([
   // admin ke liye yha se start hoga
   {
     path:"/admin/companies",
-    element: <ProtectedRoute><Companies/></ProtectedRoute>
+    element: <Companies/>
   },
   {
     path:"/admin/companies/create",
-    element: <ProtectedRoute><CompanyCreate/></ProtectedRoute> 
+    element: <CompanyCreate/>
   },
   {
     path:"/admin/companies/:id",
-    element:<ProtectedRoute><CompanySetup/></ProtectedRoute> 
+    element:<CompanySetup/>
   },
   {
     path:"/admin/jobs",
-    element:<ProtectedRoute><AdminJobs/></ProtectedRoute> 
+    element:<AdminJobs/>
   },
   {
     path:"/admin/jobs/create",
-    element:<ProtectedRoute><PostJob/></ProtectedRoute> 
+    element:<PostJob/>
   },
   {
     path:"/admin/jobs/:id/applicants",
-    element:<ProtectedRoute><Applicants/></ProtectedRoute> 
+    element:<Applicants/>
   },
 
 ])

@@ -90,11 +90,13 @@ async function addLogo(req,res){
         return res.status(500).json(new ApiError("Internal Server Error", error.message));
     }
 }
-async function updateCompanyDeatils(){
+async function updateCompanyDeatils(req,res){
     try{
-        const authId=req.userId;        //find and update company details
+        const authId=req.user._id;        //find and update company details
         const details=req.body;
+        console.log(details)
         const updatedCompany=await Company.findOneAndUpdate({authId:authId},{$set:{...details}},{new:true});
+
         return res.status(200).json(new ApiResponse("Company details updated successfully", updatedCompany));
     }
     catch(error){
