@@ -86,6 +86,7 @@ async function addLogo(req,res){
         const updatedCompany=await Company.findOneAndUpdate({authId:authId},{$set:{logo:result.secure_url}},{new:true});
         return res.status(200).json(new ApiResponse("Logo uploaded successfully", updatedCompany));
     }catch(error){
+        console.log(error);
         return res.status(500).json(new ApiError("Internal Server Error", error.message));
     }
 }

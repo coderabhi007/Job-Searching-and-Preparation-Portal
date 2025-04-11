@@ -22,15 +22,15 @@ async function Auth(req,res,next){
             if (token) {
                 const user = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
                 const existedUser = await auth.findById(user._id).select("-password -refreshToken");
-                if (!existedUser) return res.status(401).json(new ApiError(401, "Unauthorized"));
+                if (!existedUser) return res.status(404).json(new ApiError(404, "Unauthorized"));
                 const newAccessToken = existedUser.generateAccessToken();
                 return res.cookie("accessToken", newAccessToken, { httpOnly: true })
                     .status(204).json(new ApiResponse({ status: 204, message: "Access token generated successfully" }))
             }
-            else return res.status(401).json(new ApiError(401, "Unauthorized"));
+            else return res.status(404).json(new ApiError(404, "Unauthorized"));
 
         }
-        return res.status(401).json(new ApiError(401, "Unauthorized"));
+        return res.status(404).json(new ApiError(404, "Unauthorized"));
     } catch (error) {
         console.log("error in auth middleware",error);
         return res.status(500).json(new ApiError(500, "Internal Server Error"));
