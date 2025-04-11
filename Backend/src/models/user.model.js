@@ -11,10 +11,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    passoutYear: { type: Number ,required: true }, // e.g. 2023
-    collegeName: { type: String,required: true }, // e.g. "XYZ University"
-    branch: { type: String,required: true }, // e.g. "Computer Science"
-    cgpa: { type: Number,required:true }, // e.g. 8.5
+    passoutYear: { type: Number }, // e.g. 2023
+    collegeName: { type: String}, // e.g. "XYZ University"
+    branch: { type: String}, // e.g. "Computer Science"
+    cgpa: { type: Number }, // e.g. 8.5
     experience: { type: Number }, // in years
     skills: [{ type: String }],
     resume: { type: String }, // file path or cloud link

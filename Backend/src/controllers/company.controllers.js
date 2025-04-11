@@ -8,11 +8,13 @@ async function isUserExist(req,res){
         const authId=req.user._id;
         //check if user exists
         const auth=await Auth.findById(authId).select("-password -refreshToken");
+        console.log(auth);
         if(!auth){
             return res.status(404).json(new ApiError(404, "User not found."));
         }
         //check if company exists
         const company=await Company.findOne({authId:authId});
+        console.log(company);
         if(!company){
             return res.status(404).json(new ApiError(404, "Company not found."));
         }
