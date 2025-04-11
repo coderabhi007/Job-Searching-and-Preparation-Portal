@@ -14,7 +14,7 @@ router.route('/getAll').get(Auth,getAllJobPostings);
 router.route('/apply').post(Auth,applyForJob);
 router.route('/getAllPost').get(Auth,getAllJobPosts);
 router.route('/getAppliedJobs').get(Auth,getAppliedJobs);
-router.route('/getJobById').get(Auth,getJobById);
+router.route('/getJobById/:id').get(Auth,getJobById);
 router.route('/updateJobStatus/:jobId').put(Auth,updateJobStatus);
 router.route('/updateApplicationStatus').put(Auth,updateApplicationStatus);
 router.route('/getAppliedJobsByUser').get(Auth,getAppliedJobsByUser);
