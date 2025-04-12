@@ -4,6 +4,19 @@ import {uploadOnCloudinary} from "../util/Cloudnary.js"
 import User from "../models/user.model.js";
 import  {auth as Auth}  from "../models/auth.model.js";
 import { trusted } from "mongoose";
+async function isUserExist(req,res){
+    try{
+        const user = await User.findOne({email:req.body.authId});
+        if(!user){
+            return res.status(404).json(new ApiError(404, "User not found."));
+        }
+        return res.status(200).json(new ApiResponse(200,"User exist", {user:user}));
+        }
+    catch(error){
+        console.log(error);
+        return res.status(500).json(new ApiError("Internal Server Error", error.message));
+    }
+}
 async function createUser(req,res){
     try {
         const authId=req.user._id
@@ -130,4 +143,4 @@ async function addResume(req,res){
         return res.status(500).json(new ApiError(500, "Internal Server Error", error.message));
     }
 }
-export {createUser,updateUser,educationalDetails,otherDetails,addProfilePic,addResume};
+export {createUser,updateUser,educationalDetails,otherDetails,addProfilePic,addResume,isUserExist};

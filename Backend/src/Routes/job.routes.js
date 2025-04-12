@@ -5,6 +5,7 @@ import {createJobPost, updatePost,getAllJobPostings,applyForJob,getAllJobPosts,g
     updateApplicationStatus,
     getAplliedusers,
     getSelectedUsers,
+    searchJobs,
     getRejectedUsers,
     getAppliedJobsByUser} from "../controllers/job.controllers.js";
 const router=Router();
@@ -21,4 +22,5 @@ router.route('/getAppliedJobsByUser').get(Auth,getAppliedJobsByUser);
 router.route('/getAplliedusers/:id').get(Auth,getAplliedusers);
 router.route('/getSelectedUsers').get(Auth,getSelectedUsers);
 router.route('/getRejectedUsers').get(Auth,getRejectedUsers);
+router.route('/search').post(Auth,searchJobs);
 export default router;

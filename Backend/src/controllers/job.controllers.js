@@ -300,7 +300,39 @@ async function getAppliedJobsByUser(req, res) {
     }
 }
 
+async function searchJobs(req, res) {
+    try {
+        let { jobTitle } = req.body;
+
+        if (!jobTitle || typeof jobTitle !== 'string' || jobTitle.trim() === "") {
+            return res.status(400).json(new ApiError(400, "Job title is required"));
+        }
+
+        jobTitle = jobTitle.trim();
+
+        // Create a flexible regex to match keywords anywhere in the title
+        const regex = new RegExp(jobTitle.split(' ').join('.*'), 'i');
+        // For example: "mern developer" becomes /mern.*developer/i
+       
+        const jobs = await JobPost.find({
+            JobTitle: { $regex: regex }
+        });
+
+        if (!jobs || jobs.length === 0) {
+            return res.status(404).json(new ApiError(404, "No jobs found"));
+        }
+
+        return res.status(200).json(new ApiResponse(200, jobs, "Jobs retrieved successfully"));
+    } catch (error) {
+        console.error("Error in searchJobs:", error);
+        return res.status(500).json(new ApiError(500, "Internal Server Error"));
+    }
+}
+
+
+
 export {
+    searchJobs,
     createJobPost,
     updatePost,
     getAllJobPostings,
