@@ -35,7 +35,7 @@ import OtherDetails from './components/OtherDetails'
 const appRouter = createBrowserRouter([
   {
     path: '/',
-    element:<UserProtectedRoute><ProtectedRoute><Home /></ProtectedRoute></UserProtectedRoute>
+    element:<UserProtectedRoute><Home /></UserProtectedRoute>
   },
   {
     path: '/user',

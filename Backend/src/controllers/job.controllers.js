@@ -110,7 +110,7 @@ async function applyForJob(req, res) {
 async function getAllJobPosts(req, res) {
     try {
         const jobs = await Job.find({ isActive: true });
-
+        
         if (!jobs || jobs.length === 0) {
             return res.status(404).json(new ApiError(404, "No job posts found"));
         }
@@ -124,7 +124,7 @@ async function getAllJobPosts(req, res) {
                 return jobObj;
             })
         );
-        console.log(jobsWithLogos);
+      //  console.log(jobsWithLogos);
         return res.status(200).json(new ApiResponse(200, jobsWithLogos, "Job posts retrieved successfully"));
     } catch (error) {
         console.error("Error in getAllJobPosts:", error);

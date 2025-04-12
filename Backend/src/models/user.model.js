@@ -39,7 +39,7 @@ const userSchema = new mongoose.Schema({
           'Kubernetes',
           'Git',
           'Linux',
-          'REST API'
+          'REST API',
         ]
       }],
     resume: { type: String }, // file path or cloud link

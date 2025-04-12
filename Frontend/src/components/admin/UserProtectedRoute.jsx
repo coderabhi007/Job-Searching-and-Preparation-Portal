@@ -9,13 +9,15 @@ const UserProtectedRoute = ({children}) => {
   console.log(data);
     useEffect(()=>{
     //  console.log(data);
-      //sconsole.log(user);
-        if(user!=="User" && !user){
+      console.log(user);
+        if(user!=="User" && user){
           if(user=="Interviewer"){
             navigate('/interviewer')
           }
            
+
           else{
+     
             navigate('/Company')
           }
         }
@@ -24,9 +26,7 @@ const UserProtectedRoute = ({children}) => {
             console.log("ABhishek");
             navigate("/create")
           }
-          else if(user=="User" && data){
-            navigate("/")
-          }
+          
         }
     },[]);
 

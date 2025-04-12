@@ -6,7 +6,8 @@ import  {auth as Auth}  from "../models/auth.model.js";
 import { trusted } from "mongoose";
 async function isUserExist(req,res){
     try{
-        const user = await User.findOne({email:req.body.authId});
+        const user = await User.findOne({authId:req.user._id});
+        console.log("user"+user)
         if(!user){
             return res.status(404).json(new ApiError(404, "User not found."));
         }
@@ -65,7 +66,8 @@ async function updateUser(req, res) {
       }
   
       // Update fields from request body
-      Object.assign(user, req.body);
+      console.log(req.body);
+      Object.assign(user, req.body.data);
   
       // Save the updated user
       const savedUser = await user.save();

@@ -49,7 +49,7 @@ const Login = () => {
                 //dispatch(setData(response.data?.message?.company));
                 const response = await isUserExist();
                 console.log("response", response);
-                dispatch(setData(response.data?.message?.user));
+                dispatch(setData(response?.data));
                 navigate("/");
 
             } else if (response.data.data.userType === "Company") {

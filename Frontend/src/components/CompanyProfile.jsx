@@ -50,7 +50,7 @@ const CompanyProfile = () => {
         members: data.members || '',
         websiteLink: data.websiteLink || '',
         establishment: data.establishment || '',
-        email:data.email || ''
+        email: data.email || ''
       })
 
       setHrData({
@@ -60,7 +60,7 @@ const CompanyProfile = () => {
       })
       setLogoFile(data.logo);
     }
-   
+
   }, [data])
 
   const handleCompanyChange = (e) => {
@@ -79,7 +79,7 @@ const CompanyProfile = () => {
     try {
       const response = await UpdateCompanyProfile(companyData)
       console.log(response);
-     dispatch(setData(response.data.data))
+      dispatch(setData(response.data.data))
     } catch (err) {
       console.error('Company Update Error:', err)
     }
@@ -88,7 +88,7 @@ const CompanyProfile = () => {
   const updateHRInfo = async () => {
     try {
       const response = await UpdateHrProfile(hrData)
-     dispatch(setHrData(response.data.data))
+      dispatch(setHrData(response.data.data))
     } catch (err) {
       console.error('HR Update Error:', err)
     }
@@ -100,8 +100,8 @@ const CompanyProfile = () => {
       const formData = new FormData()
       formData.append('logo', logoFile)
       const response = await UpdateLogo(formData)
-     dispatch(setData(response.data.data))
-     console.log("Logo"+response)
+      dispatch(setData(response.data.data))
+      console.log("Logo" + response)
     } catch (err) {
       console.error('Logo Upload Error:', err)
     }
@@ -113,7 +113,7 @@ const CompanyProfile = () => {
     await updateHRInfo()
     await updateLogo()
     setOpen(false)
-   // window.reload()
+    // window.reload()
   }
 
   return (
