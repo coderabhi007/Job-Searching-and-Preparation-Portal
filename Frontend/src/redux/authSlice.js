@@ -3,13 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 const authSlice = createSlice({
     name:"auth",
     initialState:{
-        loading:false,
-        user:null,
-        data:{},
-        companyData:{},
-        hrData:{},
-        logoFile:null,
-        jobId:null
     },
     reducers:{
         // actions
@@ -22,6 +15,7 @@ const authSlice = createSlice({
         },
         setData:(state, action) => {
            // console.log("vaibhav"+action.payload);
+           console.log(action.payload)
             state.data = action.payload;
         },
         setCompanyData:(state, action) => {

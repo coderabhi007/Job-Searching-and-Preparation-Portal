@@ -10,7 +10,7 @@ async function isUserExist(req,res){
         if(!user){
             return res.status(404).json(new ApiError(404, "User not found."));
         }
-        return res.status(200).json(new ApiResponse(200,"User exist", {user:user}));
+        return res.status(200).json(new ApiResponse(200,user,"user exist"));
         }
     catch(error){
         console.log(error);
@@ -28,11 +28,13 @@ async function createUser(req,res){
         if(userExist){
             return res.status(400).json(new ApiError(400, "User already exists."));
         }
-        const{ name,contact,address}=req.body;
+        const{ name,contact,address}=req.body?.data;
+       // console.log(req.body);
+       console.log(name+contact+address)
         if(!name || !contact || !address){
             return res.status(400).json(new ApiError("Bad Request", "Please fill all the required fields."));
         }
-        const details=req.body;
+        const details=req.body?.data;
         console.log("details1",details);
         details.email=email;
         details.authId=authId;
@@ -44,7 +46,7 @@ async function createUser(req,res){
         console.log(user);
         //save user to database
         const savedUser=await user.save();
-        return res.status(200).json(new ApiResponse("User created successfully", savedUser));
+        return res.status(200).json(new ApiResponse(400,savedUser,"User created successfully",));
     } catch (error) {
         console.log(error);
         return res.status(500).json(new ApiError("Internal Server Error", error.message));
@@ -68,7 +70,7 @@ async function updateUser(req, res) {
       // Save the updated user
       const savedUser = await user.save();
   
-      return res.status(200).json(new ApiResponse("User updated successfully", savedUser));
+      return res.status(200).json(new ApiResponse(200,savedUser,"User updated successfully"));
     } catch (error) {
       console.log(error);
       return res.status(500).json(new ApiError(500, "Internal Server Error", error.message));
@@ -84,7 +86,7 @@ async function educationalDetails(req,res){
         }
         Object.assign(user, req.body);
         const savedUser=await user.save();
-        return res.status(200).json(new ApiResponse("User updated successfully", savedUser));
+        return res.status(200).json(new ApiResponse(200,savedUser,"User updated successfully"));
     } catch (error) {
         console.log(error);
         return res.status(500).json(new ApiError(500, "Internal Server Error", error.message));
@@ -100,7 +102,7 @@ async function otherDetails(req,res){
         }
         Object.assign(user, req.body);
         const savedUser=await user.save();
-        return res.status(200).json(new ApiResponse("User updated successfully", savedUser));
+        return res.status(200).json(new ApiResponse(200,savedUser,"User updated successfully"));
     } catch (error) {
         console.log(error);
         return res.status(500).json(new ApiError(500, "Internal Server Error", error.message));
@@ -119,7 +121,7 @@ async function addProfilePic(req,res){
         //update profilePic in database
         user.profileImage=result.secure_url;
         const savedUser=await user.save();
-        return res.status(200).json(new ApiResponse("Profile picture updated successfully", savedUser));
+        return res.status(200).json(new ApiResponse(200,savedUser,"Profile picture updated successfully"));
     } catch (error) {
         return res.status(500).json(new ApiError(500, "Internal Server Error", error.message));
     }
@@ -137,7 +139,7 @@ async function addResume(req,res){
         //update resume in database
         user.resume=result.secure_url;
         const savedUser=await user.save();
-        return res.status(200).json(new ApiResponse("Resume updated successfully", savedUser));
+        return res.status(200).json(new ApiResponse(200,savedUser,"Resume updated successfully"));
     }
     catch (error) {
         return res.status(500).json(new ApiError(500, "Internal Server Error", error.message));

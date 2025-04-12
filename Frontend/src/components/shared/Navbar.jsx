@@ -19,20 +19,21 @@ const Navbar = () => {
 
         //const res = await axios.get(`${USER_API_END_POINT}/logout`, { withCredentials: true });
         const res = await Logout();
-        console.log(res);
-        if (res.success) {
+    
+        console.log("logout error",res);
+        if (res?.success) {
             dispatch(setUser(null));
             navigate("/");
             toast.success(res.message);
         }
         else {
-            console.log(res.statusCode);
-            if (res.statusCode == 404){
+            console.log(res?.statusCode);
+            if (res?.statusCode == 404){
                 dispatch(setUser(null));
                 navigate("/")
             }
             else
-                toast.error(res.message || "Invalid email");
+                toast.error(res?.message || "Try again");
         }
 
     }

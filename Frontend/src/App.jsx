@@ -26,11 +26,20 @@ import PostJobCompany from './components/PostJobCompany'
 import GetAllJobs from './components/GetAllJobs'
 import JobDetails from './components/JobDetails'
 import JobTable from './components/JobTable'
+import UserProtectedRoute from './components/admin/UserProtectedRoute'
+import User from './components/User'
+import Create from './components/Create'
+import EducationalDetails from './components/EducationalDetails'
+import OtherDetails from './components/OtherDetails'
 
 const appRouter = createBrowserRouter([
   {
     path: '/',
-    element: <ProtectedRoute><Home /></ProtectedRoute>
+    element:<UserProtectedRoute><ProtectedRoute><Home /></ProtectedRoute></UserProtectedRoute>
+  },
+  {
+    path: '/user',
+    element: <UserProtectedRoute><User/></UserProtectedRoute>
   },
   {
     path: '/company',
@@ -38,10 +47,25 @@ const appRouter = createBrowserRouter([
 
   },
   {
+    path: '/create',
+    element: <UserProtectedRoute><Create/></UserProtectedRoute>
+
+  },
+  {
+    path: '/educational-details',
+    element: <EducationalDetails/>
+  },
+  {
+    path: '/other-details',
+    element: <OtherDetails/>
+
+  },
+  {
     path: '/Interviewer',
     element: <InterviwerProtectedRoute><Interviewer /></InterviwerProtectedRoute>
 
   },
+  
   {
     path: '/login',
     element: <Login />
