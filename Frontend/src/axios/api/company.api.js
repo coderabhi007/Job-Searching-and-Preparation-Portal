@@ -85,7 +85,7 @@ async function UpdateLogo(logoFile) {
 }
 async function PostJob(job) {
     try {
-        const response = await axiosInstance.post("/job/create",job);
+        const response = await axiosInstance.post("job/create",job);
         return { success: true, data: response.data };
     } catch (error) {
         return {
@@ -96,7 +96,7 @@ async function PostJob(job) {
 }
 async function getAll() {
     try {
-        const response = await axiosInstance.get("/job/getAll");
+        const response = await axiosInstance.get("job/getAll");
         return { success: true, data: response.data };
     } catch (error) {
         return {
@@ -107,7 +107,7 @@ async function getAll() {
 }
 async function AppliedUsers(jobId) {
     try {
-        const response = await axiosInstance.get(`/job/getAplliedusers/${jobId}`);
+        const response = await axiosInstance.get(`job/getAplliedusers/${jobId}`);
         return { success: true, data: response.data };
     } catch (error) {
         return {
@@ -116,6 +116,18 @@ async function AppliedUsers(jobId) {
         };
     }
 }
+async function updateApllicationStatus(data,jobId) {
+    try {
+        const response=await axiosInstance.put(`job/updateApplicationStatus/${jobId}`,data)
+        return { success: true, data: response.data };
+    } catch (error) {
+        return {
+            success: false,
+            message: error?.response?.data?.message,
+        };
+    }
+}
+export {updateApllicationStatus}
 export{AppliedUsers}
 export{getAll}
 export{PostJob}

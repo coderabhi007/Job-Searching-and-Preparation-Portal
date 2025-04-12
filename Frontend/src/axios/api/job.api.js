@@ -21,5 +21,6 @@ async function getAppliedJobsByUser() {
         };
     }
 }
+
 export {getAppliedJobsByUser}
 export {Allposts}

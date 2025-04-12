@@ -96,6 +96,7 @@ import { Input } from './ui/input'
 import { setJobId } from '@/redux/authSlice';
 import { useDispatch } from 'react-redux'
 import Loader from './ui/Loader'
+import Navbar from './shared/Navbar'
 
 
 const JobDescription = () => {
@@ -174,6 +175,8 @@ const JobDescription = () => {
     // if (!job) return <p className="text-center my-10">Loading...</p>
 
     return (
+        <>
+        <Navbar/>
         <div className="max-w-4xl mx-auto my-10 bg-white p-6 rounded-lg shadow border">
             <h1 className="text-2xl font-bold mb-4">{job.JobTitle}</h1>
             <div className="grid grid-cols-2 gap-4 text-sm text-gray-700">
@@ -288,6 +291,8 @@ const JobDescription = () => {
                 </Dialog>
             </div>
         </div>
+        </>
+        
     )
 }
 

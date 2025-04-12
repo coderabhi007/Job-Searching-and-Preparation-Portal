@@ -31,6 +31,8 @@ import User from './components/User'
 import Create from './components/Create'
 import EducationalDetails from './components/EducationalDetails'
 import OtherDetails from './components/OtherDetails'
+import AppliedJobTable from './components/AppliedJobTable'
+import AppliedHistroy from './components/AppliedHistroy'
 
 const appRouter = createBrowserRouter([
   {
@@ -117,9 +119,16 @@ const appRouter = createBrowserRouter([
     element: <MoreCompanyInfo />
   },
   {
+    path: "/applied_jobs",
+    element: <AppliedHistroy />
+  },
+  
+  {
     path: "/companyInfo",
     element: <CompanyProtectedRoute> <CompanyInfo /></CompanyProtectedRoute>
   },
+
+
   // admin ke liye yha se start hoga
   {
     path: "/admin/companies",

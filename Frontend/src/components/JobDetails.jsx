@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Navigate,useNavigate, useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { Button } from './ui/button'
 import { Dialog, DialogTrigger, DialogContent } from './ui/dialog'
 import { Label } from './ui/label'
@@ -27,7 +27,7 @@ const JobDetails = () => {
                 const res = await axiosInstance.get(`job/getJobById/${jobId}`)
                 setJob(res.data.data)
                 console.log(res);
-                
+
                 setEditJob(res.data.data) // Create editable state
             } catch (err) {
                 toast.error('Error fetching job')
@@ -56,7 +56,7 @@ const JobDetails = () => {
             setLoading(false)
         }
     }
-    
+
 
     if (!job) return <p className="text-center my-10">Loading...</p>
 
@@ -85,13 +85,9 @@ const JobDetails = () => {
                         <DialogTrigger asChild>
                             <Button>Edit Job</Button>
                         </DialogTrigger>
-                       
+
                         <Button onClick={() => navigate(`/jobTable/${jobId}`)}>Applied Candidates</Button>
-
-
                         <Button>Selected Candidates</Button>
-
-
                         <Button>Rejected Candidates</Button>
 
                     </div>

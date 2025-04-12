@@ -24,9 +24,9 @@ const LatestJobs = () => {
         AddJob();
     },[])
 
-    if(allJobs.length===0){
-        return <JobCardShimmer/>
-    }
+    // if(allJobs.length===0){
+    //     return <JobCardShimmer/>
+    // }
 
 
    

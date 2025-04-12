@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { getAppliedJobsByUser } from '@/axios/api/job.api'
 import Navbar from './shared/Navbar'
 
-const AppliedJobTable = () => {
+const AppliedHistroy = () => {
     const [appliedJobs, setAppliedJobs] = useState([]);
     const fetchJobs = async () => {
         try {
@@ -23,7 +23,7 @@ const AppliedJobTable = () => {
 
     return (
         <div>
-
+            <Navbar />
             <Table>
                 <TableCaption>A list of your applied jobs</TableCaption>
                 <TableHeader>
@@ -71,4 +71,4 @@ const AppliedJobTable = () => {
     )
 }
 
-export default AppliedJobTable
+export default AppliedHistroy

@@ -179,7 +179,7 @@ async function getJobById(req, res) {
     try {
         const jobId = req.params.id;
         const userId = req.user._id;
-
+        console.log("applied"+userId)
         const job = await Job.findById(jobId);
 
         if (!job) {
@@ -187,7 +187,7 @@ async function getJobById(req, res) {
         }
         const user=await User.findOne({authId:userId})
         // Check if user has applied to this job
-        const application = await JobApplication.findOne({ jobId: jobId, userId: user._id });
+        const application = await JobApplication.findOne({ jobId: jobId});
 
         const jobObj = job.toObject(); // Convert Mongoose document to plain object
         jobObj.applied = !!application; // true if found, false otherwise
@@ -222,9 +222,12 @@ async function updateJobStatus(req, res) {
 
 async function updateApplicationStatus(req, res) {
     try {
-        const jobId = req.params.id;
+        const jobId = req.params.jobId;
         const { userId, status } = req.body;
-        let application = await JobApplication.findOne({ jobId, userId });
+        console.log(jobId)
+        //console.log(userId)
+        let application = await JobApplication.findOne({ jobId:jobId, userId:userId });
+        console.log(application)
         if (!application) {
             return res.status(404).json(new ApiError(404, "Application not found"));
         }

@@ -52,7 +52,8 @@ const NavbarCompany = () => {
 
                             <li><Link to="/company/post">Post Job</Link></li>
                             <li><Link to="/company/getAlljob">See Your Posted Jobs</Link></li>
-
+                            
+                            
 
 
 
