@@ -300,27 +300,44 @@ async function getRejectedUsers(req, res) {
 async function getAppliedJobsByUser(req, res) {
     try {
         const authId = req.user._id;
-        const user = await User.findOne({authId});
+        const user = await User.findOne({ authId });
+
         if (!user) {
             return res.status(404).json(new ApiError(404, "User not found"));
         }
+
         const userId = user._id;
-        const applications = await JobApplication.find({ userId:userId });
+
+        // Get all applications by this user
+        const applications = await JobApplication.find({ userId });
 
         if (!applications || applications.length === 0) {
             return res.status(404).json(new ApiError(404, "No applications found"));
         }
 
         const jobIds = applications.map(app => app.jobId);
-        console.log(jobIds);
         const jobs = await Job.find({ _id: { $in: jobIds } });
 
         if (!jobs || jobs.length === 0) {
             return res.status(404).json(new ApiError(404, "No jobs found"));
         }
 
-        return res.status(200).json(new ApiResponse(200, jobs, "Jobs retrieved successfully"));
+        // Create a map of jobId to application status
+        const statusMap = {};
+        applications.forEach(app => {
+            statusMap[app.jobId.toString()] = app.status;
+        });
+
+        // Add status to each job
+        const jobsWithStatus = jobs.map(job => {
+            const jobObj = job.toObject();
+            jobObj.applicationStatus = statusMap[job._id.toString()] || 'unknown';
+            return jobObj;
+        });
+
+        return res.status(200).json(new ApiResponse(200, jobsWithStatus, "Jobs retrieved successfully"));
     } catch (error) {
+        console.error("Error in getAppliedJobsByUser:", error);
         return res.status(500).json(new ApiError(500, "Internal Server Error"));
     }
 }
