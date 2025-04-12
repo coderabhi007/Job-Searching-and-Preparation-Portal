@@ -110,22 +110,32 @@ async function applyForJob(req, res) {
 async function getAllJobPosts(req, res) {
     try {
         const jobs = await Job.find({ isActive: true });
-        
+        const Auth = req.user._id;
+
         if (!jobs || jobs.length === 0) {
             return res.status(404).json(new ApiError(404, "No job posts found"));
         }
 
-        // Enrich each job with the corresponding company logo
-        const jobsWithLogos = await Promise.all(
-            jobs.map(async (job) => {
-                const company = await Company.findOne({ _id: job.companyId }).select('logo');
-                const jobObj = job.toObject(); // to convert from Mongoose Document to plain object
-                jobObj.companyLogo = company?.logo || null;
-                return jobObj;
-            })
-        );
-      //  console.log(jobsWithLogos);
-        return res.status(200).json(new ApiResponse(200, jobsWithLogos, "Job posts retrieved successfully"));
+        // Get all applications by the user
+        const jobApplications = await JobApplication.find({ userId: Auth });
+
+        // Extract jobIds the user has applied to
+        const appliedJobIds = jobApplications.map(app => app.jobId.toString());
+
+        // Add `applied` flag and optionally company logo to each job
+        const enrichedJobs = await Promise.all(jobs.map(async (job) => {
+            const jobObj = job.toObject();
+            jobObj.applied = appliedJobIds.includes(job._id.toString());
+
+            // Fetch and add company logo (optional)
+            const company = await Company.findById(job.companyId).select('logo');
+            jobObj.companyLogo = company?.logo || null;
+
+            return jobObj;
+        }));
+
+        return res.status(200).json(new ApiResponse(200, enrichedJobs, "Job posts retrieved successfully"));
+
     } catch (error) {
         console.error("Error in getAllJobPosts:", error);
         return res.status(500).json(new ApiError(500, "Internal Server Error"));
@@ -164,17 +174,27 @@ async function getAppliedJobs(req, res) {
 async function getJobById(req, res) {
     try {
         const jobId = req.params.id;
+        const userId = req.user._id;
+
         const job = await Job.findById(jobId);
 
         if (!job) {
             return res.status(404).json(new ApiError(404, "Job not found"));
         }
 
-        return res.status(200).json(new ApiResponse(200, job, "Job retrieved successfully"));
+        // Check if user has applied to this job
+        const application = await JobApplication.findOne({ jobId: jobId, userId: userId });
+
+        const jobObj = job.toObject(); // Convert Mongoose document to plain object
+        jobObj.applied = !!application; // true if found, false otherwise
+
+        return res.status(200).json(new ApiResponse(200, jobObj, "Job retrieved successfully"));
     } catch (error) {
+        console.error("Error in getJobById:", error);
         return res.status(500).json(new ApiError(500, "Internal Server Error"));
     }
 }
+
 
 async function updateJobStatus(req, res) {
     try {
