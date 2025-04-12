@@ -4,25 +4,47 @@ import FilterCard from './FilterCard'
 import Job from './Job';
 import { useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
-
+import { Allposts } from '@/axios/api/job.api';
 // const jobsArray = [1, 2, 3, 4, 5, 6, 7, 8];
 
 const Jobs = () => {
-    const { allJobs, searchedQuery } = useSelector(store => store.job);
+    const {searchedQuery } = useSelector(store => store.job);
+    const [allJobs,setAlljobs]=useState([]);
     const [filterJobs, setFilterJobs] = useState(allJobs);
+    
+    const AddJob = async () => {
+        try {
+            const response = await Allposts();
+            console.log("response", response);
+            //dispatch(setAllJobs(response?.data?.data));
+            console.log("response?.data?.data",response?.data?.data);
+            setAlljobs(response?.data?.data);
+        } catch (err) {
+            console.error('Company Update Error:', err)
+        }
+    }
+
+    useEffect(()=>{
+        AddJob();
+    },[])
 
     useEffect(() => {
         if (searchedQuery) {
             const filteredJobs = allJobs.filter((job) => {
-                return job.title.toLowerCase().includes(searchedQuery.toLowerCase()) ||
-                    job.description.toLowerCase().includes(searchedQuery.toLowerCase()) ||
-                    job.location.toLowerCase().includes(searchedQuery.toLowerCase())
-            })
-            setFilterJobs(filteredJobs)
+                const titleMatch = job?.JobTitle?.toLowerCase().includes(searchedQuery.toLowerCase());
+                const descMatch = job?.responsibilities?.toLowerCase().includes(searchedQuery.toLowerCase());
+                const locationMatch = Array.isArray(job?.location)
+                    ? job.location.some(loc => loc.toLowerCase().includes(searchedQuery.toLowerCase()))
+                    : job?.location?.toLowerCase?.().includes(searchedQuery.toLowerCase());
+    
+                return titleMatch || descMatch || locationMatch;
+            });
+            setFilterJobs(filteredJobs);
         } else {
-            setFilterJobs(allJobs)
+            setFilterJobs(allJobs);
         }
     }, [allJobs, searchedQuery]);
+    
 
     return (
         <div>

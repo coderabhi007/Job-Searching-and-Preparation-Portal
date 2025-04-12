@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { getAll } from '@/axios/api/company.api'
 import NavbarCompany from './shared/NavbarCompany'
+import HandAnimation from './ui/HandAnimation'
+import Loader from './ui/Loader'
 
 const GetAllJobs = () => {
     const [jobs, setJobs] = useState([])
@@ -29,9 +31,22 @@ const GetAllJobs = () => {
     }
 
 
+
     useEffect(() => {
-        AddJob()
-    }, [])
+        const timer = setTimeout(() => {
+            AddJob();
+        }, 3000);
+
+        // Optional cleanup
+        return () => clearTimeout(timer);
+    }, []);
+    if (jobs.length === 0) {
+        return (
+            <div className="relative w-screen h-screen">
+            <Loader/>
+          </div>
+        );
+      }
 
     const daysAgoFunction = (mongodbTime) => {
         const createdAt = new Date(mongodbTime)

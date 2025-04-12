@@ -3,6 +3,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import NavbarCompany from "./shared/NavbarCompany";
 import { PostJob } from "@/axios/api/company.api";
 import { setAllJobs } from "@/redux/jobSlice";
+import JobHeroSection from "./JobHeroSection";
+import HiringMadeEasy from "./HiringMadeEasy";
+import FAQSection from "./FAQSection";
 
 const CompanyInfo = () => {
    
@@ -39,8 +42,9 @@ const CompanyInfo = () => {
     return (
         <>
             <NavbarCompany />
-            <button className="bg-yellow-600" onClick={AddJob}>Button</button>
-            <h1>Company Info Update</h1>
+            <JobHeroSection/>
+            <HiringMadeEasy/>
+            <FAQSection/>
         </>
 
 

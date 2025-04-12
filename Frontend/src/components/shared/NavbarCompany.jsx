@@ -27,8 +27,10 @@ const NavbarCompany = () => {
             toast.success(res.message);
         }
         else {
-            if (res.statusCode == 401)
+            if (res.statusCode == 404){
                 dispatch(setUser(null));
+                navigate('/');
+            }
             else
                 toast.error(res.message || "Invalid email");
         }
