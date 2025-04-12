@@ -15,12 +15,14 @@ const Job = ({job}) => {
         const timeDifference = currentTime - createdAt;
         return Math.floor(timeDifference/(1000*24*60*60));
     }
-    
+    console.log("job",job);
     return (
         <div className='p-5 rounded-md shadow-xl bg-white border border-gray-100'>
             <div className='flex items-center justify-between'>
                 <p className='text-sm text-gray-500'>{daysAgoFunction(job?.createdAt) === 0 ? "Today" : `${daysAgoFunction(job?.createdAt)} days ago`}</p>
-               
+                {job.applied && (<span className=" bg-green-600 text-white text-[10px] px-1.5 py-0.5 rounded-full shadow">
+                    Applied
+                </span>)}
             </div>
 
             <div className='flex items-center gap-2 my-2'>

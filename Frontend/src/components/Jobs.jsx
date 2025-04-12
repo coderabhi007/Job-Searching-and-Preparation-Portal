@@ -5,6 +5,7 @@ import Job from './Job';
 import { useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import { Allposts } from '@/axios/api/job.api';
+import Loader from './ui/Loader';
 // const jobsArray = [1, 2, 3, 4, 5, 6, 7, 8];
 
 const Jobs = () => {
@@ -24,9 +25,16 @@ const Jobs = () => {
         }
     }
 
-    useEffect(()=>{
-        AddJob();
-    },[])
+  
+
+    useEffect(() => {
+            const timer = setTimeout(() => {
+                AddJob();
+            }, 2000);
+    
+            // Optional cleanup
+            return () => clearTimeout(timer);
+        }, []);
 
     useEffect(() => {
         if (searchedQuery) {
@@ -45,7 +53,13 @@ const Jobs = () => {
         }
     }, [allJobs, searchedQuery]);
     
-
+    if (allJobs.length === 0) {
+        return (
+            <div className="relative w-screen h-screen">
+            <Loader/>
+          </div>
+        );
+      }
     return (
         <div>
             <Navbar />

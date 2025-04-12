@@ -1,10 +1,25 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from './ui/table'
 import { Badge } from './ui/badge'
 import { useSelector } from 'react-redux'
+import { getAppliedJobsByUser } from '@/axios/api/job.api'
 
 const AppliedJobTable = () => {
-    const {allAppliedJobs} = useSelector(store=>store.job);
+    const [appliedJobs, setAppliedJobs] = useState([]);
+    const fetchJobs = async () => {
+        try {
+            const response = await getAppliedJobsByUser();
+            console.log("response", response);
+            setAppliedJobs(response?.data?.data || []);
+
+        } catch (err) {
+            console.error('Company Update Error:', err);
+        }
+    };
+    useEffect(() => {
+        fetchJobs();
+    }, []);
+
     return (
         <div>
             <Table>
@@ -19,7 +34,7 @@ const AppliedJobTable = () => {
                 </TableHeader>
                 <TableBody>
                     {
-                        allAppliedJobs.length <= 0 ? <span>You haven't applied any job yet.</span> : allAppliedJobs.map((appliedJob) => (
+                        appliedJobs.length <= 0 ? <span>You haven't applied any job yet.</span> : appliedJobs.map((appliedJob) => (
                             <TableRow key={appliedJob._id}>
                                 <TableCell>{appliedJob?.createdAt?.split("T")[0]}</TableCell>
                                 <TableCell>{appliedJob.job?.title}</TableCell>

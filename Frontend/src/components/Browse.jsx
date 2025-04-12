@@ -1,40 +1,56 @@
-import React, { useEffect } from 'react'
-import Navbar from './shared/Navbar'
+import React, { useEffect, useState } from 'react';
+import Navbar from './shared/Navbar';
 import Job from './Job';
-import { useDispatch, useSelector } from 'react-redux';
-import { setSearchedQuery } from '@/redux/jobSlice';
+import { useSelector } from 'react-redux';
 import useGetAllJobs from '@/hooks/useGetAllJobs';
-
-// const randomJobs = [1, 2,45];
+import JobCardShimmer from './JobCardShimmer';
+import { Allposts } from '@/axios/api/job.api';
 
 const Browse = () => {
-    useGetAllJobs();
-    const {allJobs} = useSelector(store=>store.job);
-    console.log("allJobs",allJobs);
-    const dispatch = useDispatch();
-    useEffect(()=>{
-        return ()=>{
-            dispatch(setSearchedQuery(""));
-        }
-    },[])
+  const [allJobs, setAlljobs] = useState([]);
+  const { searchedQuery } = useSelector((store) => store.job);
+
+  const fetchJobs = async () => {
+    try {
+      const response = await Allposts();
+      setAlljobs(response?.data?.data || []);
+    } catch (err) {
+      console.error('Company Update Error:', err);
+    }
+  };
+
+  useEffect(() => {
+    fetchJobs();
+  }, []);
+
+  const filteredJobs = allJobs.filter((job) => {
+    //if (!searchedQuery) return true;
+
+    const lowerQuery = searchedQuery.toLowerCase();
     return (
-        <div>
-            <Navbar />
-            <div className='max-w-7xl mx-auto my-10'>
-                <h1 className='font-bold text-xl my-10'>Search Results ({allJobs.length})</h1>
-                <div className='grid grid-cols-3 gap-4'>
-                    {
-                        allJobs.map((job) => {
-                            return (
-                                <Job key={job._id} job={job}/>
-                            )
-                        })
-                    }
-                </div>
+      job?.JobTitle?.toLowerCase().includes(lowerQuery)
+    );
+  });
 
-            </div>
+  if (allJobs.length === 0) {
+    return <JobCardShimmer />;
+  }
+
+  return (
+    <div>
+      <Navbar />
+      <div className="max-w-7xl mx-auto my-10">
+        <h1 className="font-bold text-xl my-10">
+          Search Results ({filteredJobs.length})
+        </h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filteredJobs.map((job) => (
+            <Job key={job._id} job={job} />
+          ))}
         </div>
-    )
-}
+      </div>
+    </div>
+  );
+};
 
-export default Browse
+export default Browse;

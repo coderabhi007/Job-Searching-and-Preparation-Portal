@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import LatestJobCards from './LatestJobCards';
 import { useSelector } from 'react-redux'; 
 import { Allposts } from '@/axios/api/job.api';
+import JobCardShimmer from './JobCardShimmer';
 
 // const randomJobs = [1, 2, 3, 4, 5, 6, 7, 8];
 
@@ -22,6 +23,10 @@ const LatestJobs = () => {
     useEffect(()=>{
         AddJob();
     },[])
+
+    if(allJobs.length===0){
+        return <JobCardShimmer/>
+    }
 
 
    

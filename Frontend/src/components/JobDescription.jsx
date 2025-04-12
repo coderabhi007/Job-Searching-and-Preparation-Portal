@@ -95,6 +95,7 @@ import axiosInstance from '@/axios/axiosConfig'
 import { Input } from './ui/input'
 import { setJobId } from '@/redux/authSlice';
 import { useDispatch } from 'react-redux'
+import Loader from './ui/Loader'
 
 
 const JobDescription = () => {
@@ -130,7 +131,16 @@ const JobDescription = () => {
         const { name, value } = e.target
         setEditJob(prev => ({ ...prev, [name]: value }))
     }
-
+    async function handleApply(){
+        try {
+            const res=await axiosInstance.post(`job/apply/${jobId}`)
+            toast.success("job applies succesfully")
+            window.location.reload();
+        } catch (error) {
+            console.error(error)
+            toast.error(error?.response?.data?.message || 'Update failed')
+        }
+    }
     const handleUpdate = async (e) => {
         e.preventDefault()
         setLoading(true)
@@ -145,9 +155,23 @@ const JobDescription = () => {
             setLoading(false)
         }
     }
-    
+       useEffect(() => {
+                const timer = setTimeout(() => {
+                    handleUpdate();
+                }, 0);
+        
+                // Optional cleanup
+                return () => clearTimeout(timer);
+            }, []);
+    if (!job) {
+        return (
+            <div className="relative w-screen h-screen">
+            <Loader/>
+          </div>
+        );
+      }
 
-    if (!job) return <p className="text-center my-10">Loading...</p>
+    // if (!job) return <p className="text-center my-10">Loading...</p>
 
     return (
         <div className="max-w-4xl mx-auto my-10 bg-white p-6 rounded-lg shadow border">
@@ -178,7 +202,11 @@ const JobDescription = () => {
                         {/* <Button onClick={() => navigate(`/jobTable/${jobId}`)}>Applied Candidates</Button> */}
 
 
-                        <Button>Apply</Button>
+                        <Button
+                        disabled={job.applied} 
+                        onClick={handleApply}
+                        
+                        >Easy Apply</Button>
 
 
 

@@ -35,7 +35,7 @@ const GetAllJobs = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             AddJob();
-        }, 3000);
+        }, 2000);
 
         // Optional cleanup
         return () => clearTimeout(timer);
