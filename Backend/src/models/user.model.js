@@ -55,7 +55,7 @@ const userSchema = new mongoose.Schema({
         githubLink: { type: String },
         techStack: [{ type: String }],
     }],
-    resume: { type: String }, // file path or cloud link
+     // file path or cloud link
 },{ timestamps: true });
 const User = mongoose.model("User", userSchema);
 export default User;

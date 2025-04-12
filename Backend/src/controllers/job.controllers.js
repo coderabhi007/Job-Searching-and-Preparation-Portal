@@ -115,11 +115,23 @@ async function getAllJobPosts(req, res) {
             return res.status(404).json(new ApiError(404, "No job posts found"));
         }
 
-        return res.status(200).json(new ApiResponse(200, jobs, "Job posts retrieved successfully"));
+        // Enrich each job with the corresponding company logo
+        const jobsWithLogos = await Promise.all(
+            jobs.map(async (job) => {
+                const company = await Company.findOne({ _id: job.companyId }).select('logo');
+                const jobObj = job.toObject(); // to convert from Mongoose Document to plain object
+                jobObj.companyLogo = company?.logo || null;
+                return jobObj;
+            })
+        );
+        console.log(jobsWithLogos);
+        return res.status(200).json(new ApiResponse(200, jobsWithLogos, "Job posts retrieved successfully"));
     } catch (error) {
+        console.error("Error in getAllJobPosts:", error);
         return res.status(500).json(new ApiError(500, "Internal Server Error"));
     }
 }
+
 
 async function getAppliedJobs(req, res) {
     try {
