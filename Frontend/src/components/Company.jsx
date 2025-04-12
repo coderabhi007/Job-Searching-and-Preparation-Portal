@@ -54,6 +54,10 @@ function CompanyForm() {
         dispatch(setUser(null));
         navigate("/")
       }
+      else{
+        dispatch(setLoading(false));
+        
+      }
     }
   };
 
