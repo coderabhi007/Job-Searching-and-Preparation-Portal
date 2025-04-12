@@ -12,7 +12,7 @@ const router=Router();
 router.route('/create').post(Auth,createJobPost);
 router.route('/update/:jobId').put(Auth,updatePost);
 router.route('/getAll').get(Auth,getAllJobPostings);
-router.route('/apply').post(Auth,applyForJob);
+router.route('/apply/:id').post(Auth,applyForJob);
 router.route('/getAllPost').get(Auth,getAllJobPosts);
 router.route('/getAppliedJobs').get(Auth,getAppliedJobs);
 router.route('/getJobById/:id').get(Auth,getJobById);
