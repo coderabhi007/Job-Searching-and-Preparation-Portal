@@ -63,26 +63,20 @@ const updateProfile = async (req, res) => {
       return res.status(500).json(new ApiError(500, error.message));
     }
   };
-  import { ApiResponse } from "../util/ApiResponse.js";
-  import { ApiError } from "../util/ApiError.js";
-  import Interviewer from "../models/interviwer.model.js";
-  
+ 
+ 
   // Function to upload work proof
   const uploadWorkProof = async (req, res) => {
     try {
       const authId = req.user._id;
-      const { title, link, type } = req.body;
+      const { title, link } = req.body;
   
       // Validate required fields
-      if (!title || !link || !type) {
+      if (!title || !link) {
         return res.status(400).json(new ApiError(400, "Please provide all required fields: title, link, and type"));
       }
   
       // Validate work proof type
-      const allowedTypes = ['project', 'certificate', 'reference', 'other'];
-      if (!allowedTypes.includes(type)) {
-        return res.status(400).json(new ApiError(400, "Invalid work proof type. Allowed types are: 'project', 'certificate', 'reference', 'other'"));
-      }
   
       // Find the interviewer profile
       const profile = await Interviewer.findOne({ authId: authId });
@@ -94,7 +88,6 @@ const updateProfile = async (req, res) => {
       profile.workProof.push({
         title,
         link,
-        type,
         uploadedAt: new Date(),
       });
   

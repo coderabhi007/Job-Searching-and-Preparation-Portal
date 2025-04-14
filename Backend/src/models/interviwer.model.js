@@ -37,11 +37,6 @@ const interviewerSchema = new mongoose.Schema({
   skills: [
     {
       name: { type: String, enum: allowedSkills, required: true },
-      level: {
-        type: String,
-        enum: ["Beginner", "Intermediate", "Expert"],
-        default: "Intermediate"
-      }
     }
   ],
 
@@ -49,7 +44,7 @@ const interviewerSchema = new mongoose.Schema({
     {
       title: { type: String },
       link: { type: String },
-      type: { type: String }
+    
     }
   ],
 
