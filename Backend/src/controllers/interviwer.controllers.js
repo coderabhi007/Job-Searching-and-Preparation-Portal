@@ -1,7 +1,7 @@
 import { ApiResponse } from "../util/ApiResponse.js";
 import { ApiError } from "../util/ApiError.js";
 import Interviewer from "../models/interviwer.model.js";
-import  Auth  from "../models/auth.model.js";
+import  {auth as Auth}  from "../models/auth.model.js";
 const createProfile = async (req, res) => {
   try {
     const authId = req.user._id;
