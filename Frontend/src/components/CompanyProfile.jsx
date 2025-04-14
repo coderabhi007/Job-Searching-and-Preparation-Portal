@@ -14,6 +14,7 @@ import {
 import {
   setData
 } from '@/redux/authSlice'
+import NavbarCompany from './shared/NavbarCompany'
 
 const CompanyProfile = () => {
   const { data } = useSelector(store => store.auth)
@@ -118,7 +119,7 @@ const CompanyProfile = () => {
 
   return (
     <div>
-      <Navbar />
+      <NavbarCompany />
       <div className='max-w-4xl mx-auto bg-white border p-8 rounded-xl my-5'>
         <div className='flex justify-between items-start'>
           <div className='flex items-center gap-4'>
