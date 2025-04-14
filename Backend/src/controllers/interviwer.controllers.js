@@ -5,12 +5,15 @@ import  {auth as Auth}  from "../models/auth.model.js";
 const createProfile = async (req, res) => {
   try {
     const authId = req.user._id;
-    const data = req.body;
+    let data = req.body;
 
     // Validate required fields
     if (!data.fullName || !data.skills || data.skills.length === 0) {
       return res.status(400).json(new ApiError(400, "Please provide all the required fields"));
     }
+
+    // Ensure each skill is an object with 'name' key
+    data.skills = data.skills.map(skill => ({ name: skill }));
 
     // Check if user exists by authId
     const email = await Auth.findById(authId).select('email');
@@ -19,7 +22,7 @@ const createProfile = async (req, res) => {
     }
 
     // Add email and authId to data
-    data.email = email;
+    data.email = email.email; // Ensure we're using the email string value
     data.authId = authId;
 
     // Create new profile
@@ -29,9 +32,11 @@ const createProfile = async (req, res) => {
     return res.status(201).json(new ApiResponse(201, profile, "Profile created successfully"));
 
   } catch (error) {
+    //console.log(error);
     return res.status(500).json(new ApiError(500, error.message));
   }
 };
+
 
 const updateProfile = async (req, res) => {
     try {

@@ -16,7 +16,7 @@ import PostJob from './components/admin/PostJob'
 import Applicants from './components/admin/Applicants'
 import ProtectedRoute from './components/admin/ProtectedRoute'
 import Company from './components/Company'
-import Interviewer from './components/Interviewer'
+import Interviewer from './components/Interviewer/Interviewer'
 import CompanyProtectedRoute from './components/admin/CompanyProtectedRoute'
 import InterviwerProtectedRoute from './components/admin/InterviwerProtectedRoute'
 import MoreCompanyInfo from './components/MoreCompanyInfo'
@@ -33,6 +33,8 @@ import EducationalDetails from './components/EducationalDetails'
 import OtherDetails from './components/OtherDetails'
 import AppliedJobTable from './components/AppliedJobTable'
 import AppliedHistroy from './components/AppliedHistroy'
+import InterviewerProfileStep2 from './components/Interviewer/InterviewerProfileStep2'
+import Dashboard from './components/Interviewer/Dashboard'
 
 const appRouter = createBrowserRouter([
   {
@@ -67,6 +69,17 @@ const appRouter = createBrowserRouter([
     element: <InterviwerProtectedRoute><Interviewer /></InterviwerProtectedRoute>
 
   },
+  {
+    path: '/interviewer-profile-step-2',
+    element: <InterviwerProtectedRoute><InterviewerProfileStep2 /></InterviwerProtectedRoute>
+
+  },
+  {
+    path: '/dashboard',
+    element: <Dashboard/>
+
+  },
+
   
   {
     path: '/login',
