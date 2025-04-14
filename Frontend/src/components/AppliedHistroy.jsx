@@ -44,9 +44,13 @@ const AppliedHistroy = () => {
                                 <TableCell>{job.JobTitle}</TableCell>
                                 <TableCell>{job.companyName}</TableCell>
                                 <TableCell className="text-right">
-                                    <Badge className="bg-gray-400">
+                                    <Badge className={`${job?.applicationStatus === "applied" ? "bg-gray-400" :
+                                            job?.applicationStatus === "rejected" ? "bg-red-400" :
+                                                "bg-gray-200"
+                                        }`}>
                                         {job?.applicationStatus === "applied" ? "Pending" : job?.applicationStatus}
                                     </Badge>
+
                                 </TableCell>
                                 <TableCell className="text-right">
                                     <button

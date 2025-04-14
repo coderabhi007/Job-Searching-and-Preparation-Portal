@@ -19,6 +19,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
         phoneNumber: '',
         address: '',
         skills: '',
+        projects:''
     });
 
     useEffect(() => {
@@ -28,6 +29,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                 phoneNumber: data.contact || '',
                 address: data.address || '',
                 skills: data.skills?.join(', ') || '',
+                projects: data.projects?.join(', ') || '',
             });
         }
     }, [data]);
@@ -44,6 +46,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
             contact: input.phoneNumber,
             address: input.address,
             skills: input.skills.split(',').map(skill => skill.trim()),
+            projects:input.projects.split(',').map(projects => projects.trim()),
         };
 
         try {
@@ -107,6 +110,17 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                                 onChange={changeEventHandler}
                                 className="col-span-3"
                                 placeholder="e.g. React, Node.js"
+                            />
+                        </div>
+                        <div className='grid grid-cols-4 items-center gap-4'>
+                            <Label htmlFor="projects" className="text-right">Projects</Label>
+                            <Input
+                                id="projects"
+                                name="projects"
+                                value={input.projects}
+                                onChange={changeEventHandler}
+                                className="col-span-3"
+                                placeholder="e.g. Voting System"
                             />
                         </div>
                         <div className='grid grid-cols-4 items-center gap-4'>
