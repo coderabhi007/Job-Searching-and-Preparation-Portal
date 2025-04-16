@@ -39,9 +39,12 @@ const NavbarCompany = () => {
             <div className='flex items-center justify-between mx-auto max-w-7xl h-16 px-4'>
                 {/* Logo */}
                 <div>
-                    <h1 className='text-2xl font-bold tracking-tight text-gray-800'>
-                        Job<span className='text-[#F83002]'>Portal</span>
-                    </h1>
+                    <Link to="/" className="flex items-center space-x-2 text-2xl font-bold tracking-tight text-gray-800">
+                                        {/* <img src="/logo.png" alt="HireHustle Logo" className="h-20 w-20" /> */}
+                                        <span>
+                                            Hire<span className="text-[#F83002]">Hustle</span>
+                                        </span>
+                                    </Link>
                 </div>
 
                 {/* Nav Links */}

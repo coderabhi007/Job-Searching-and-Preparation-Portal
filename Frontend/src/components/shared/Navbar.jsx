@@ -45,9 +45,13 @@ const Navbar = () => {
         <header className="bg-white shadow-md sticky top-0 z-50">
             <div className="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
                 {/* Logo */}
-                <Link to="/" className="text-2xl font-bold tracking-tight text-gray-800">
-                    Job<span className="text-[#F83002]">Portal</span>
+                <Link to="/" className="flex items-center space-x-2 text-2xl font-bold tracking-tight text-gray-800">
+                    {/* <img src="/logo.png" alt="HireHustle Logo" className="h-20 w-20" /> */}
+                    <span>
+                        Hire<span className="text-[#F83002]">Hustle</span>
+                    </span>
                 </Link>
+
 
                 {/* Navigation Links */}
                 <nav>
