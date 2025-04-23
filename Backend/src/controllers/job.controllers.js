@@ -289,7 +289,7 @@ async function getAplliedusers(req, res) {
 async function getSelectedUsers(req, res) {
     try {
         const jobId = req.params.id;
-        const applications = await JobApplication.find({ jobId, status: "selected" });
+        const applications = await JobApplication.find({ jobId, status: "shortlisted" });
 
         if (!applications || applications.length === 0) {
             return res.status(404).json(new ApiError(404, "No selected applications found"));
