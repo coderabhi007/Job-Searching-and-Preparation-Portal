@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import LatestJobCards from './LatestJobCards';
 import { Allposts } from '@/axios/api/job.api';
 import JobCardShimmer from './JobCardShimmer';
-
+import { getAllJobs } from '@/axios/api/company.api';
+import { useSelector } from 'react-redux';
 const LatestJobs = () => {
     const [allJobs, setAlljobs] = useState([]);
     const [loading, setLoading] = useState(true);
+    const {user } = useSelector(store => store.auth);
 
     const AddJob = async () => {
         try {
@@ -18,7 +20,21 @@ const LatestJobs = () => {
         }
     };
 
+    const AddJobforHome = async () => {
+        try {
+            const response = await getAllJobs();
+            setAlljobs(response?.data?.data);
+            console.log("allJobs",allJobs);
+            setLoading(false);
+        } catch (err) {
+            console.error('Error fetching jobs:', err);
+            setLoading(false);
+        }
+    };
+    
+
     useEffect(() => {
+        AddJobforHome();
         AddJob();
     }, []);
 

@@ -38,6 +38,7 @@ import Dashboard from './components/Interviewer/Dashboard'
 import AboutUs from './components/AboutUs'
 import HowItWorks from './components/HowItWorks'
 import ContactUs from './components/ContactUs'
+import ErrorBoundary from './components/ErrorBoundary'
 
 const appRouter = createBrowserRouter([
   {
@@ -191,9 +192,9 @@ const appRouter = createBrowserRouter([
 function App() {
 
   return (
-    <div>
+    <ErrorBoundary>
       <RouterProvider router={appRouter} />
-    </div>
+    </ErrorBoundary>
   )
 }
 

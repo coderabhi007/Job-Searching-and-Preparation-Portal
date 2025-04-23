@@ -3,6 +3,7 @@ import { Badge } from './ui/badge';
 import { useNavigate } from 'react-router-dom';
 import { Button } from './ui/button';
 import { Bookmark } from 'lucide-react';
+import { useSelector } from 'react-redux';
 
 const LatestJobCards = ({ job }) => {
   const daysAgoFunction = (mongodbTime) => {
@@ -13,10 +14,13 @@ const LatestJobCards = ({ job }) => {
   };
 
   const navigate = useNavigate();
+  const { user } = useSelector(store => store.auth);
 
   return (
     <div
-      onClick={() => navigate(`/description/${job._id}`)}
+    onClick={() =>
+      user ? navigate(`/description/${job._id}`) : navigate('/login')
+    }
       className="p-5 rounded-xl shadow-lg bg-white border border-gray-100 cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out"
     >
       <div className="flex items-center justify-between">
