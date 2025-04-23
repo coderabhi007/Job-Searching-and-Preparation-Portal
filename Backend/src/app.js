@@ -16,10 +16,12 @@ import companyRouter from './Routes/company.routes.js'
 import jobRouter from './Routes/job.routes.js'
 import userRouter from './Routes/user.routes.js'
 import InterviewerRouter from './Routes/interviwer.routes.js';
+import EvalutionRouter from './Routes/evaluation.routes.js'
 app.use('/api/v1/user',userRouter)
 app.use('/api/v1/auth',authRouter)
 app.use('/api/v1/otp',otpRouter)
 app.use('/api/v1/company',companyRouter)
 app.use('/api/v1/job',jobRouter)
 app.use('/api/v1/interviewer',InterviewerRouter)
+app.use('/api/v1',EvalutionRouter)
 export default app;
