@@ -29,7 +29,7 @@ const HiringMadeEasy = () => {
           <span className="bg-blue-100 text-blue-700 px-3 py-1 text-xs font-semibold rounded-md mb-3 inline-block">
             RESDEX
           </span>
-          <h3 className="text-xl font-semibold mb-4">Search Naukri’s resume database</h3>
+          <h3 className="text-xl font-semibold mb-4">Search HireHustle's resume database</h3>
           <ul className="text-gray-700 space-y-2 mb-6 text-sm">
             <li>• Discover local talent in every city with India’s <strong>largest resume database</strong></li>
             <li>• Find the right fit as per your <strong>specific preferences</strong> like location, skills, & more</li>

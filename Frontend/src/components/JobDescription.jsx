@@ -26,6 +26,7 @@ const JobDescription = () => {
       try {
         const res = await axiosInstance.get(`job/getJobById/${jobId}`);
         setJob(res.data.data);
+        console.log(res.data.data)
         setEditJob(res.data.data);
       } catch (err) {
         toast.error('Error fetching job');

@@ -23,7 +23,8 @@ import { Logout } from '@/axios/api/auth.api'
 const Navbar = () => {
     const { user } = useSelector(store => store.auth)
     const dispatch = useDispatch()
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    console.log("Navbar",user);
 
     const logoutHandler = async () => {
         const res = await Logout()
@@ -40,6 +41,12 @@ const Navbar = () => {
             }
         }
     }
+    const handleClick = (e) => {
+        if (!user) {
+          e.preventDefault(); // Prevent the default navigation
+          navigate("/login");
+        }
+      };
 
     return (
         <header className="bg-white shadow-md sticky top-0 z-50">
@@ -64,7 +71,9 @@ const Navbar = () => {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="/admin/jobs" className="flex items-center gap-1 hover:text-[#6A38C2] transition">
+                                    <Link to="/admin/jobs"
+                                      onClick={handleClick}
+                                    className="flex items-center gap-1 hover:text-[#6A38C2] transition">
                                         <Briefcase size={16} /> Jobs
                                     </Link>
                                 </li>
@@ -77,12 +86,12 @@ const Navbar = () => {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="/jobs" className="flex items-center gap-1 hover:text-[#6A38C2] transition">
+                                    <Link  onClick={handleClick} to="/jobs" className="flex items-center gap-1 hover:text-[#6A38C2] transition">
                                         <Briefcase size={16} /> Jobs
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="/applied_jobs" className="flex items-center gap-1 hover:text-[#6A38C2] transition">
+                                    <Link onClick={handleClick}  to="/applied_jobs" className="flex items-center gap-1 hover:text-[#6A38C2] transition">
                                         <ClipboardList size={16} /> Applied
                                     </Link>
                                 </li>

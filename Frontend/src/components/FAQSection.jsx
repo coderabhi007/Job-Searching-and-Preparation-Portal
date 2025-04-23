@@ -2,8 +2,8 @@ import React, { useState } from "react";
 
 const faqData = [
   {
-    question: "I have purchased Job posting plan on Naukri. How do I create my job listing?",
-    answer: "To create a job listing, log into your Naukri recruiter account, navigate to 'Job Postings', and follow the guided steps."
+    question: "I have purchased Job posting plan on HireHustle. How do I create my job listing?",
+    answer: "To create a job listing, log into your HireHustle recruiter account, navigate to 'Job Postings', and follow the guided steps."
   },
   {
     question: "What is the difference between Resume Database Access (Resdex) and a Job posting?",
@@ -26,7 +26,7 @@ const faqData = [
     answer: "You’ll be contacted by our hiring team to understand your requirement and start sourcing candidates."
   },
   {
-    question: "How does pricing work for the different Naukri recruiter plans?",
+    question: "How does pricing work for the different HireHustle recruiter plans?",
     answer: "Pricing varies based on duration, access level, and additional features like branding and promotions."
   },
 ];

@@ -3,46 +3,63 @@ import React from "react";
 const JobHeroSection = () => {
   return (
     <div className="w-full bg-white">
-      <div className="relative w-full h-[440px] bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url('/hero.jpg')` }}>
-        <div className="absolute inset-0 bg-gray-400 bg-opacity-30 flex items-center justify-center px-4">
+      {/* Hero Banner */}
+      <div
+        className="relative w-full h-[540px] bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `url('https://media.istockphoto.com/id/1364929981/photo/welcome-the-new-business-partner.jpg?s=612x612&w=0&k=20&c=xqaiLniG8GL5rHYtQjCk9PrePkndKoC4i1eLqhmV7q4=')`,
+        }}
+      >
+        <div className="absolute inset-0 bg-black/50 flex items-center justify-center px-4">
           <div className="max-w-3xl text-center">
-            <h1 className="text-4xl md:text-5xl font-semibold text-gray-800 leading-snug">
-              Find, attract, and <span className="text-blue-600">hire</span><br />
-              talent with Naukri
+            <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight drop-shadow-md">
+              Find, attract, and <span className="text-[#FFCD1D]">hire</span>
+              <br />
+              top talent with <span className="text-[#6A38C2]">HireHustle</span>
             </h1>
-            <button className="mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition">
-              Explore plans
+            <p className="mt-4 text-lg text-white/90">
+              Your all-in-one hiring and career solution.
+            </p>
+            <button className="mt-6 px-6 py-3 bg-[#6A38C2] text-white rounded-xl font-semibold hover:bg-[#5931a6] transition-shadow shadow-md hover:shadow-lg">
+              Explore Plans
             </button>
           </div>
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row justify-center items-center gap-6 px-4 py-8 bg-white">
+      {/* Features */}
+      <div className="flex flex-col md:flex-row justify-center items-center gap-8 px-6 py-14 bg-gradient-to-b from-white via-gray-50 to-white">
         {/* Card 1 */}
-        <div className="bg-white shadow-md rounded-xl px-6 py-4 text-center max-w-xs">
-          <div className="text-4xl mb-3">👤✅</div>
-          <h3 className="text-lg font-semibold text-gray-800">
-            Hire <span className="font-bold">skilled candidates</span>
+        <div className="bg-white shadow-xl hover:shadow-2xl transition rounded-2xl px-6 py-6 text-center max-w-sm border border-gray-100">
+          <div className="text-5xl mb-4">👤✅</div>
+          <h3 className="text-xl font-bold text-gray-800 mb-1">
+            Hire Skilled Candidates
           </h3>
-          <p className="text-gray-600 text-sm">for your business</p>
+          <p className="text-gray-600 text-sm">
+            Discover and hire pre-screened talent perfect for your business.
+          </p>
         </div>
 
         {/* Card 2 */}
-        <div className="bg-white shadow-md rounded-xl px-6 py-4 text-center max-w-xs">
-          <div className="text-4xl mb-3">🏭</div>
-          <h3 className="text-lg font-semibold text-gray-800">
-            Get candidates with relevant <br />
-            <span className="font-bold">industry experience</span>
+        <div className="bg-white shadow-xl hover:shadow-2xl transition rounded-2xl px-6 py-6 text-center max-w-sm border border-gray-100">
+          <div className="text-5xl mb-4">🏭</div>
+          <h3 className="text-xl font-bold text-gray-800 mb-1">
+            Industry-Relevant Talent
           </h3>
+          <p className="text-gray-600 text-sm">
+            Find candidates with hands-on experience in your sector.
+          </p>
         </div>
 
         {/* Card 3 */}
-        <div className="bg-white shadow-md rounded-xl px-6 py-4 text-center max-w-xs">
-          <div className="text-4xl mb-3">💵</div>
-          <h3 className="text-lg font-semibold text-gray-800">
-            Explore <span className="font-bold">budget-friendly</span><br />
-            plans starting from ₹400
+        <div className="bg-white shadow-xl hover:shadow-2xl transition rounded-2xl px-6 py-6 text-center max-w-sm border border-gray-100">
+          <div className="text-5xl mb-4">💵</div>
+          <h3 className="text-xl font-bold text-gray-800 mb-1">
+            Affordable Plans
           </h3>
+          <p className="text-gray-600 text-sm">
+            Flexible pricing starting from just ₹400 — hiring made affordable.
+          </p>
         </div>
       </div>
     </div>

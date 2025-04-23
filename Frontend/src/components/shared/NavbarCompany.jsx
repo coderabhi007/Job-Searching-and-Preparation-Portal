@@ -50,10 +50,10 @@ const NavbarCompany = () => {
                 {/* Nav Links */}
                 <div className='flex items-center gap-10'>
                     <ul className='flex items-center gap-6 text-sm text-gray-700 font-medium'>
-                        <li className='flex items-center gap-1 hover:text-[#6A38C2] transition'>
+                        {/* <li className='flex items-center gap-1 hover:text-[#6A38C2] transition'>
                             <LayoutDashboard className="w-4 h-4" />
                             <Link to="/company/dashboard">Dashboard</Link>
-                        </li>
+                        </li> */}
                         <li className='flex items-center gap-1 hover:text-[#6A38C2] transition'>
                             <PlusCircle className="w-4 h-4" />
                             <Link to="/company/post">Post Job</Link>
@@ -63,10 +63,10 @@ const NavbarCompany = () => {
                             <Link to="/company/getAlljob">My Jobs</Link>
                         </li>
 
-                        <li className='flex items-center gap-1 hover:text-[#6A38C2] transition'>
+                        {/* <li className='flex items-center gap-1 hover:text-[#6A38C2] transition'>
                             <DollarSign className="w-4 h-4" />
                             <Link to="/company/billing">Billing</Link>
-                        </li>
+                        </li> */}
                         <li className='relative group'>
                             <Bell className='w-5 h-5 text-gray-600 group-hover:text-[#6A38C2] cursor-pointer transition' />
                             {/* Notification dot example */}

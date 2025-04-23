@@ -62,7 +62,7 @@ const GetAllJobs = () => {
             <div className="max-w-7xl mx-auto my-10">
                 <h1 className="font-bold text-xl mb-10">Search Results ({jobs.length})</h1>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                    {jobs.map(job => (
+                    {Array.isArray(jobs) && jobs.map(job => (
                         <div key={job._id}
 
                             onClick={() => handle(job._id)} className="p-5 rounded-md shadow-xl bg-white border border-gray-100">

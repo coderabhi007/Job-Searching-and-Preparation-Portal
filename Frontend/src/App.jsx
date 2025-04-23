@@ -35,6 +35,9 @@ import AppliedJobTable from './components/AppliedJobTable'
 import AppliedHistroy from './components/AppliedHistroy'
 import InterviewerProfileStep2 from './components/Interviewer/InterviewerProfileStep2'
 import Dashboard from './components/Interviewer/Dashboard'
+import AboutUs from './components/AboutUs'
+import HowItWorks from './components/HowItWorks'
+import ContactUs from './components/ContactUs'
 
 const appRouter = createBrowserRouter([
   {
@@ -51,6 +54,17 @@ const appRouter = createBrowserRouter([
 
   },
   {
+    path: '/how-it-works',
+    element:<HowItWorks/>
+
+  },
+  
+  {
+    path: '/contact',
+    element:<ContactUs/>
+
+  },
+  {
     path: '/create',
     element: <UserProtectedRoute><Create/></UserProtectedRoute>
 
@@ -62,6 +76,11 @@ const appRouter = createBrowserRouter([
   {
     path: '/other-details',
     element: <OtherDetails/>
+
+  },
+  {
+    path: '/about',
+    element: <AboutUs/>
 
   },
   {
