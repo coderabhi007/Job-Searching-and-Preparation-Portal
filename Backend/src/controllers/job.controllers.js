@@ -260,22 +260,28 @@ async function updateApplicationStatus(req, res) {
 async function getAplliedusers(req, res) {
     try {
         const jobId = req.params.id;
-        console.log("Abhishek")
-        const applications = await JobApplication.find({ jobId });
+        console.log("Fetching applied users for job:", jobId);
 
+        // Get applications with status "applied"
+        const applications = await JobApplication.find({ jobId, status: "applied" });
+        console.log(applications)
         if (!applications || applications.length === 0) {
             return res.status(404).json(new ApiError(404, "No applications found"));
         }
 
-        const userIds = applications.map(app => app.userId);
+        // Extract userIds from applications
+            const userIds = applications.map(app => app.userId);
+
+        // Fetch users by those userIds
         const users = await User.find({ _id: { $in: userIds } });
 
         if (!users || users.length === 0) {
             return res.status(404).json(new ApiError(404, "No users found"));
         }
-
+        console.log(users)
         return res.status(200).json(new ApiResponse(200, users, "Users retrieved successfully"));
     } catch (error) {
+        console.error("Error in getAppliedUsers:", error);
         return res.status(500).json(new ApiError(500, "Internal Server Error"));
     }
 }
