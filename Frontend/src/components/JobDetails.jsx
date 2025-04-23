@@ -24,7 +24,7 @@ const JobDetails = () => {
         const fetchJob = async () => {
             dispatch(setJobId(jobId));
             try {
-                const res = await axiosInstance.get(`job/getJobById/${jobId}`)
+                const res = await axiosInstance.get(`job/getJobByIdCompany/${jobId}`)
                 setJob(res.data.data)
                 console.log(res);
 

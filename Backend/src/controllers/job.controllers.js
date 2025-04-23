@@ -198,7 +198,23 @@ async function getJobById(req, res) {
         return res.status(500).json(new ApiError(500, "Internal Server Error"));
     }
 }
+async function getJobByIdCompany(req, res) {
+    try {
+        const jobId = req.params.id;
+        const userId = req.user._id;
+      //  console.log("applied"+userId)
+        const job = await Job.findById(jobId);
 
+        if (!job) {
+            return res.status(404).json(new ApiError(404, "Job not found"));
+        }
+        
+        return res.status(200).json(new ApiResponse(200, job, "Job retrieved successfully"));
+    } catch (error) {
+        console.error("Error in getJobById:", error);
+        return res.status(500).json(new ApiError(500, "Internal Server Error"));
+    }
+}
 
 async function updateJobStatus(req, res) {
     try {
@@ -373,7 +389,16 @@ async function searchJobs(req, res) {
         return res.status(500).json(new ApiError(500, "Internal Server Error"));
     }
 }
-
+async function getLatestJobs(req,res){
+   try {
+    //get top 8 jobs nad send
+    const jobs = await JobPost.find().sort({ createdAt: -1 }).limit(8);
+    return res.status(200).json(new ApiResponse(200, jobs, "Latest jobs retrieved successfully"));
+   } catch (error) {
+    console.error("Error in searchJobs:", error);
+    return res.status(500).json(new ApiError(500, "Internal Server Error"));
+   }
+}
 
 
 export {
@@ -390,5 +415,7 @@ export {
     getAplliedusers,
     getSelectedUsers,
     getRejectedUsers,
-    getAppliedJobsByUser
+    getAppliedJobsByUser,
+    getJobByIdCompany,
+    getLatestJobs
 };

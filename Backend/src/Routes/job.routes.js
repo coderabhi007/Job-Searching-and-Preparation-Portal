@@ -7,7 +7,7 @@ import {createJobPost, updatePost,getAllJobPostings,applyForJob,getAllJobPosts,g
     getSelectedUsers,
     searchJobs,
     getRejectedUsers,
-    getAppliedJobsByUser} from "../controllers/job.controllers.js";
+    getAppliedJobsByUser,getJobByIdCompany,getLatestJobs} from "../controllers/job.controllers.js";
 const router=Router();
 router.route('/create').post(Auth,createJobPost);
 router.route('/update/:jobId').put(Auth,updatePost);
@@ -23,4 +23,6 @@ router.route('/getAplliedusers/:id').get(Auth,getAplliedusers);
 router.route('/getSelectedUsers').get(Auth,getSelectedUsers);
 router.route('/getRejectedUsers').get(Auth,getRejectedUsers);
 router.route('/search').post(Auth,searchJobs);
+router.route('/getJobByIdCompany/:id').get(Auth,getJobByIdCompany);
+router.route('/getLatestJobs').get(getLatestJobs);
 export default router;
