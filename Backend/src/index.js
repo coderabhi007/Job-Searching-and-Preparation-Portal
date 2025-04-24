@@ -12,3 +12,6 @@ connectDB().then(()=>
 ).catch((error)=>{
     console.log("Index file error"+error)
 })
+setInterval(() => {
+    updateInterviewStatuses();
+  }, 5 * 60 * 1000); //
