@@ -1,8 +1,9 @@
 import mongoose from 'mongoose';
 import { DB_NAME } from '../constant.js';
+console.log(process.env.MONGODB_URL)
 const connectDB=async()=>{
     try{
-        const connectionInstance=await mongoose.connect(`${process.env.MONGODB_URL}/${DB_NAME}`)
+        const connectionInstance=await mongoose.connect(`mongodb+srv://JOB:Abhishek%40123@cluster0.7w83x.mongodb.net/${DB_NAME}`)
         console.log("Connected to MongoDB"+connectionInstance.connection.host)
     }
     catch(error){

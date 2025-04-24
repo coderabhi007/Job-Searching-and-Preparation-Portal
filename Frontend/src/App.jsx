@@ -39,6 +39,8 @@ import AboutUs from './components/AboutUs'
 import HowItWorks from './components/HowItWorks'
 import ContactUs from './components/ContactUs'
 import ErrorBoundary from './components/ErrorBoundary'
+import RejectedCandidate from './components/RejectedCandidate'
+import SelectedCandidate from './components/SelectedCandidate'
 
 const appRouter = createBrowserRouter([
   {
@@ -148,6 +150,15 @@ const appRouter = createBrowserRouter([
 
   },
   {
+    path: "/company/:jobId",
+    element: <SelectedCandidate />
+  },
+  {
+    path: "/rejected/:jobId",
+    element: <RejectedCandidate />
+  },
+  
+  {
     path: "/company/moreInfo",
     element: <MoreCompanyInfo />
   },
@@ -163,30 +174,30 @@ const appRouter = createBrowserRouter([
 
 
   // admin ke liye yha se start hoga
-  {
-    path: "/admin/companies",
-    element: <Companies />
-  },
-  {
-    path: "/admin/companies/create",
-    element: <CompanyCreate />
-  },
-  {
-    path: "/admin/companies/:id",
-    element: <CompanySetup />
-  },
-  {
-    path: "/admin/jobs",
-    element: <AdminJobs />
-  },
-  {
-    path: "/admin/jobs/create",
-    element: <PostJob />
-  },
-  {
-    path: "/admin/jobs/:id/applicants",
-    element: <Applicants />
-  },
+  // {
+  //   path: "/admin/companies",
+  //   element: <Companies />
+  // },
+  // {
+  //   path: "/admin/companies/create",
+  //   element: <CompanyCreate />
+  // },
+  // {
+  //   path: "/admin/companies/:id",
+  //   element: <CompanySetup />
+  // },
+  // {
+  //   path: "/admin/jobs",
+  //   element: <AdminJobs />
+  // },
+  // {
+  //   path: "/admin/jobs/create",
+  //   element: <PostJob />
+  // },
+  // {
+  //   path: "/admin/jobs/:id/applicants",
+  //   element: <Applicants />
+  // },
 
 ])
 function App() {
