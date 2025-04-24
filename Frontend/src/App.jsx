@@ -45,11 +45,11 @@ import SelectedCandidate from './components/SelectedCandidate'
 const appRouter = createBrowserRouter([
   {
     path: '/',
-    element:<UserProtectedRoute><Home /></UserProtectedRoute>
+    element: <UserProtectedRoute><Home /></UserProtectedRoute>
   },
   {
     path: '/user',
-    element: <UserProtectedRoute><User/></UserProtectedRoute>
+    element: <UserProtectedRoute><User /></UserProtectedRoute>
   },
   {
     path: '/company',
@@ -58,32 +58,32 @@ const appRouter = createBrowserRouter([
   },
   {
     path: '/how-it-works',
-    element:<HowItWorks/>
+    element: <HowItWorks />
 
   },
-  
+
   {
     path: '/contact',
-    element:<ContactUs/>
+    element: <ContactUs />
 
   },
   {
     path: '/create',
-    element: <UserProtectedRoute><Create/></UserProtectedRoute>
+    element: <UserProtectedRoute><Create /></UserProtectedRoute>
 
   },
   {
     path: '/educational-details',
-    element: <EducationalDetails/>
+    element: <EducationalDetails />
   },
   {
     path: '/other-details',
-    element: <OtherDetails/>
+    element: <OtherDetails />
 
   },
   {
     path: '/about',
-    element: <AboutUs/>
+    element: <AboutUs />
 
   },
   {
@@ -98,11 +98,9 @@ const appRouter = createBrowserRouter([
   },
   {
     path: '/dashboard',
-    element: <Dashboard/>
+    element: <Dashboard />
 
   },
-
-  
   {
     path: '/login',
     element: <Login />
@@ -157,7 +155,7 @@ const appRouter = createBrowserRouter([
     path: "/rejected/:jobId",
     element: <RejectedCandidate />
   },
-  
+
   {
     path: "/company/moreInfo",
     element: <MoreCompanyInfo />
@@ -166,10 +164,14 @@ const appRouter = createBrowserRouter([
     path: "/applied_jobs",
     element: <AppliedHistroy />
   },
-  
+
   {
     path: "/companyInfo",
     element: <CompanyProtectedRoute> <CompanyInfo /></CompanyProtectedRoute>
+  },
+  {
+    path: "/Dashboard",
+    element: <InterviwerProtectedRoute> <Dashboard /></InterviwerProtectedRoute>
   },
 
 

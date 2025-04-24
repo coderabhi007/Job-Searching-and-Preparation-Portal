@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const InterviwerProtectedRoute = ({children}) => {
-    const {user} = useSelector(store=>store.auth);
+    const {user,data} = useSelector(store=>store.auth);
 
     const navigate = useNavigate();
 
@@ -14,6 +14,15 @@ const InterviwerProtectedRoute = ({children}) => {
           }
           else{
             navigate('/')
+          }
+        }
+        else {
+          if (user == "Interviewer" && !data) {
+            console.log("ABhishek");
+            navigate("/interviewer")
+          }
+          else if (user == "Interviewer" && data) {
+            navigate("/Dashboard")
           }
         }
     },[]);

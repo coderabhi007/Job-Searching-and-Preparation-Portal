@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config({
     path: './.env'
 })
-console.log('ABhi')
+// console.log('ABhi')
 import app from './app.js';
 import connectDB from './DB/index.js';
 connectDB().then(()=>
