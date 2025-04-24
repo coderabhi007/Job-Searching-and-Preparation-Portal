@@ -44,15 +44,15 @@ const NavbarInterviewer = () => {
         <ul className='flex items-center gap-6 text-sm text-gray-700 font-medium'>
           <li className='flex items-center gap-1 hover:text-[#6A38C2] transition'>
             <LayoutDashboard className="w-4 h-4" />
-            <Link to="/interviewer/dashboard">Dashboard</Link>
+            <Link to="/Dashboard">Fill Slots</Link>
           </li>
           <li className='flex items-center gap-1 hover:text-[#6A38C2] transition'>
             <Calendar className="w-4 h-4" />
-            <Link to="/interviewer/interviews">My Interviews</Link>
+            <Link to="/interviewer/interviews">Upcomming Interviews</Link>
           </li>
           <li className='flex items-center gap-1 hover:text-[#6A38C2] transition'>
             <Users className="w-4 h-4" />
-            <Link to="/interviewer/candidates">Candidates</Link>
+            <Link to="/interviewer/candidates">Interview History</Link>
           </li>
         </ul>
 

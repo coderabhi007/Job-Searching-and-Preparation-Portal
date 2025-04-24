@@ -12,8 +12,10 @@ import {
     Home,
     Mail,
     ClipboardList,
-    Building2
+    Building2,
+    CheckCircle
 } from 'lucide-react'
+import { CalendarCheck } from "lucide-react";
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'sonner'
@@ -24,7 +26,7 @@ const Navbar = () => {
     const { user } = useSelector(store => store.auth)
     const dispatch = useDispatch()
     const navigate = useNavigate();
-    console.log("Navbar",user);
+    console.log("Navbar", user);
 
     const logoutHandler = async () => {
         const res = await Logout()
@@ -43,10 +45,10 @@ const Navbar = () => {
     }
     const handleClick = (e) => {
         if (!user) {
-          e.preventDefault(); // Prevent the default navigation
-          navigate("/login");
+            e.preventDefault(); // Prevent the default navigation
+            navigate("/login");
         }
-      };
+    };
 
     return (
         <header className="bg-white shadow-md sticky top-0 z-50">
@@ -72,8 +74,8 @@ const Navbar = () => {
                                 </li>
                                 <li>
                                     <Link to="/admin/jobs"
-                                      onClick={handleClick}
-                                    className="flex items-center gap-1 hover:text-[#6A38C2] transition">
+                                        onClick={handleClick}
+                                        className="flex items-center gap-1 hover:text-[#6A38C2] transition">
                                         <Briefcase size={16} /> Jobs
                                     </Link>
                                 </li>
@@ -86,12 +88,12 @@ const Navbar = () => {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link  onClick={handleClick} to="/jobs" className="flex items-center gap-1 hover:text-[#6A38C2] transition">
+                                    <Link onClick={handleClick} to="/jobs" className="flex items-center gap-1 hover:text-[#6A38C2] transition">
                                         <Briefcase size={16} /> Jobs
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link onClick={handleClick}  to="/applied_jobs" className="flex items-center gap-1 hover:text-[#6A38C2] transition">
+                                    <Link onClick={handleClick} to="/applied_jobs" className="flex items-center gap-1 hover:text-[#6A38C2] transition">
                                         <ClipboardList size={16} /> Applied
                                     </Link>
                                 </li>
@@ -101,10 +103,16 @@ const Navbar = () => {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="/how-it-works" className="flex items-center gap-1 hover:text-[#6A38C2] transition">
-                                        <HelpCircle size={16} /> How It Works
+                                    <Link to="/book-slot" className="flex items-center gap-1 hover:text-[#6A38C2] transition">
+                                        <CheckCircle size={16} /> Book Slot
                                     </Link>
                                 </li>
+                                <li>
+                                    <Link to="/upcomming" className="flex items-center gap-1 hover:text-[#6A38C2] transition">
+                                    <CalendarCheck size={18} /> Upcoming Interviews
+                                    </Link>
+                                </li>
+
                                 <li>
                                     <Link to="/contact" className="flex items-center gap-1 hover:text-[#6A38C2] transition">
                                         <Mail size={16} /> Contact

@@ -36,13 +36,18 @@ import AppliedHistroy from './components/AppliedHistroy'
 import InterviewerProfileStep2 from './components/Interviewer/InterviewerProfileStep2'
 import Dashboard from './components/Interviewer/Dashboard'
 import AboutUs from './components/AboutUs'
-import HowItWorks from './components/HowItWorks'
 import ContactUs from './components/ContactUs'
 import ErrorBoundary from './components/ErrorBoundary'
 import RejectedCandidate from './components/RejectedCandidate'
 import SelectedCandidate from './components/SelectedCandidate'
-
+import BookSlot from './components/BookSlot'
+import Upcomming from './components/Upcomming'
+import UpcomingInterviews from './components/Interviewer/UpcomingInterviews'
+import Interviwer from './interviewPortal/Interviwer'
+import MediaAccessPage from './interviewPortal/MediaAcessPage'
+import Candidate from './interviewPortal/CandidteLoading'
 const appRouter = createBrowserRouter([
+  
   {
     path: '/',
     element: <UserProtectedRoute><Home /></UserProtectedRoute>
@@ -57,8 +62,8 @@ const appRouter = createBrowserRouter([
 
   },
   {
-    path: '/how-it-works',
-    element: <HowItWorks />
+    path: '/book-slot',
+    element: <BookSlot />
 
   },
 
@@ -75,6 +80,10 @@ const appRouter = createBrowserRouter([
   {
     path: '/educational-details',
     element: <EducationalDetails />
+  },
+  {
+    path: '/upcomming',
+    element: <Upcomming />
   },
   {
     path: '/other-details',
@@ -173,6 +182,22 @@ const appRouter = createBrowserRouter([
     path: "/Dashboard",
     element: <InterviwerProtectedRoute> <Dashboard /></InterviwerProtectedRoute>
   },
+  {
+    path: "/interviewer/interviews",
+    element:  <UpcomingInterviews />
+  },
+  {
+    path: '/instruction/:intervieweID',
+    element: <MediaAccessPage />
+  },
+  {
+    path: '/interviwer/:interviweID',
+    element: <Interviwer />
+  },
+  {
+    path: '/candidate/:interviweID',
+    element: <UserProtectedRoute><Candidate /></UserProtectedRoute>
+  }
 
 
   // admin ke liye yha se start hoga

@@ -10,6 +10,7 @@ const book = async (req, res) => {
       console.log("Skill:", skill);
   
       const authId = req.user._id;
+      console.log(authId);
       const student = await User.findOne({ authId: authId }); // FIX: added await
       if (!student) {
         return res.status(404).json({ message: "Student not found" });
