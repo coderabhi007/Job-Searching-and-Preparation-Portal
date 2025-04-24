@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 import { Button } from '../ui/button'
 import { Avatar, AvatarImage } from '../ui/avatar'
@@ -11,11 +11,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'sonner'
 import { setUser } from '@/redux/authSlice'
 import { Logout } from '@/axios/api/auth.api'
-
+import axios from 'axios'
 const NavbarCompany = () => {
     const { user } = useSelector(store => store.auth)
     const dispatch = useDispatch()
     const navigate = useNavigate()
+      const [logoFile, setLogoFile] = useState(null)
+      const { data } = useSelector(store => store.auth)
 
     const logoutHandler = async () => {
         const res = await Logout()
@@ -33,6 +35,7 @@ const NavbarCompany = () => {
             }
         }
     }
+    console.log("data",data);
 
     return (
         <div className='bg-white shadow-sm border-b'>
@@ -88,15 +91,13 @@ const NavbarCompany = () => {
                         <Popover>
                             <PopoverTrigger asChild>
                                 <Avatar className="cursor-pointer bg-gray-600">
-                                    <AvatarImage src={user?.profile?.profilePhoto} alt="profile" />
+                                    <AvatarImage src={data?.logo} alt="profile" />
                                 </Avatar>
                             </PopoverTrigger>
                             <PopoverContent className="w-80 shadow-lg border">
                                 <div className='p-4 rounded'>
                                     <div className='flex gap-3 items-center'>
-                                        <Avatar>
-                                            <AvatarImage src={user?.profile?.profilePhoto} />
-                                        </Avatar>
+                
                                         <div>
                                             <h4 className='font-medium'>{user?.fullname}</h4>
                                             <p className='text-sm text-muted-foreground'>{user?.profile?.bio}</p>

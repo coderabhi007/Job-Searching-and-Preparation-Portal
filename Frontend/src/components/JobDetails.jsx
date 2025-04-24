@@ -8,6 +8,7 @@ import axiosInstance from '@/axios/axiosConfig'
 import { Input } from './ui/input'
 import { setJobId } from '@/redux/authSlice';
 import { useDispatch } from 'react-redux'
+import { RejectedCandidates, SelectedCandidates } from '@/axios/api/job.api'
 
 const JobDetails = () => {
     const { jobId } = useParams();
@@ -87,8 +88,8 @@ const JobDetails = () => {
                         </DialogTrigger>
 
                         <Button onClick={() => navigate(`/jobTable/${jobId}`)}>Applied Candidates</Button>
-                        <Button>Selected Candidates</Button>
-                        <Button>Rejected Candidates</Button>
+                        <Button onClick={() => navigate(`/company/${jobId}`)}>Selected Candidates</Button>
+                        <Button onClick={() => navigate(`/rejected/${jobId}`)}>Rejected Candidates</Button>
 
                     </div>
                     <DialogContent className="max-w-3xl p-6 h-4/5 overflow-y-auto">
