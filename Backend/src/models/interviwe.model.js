@@ -1,6 +1,5 @@
 import mongoose from 'mongoose'
-import Interviewer from './interviwer.model'
-import User from './user.model'
+
 const interviewSchema=new mongoose.Schema({
     interviwerId:{
         type: mongoose.Schema.Types.ObjectId,

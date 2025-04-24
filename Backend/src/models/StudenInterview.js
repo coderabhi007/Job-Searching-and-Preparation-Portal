@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const subtopicMarkSchema = new mongoose.Schema({}, { strict: false });
 
@@ -26,4 +26,5 @@ const studentInterviewSchema = new mongoose.Schema({
   interviewRecords: [interviewRecordSchema]
 }, { timestamps: true });
 
-module.exports = mongoose.model("StudentInterview", studentInterviewSchema);
+ const StudentInterview = mongoose.model("StudentInterview", studentInterviewSchema);
+export default StudentInterview

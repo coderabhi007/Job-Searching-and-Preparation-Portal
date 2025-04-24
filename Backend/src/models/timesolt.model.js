@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
-import Interviewer from "./interviwer.model";
+
 const timeSlotSchema = new mongoose.Schema({
   startTime: { type:String, required: true },
-  endTIme:{
+  endTime:{
     type:String,
     required: true
   },
@@ -18,6 +18,10 @@ const timeSlotSchema = new mongoose.Schema({
     type:mongoose.Schema.Types.ObjectId,
     required:true,
     ref:'Interviewer'
+  },
+  isBooked:{
+    type:Boolean,
+    default:false
   }
 })
 const TimeSlot= mongoose.model('TimeSlot', timeSlotSchema);

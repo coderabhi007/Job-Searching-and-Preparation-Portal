@@ -139,4 +139,82 @@ const skills=[
    }
 
   }  
+  function average(arr) {
+    if (arr.length === 0) return 0;
+    return arr.reduce((sum, val) => sum + val, 0) / arr.length;
+  }
+  
+  async function setData(req, res) {
+    try {
+      const { studentId } = req.body;
+      const skillName = req.params.skill;
+      const incomingSubtopicMarks = req.body.subtopicMarks;
+  
+      if (!studentId || !skillName || !incomingSubtopicMarks) {
+        return res.status(400).json(new ApiError(400, "Missing required data"));
+      }
+  
+      let student = await StudentInterview.findOne({ studentId });
+  
+      if (!student) {
+        const totalMarks = average(Object.values(incomingSubtopicMarks));
+        const newStudent = await StudentInterview.create({
+          studentId,
+          interviewRecords: [{
+            skill: skillName,
+            subtopicMarks: incomingSubtopicMarks,
+            totalMarks
+          }]
+        });
+        return res.status(201).json(new ApiResponse(201, newStudent, "New student and skill data saved."));
+      }
+  
+      // Skill exists?
+      const skillIndex = student.interviewRecords.findIndex(rec => rec.skill === skillName);
+  
+      if (skillIndex === -1) {
+        // Skill doesn't exist yet
+        const totalMarks = average(Object.values(incomingSubtopicMarks));
+        student.interviewRecords.push({
+          skill: skillName,
+          subtopicMarks: incomingSubtopicMarks,
+          totalMarks
+        });
+      } else {
+        // Skill exists, update subtopics
+        const existingMarks = student.interviewRecords[skillIndex].subtopicMarks;
+        const updatedMarks = {};
+  
+        // Merge and average subtopics
+        const allSubtopics = new Set([
+          ...Object.keys(existingMarks),
+          ...Object.keys(incomingSubtopicMarks)
+        ]);
+  
+        for (let subtopic of allSubtopics) {
+          const oldVal = existingMarks[subtopic] ?? null;
+          const newVal = incomingSubtopicMarks[subtopic] ?? null;
+  
+          if (oldVal !== null && newVal !== null) {
+            updatedMarks[subtopic] = (oldVal + newVal) / 2;
+          } else {
+            updatedMarks[subtopic] = newVal !== null ? newVal : oldVal;
+          }
+        }
+  
+        const totalMarks = average(Object.values(updatedMarks));
+  
+        student.interviewRecords[skillIndex].subtopicMarks = updatedMarks;
+        student.interviewRecords[skillIndex].totalMarks = totalMarks;
+      }
+  
+      await student.save();
+      return res.status(200).json(new ApiResponse(200, student, "Skill data updated successfully."));
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json(new ApiError(500, "Internal Server Error"));
+    }
+  }
+  
+  export { setData };
 export {getData};

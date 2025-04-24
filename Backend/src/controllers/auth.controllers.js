@@ -85,13 +85,13 @@ async function Login(req,res){
         let {email,userType}=req.body;
         if(!email) return res.status(400).json(new ApiError(101,"Email not present"));
         let auth;
-      
+      console.log(email);
             
                 let {password}=req.body;
                 console.log(password);
                 if(!password) return res.status(400).json(new ApiError(103,"Password not present"));
                 auth=await Auth.findOne({email});
-               
+               console.log(auth)
                 if(!auth) return res.status(400).json(new ApiError(109,"User not found"));
                 //first 
                 if(!await auth.comparePassword(password)) return res.status(400).json(new ApiError(111,"Invalid login"));
