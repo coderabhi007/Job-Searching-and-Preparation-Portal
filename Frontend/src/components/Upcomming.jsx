@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Navbar from "./shared/Navbar";
 import axiosInstance from "@/axios/axiosConfig";
-
+import { useNavigate } from "react-router-dom";
 const Upcomming = () => {
     const [upcomingInterviews, setUpcomingInterviews] = useState([])
     const fetchUpcomingInterviews = async () => {
@@ -14,7 +14,7 @@ const Upcomming = () => {
             setUpcomingInterviews([])
         }
     }
-
+    const navigate=useNavigate();
     useEffect(() => {
 
         fetchUpcomingInterviews()
@@ -69,7 +69,9 @@ const Upcomming = () => {
                                         </p>
 
                                         {isOngoing && (
-                                            <button className="mt-4 bg-[#6A38C2] text-white px-4 py-2 rounded-lg shadow hover:bg-[#5731a0] transition">
+                                            <button onClick={()=>{
+                                                navigate(`/instruction/${interview._id}`)
+                                            }} className="mt-4 bg-[#6A38C2] text-white px-4 py-2 rounded-lg shadow hover:bg-[#5731a0] transition">
                                                 Join Interview
                                             </button>
                                         )}

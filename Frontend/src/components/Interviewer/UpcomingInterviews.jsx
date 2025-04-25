@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axiosInstance from '@/axios/axiosConfig'
 import NavbarInterviewer from '../shared/NavbarInterviwer'
+import { useNavigate } from 'react-router-dom'
 
 const UpcomingInterviews = () => {
     const [upcomingInterviews, setUpcomingInterviews] = useState([])
@@ -10,7 +11,7 @@ const UpcomingInterviews = () => {
     const [filterStartTime, setFilterStartTime] = useState('')
     const [filterEndTime, setFilterEndTime] = useState('')
     const [filterSkill, setFilterSkill] = useState('')
-
+  const navigate=useNavigate()
     useEffect(() => {
         const fetchUpcomingInterviews = async () => {
             try {
@@ -149,7 +150,11 @@ const UpcomingInterviews = () => {
                               </p>
                               <div className="flex items-center gap-2 flex-wrap">
                                 {isOngoing && (
-                                  <button className="bg-[#6A38C2] text-white px-4 py-2 rounded-lg shadow hover:bg-[#5731a0] transition">
+                                  <button className="bg-[#6A38C2] text-white px-4 py-2 rounded-lg shadow hover:bg-[#5731a0] transition"
+                                  onClick={()=>{
+                                    navigate(`/instruction/${interview._id}`)
+                                  }}
+                                  >
                                     Join Interview
                                   </button>
                                 )}

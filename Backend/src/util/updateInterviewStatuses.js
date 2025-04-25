@@ -16,3 +16,4 @@ async function updateInterviewStatuses() {
     }
   }
 }
+export default updateInterviewStatuses

@@ -5,14 +5,18 @@ import { setMediaStream as MediaStream } from './mediaStreamStore.js';
 import { useLocation, useParams } from 'react-router-dom';
 import socket from './socket.js';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from "react-redux";
 const MediaAccessPage = () => {
+  const { user, data } = useSelector(store => store.auth);
   const navigate=useNavigate()
   const videoRef = useRef(null);
   const [mediaStream, setMediaStream] = useState(null);
   const [accessStatus, setAccessStatus] = useState('idle');
   const location=useLocation()
-  const role=location.state?.role;
-  const interviewId=location.state?.interviewId;
+  //const role=location.state?.role;
+  const {intervieweID}=useParams()
+  const interviewId=intervieweID
+  console.log(interviewId);
   const handleGrantAccess = () => {
     console.log('Attempting to get user media...');
     navigator.mediaDevices
@@ -48,8 +52,9 @@ const MediaAccessPage = () => {
   }, [mediaStream]);
 
   const handleJoin = () => {
-      socket.emit('join',({interviewId,role}));
-      if(role=="student"){
+    console.log(user);
+      socket.emit('join',({interviewId,user}));
+      if(user=="User"){
        navigate(`/candidate/${interviewId}`)
       }
       else{

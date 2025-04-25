@@ -46,6 +46,7 @@ import UpcomingInterviews from './components/Interviewer/UpcomingInterviews'
 import Interviwer from './interviewPortal/Interviwer'
 import MediaAccessPage from './interviewPortal/MediaAcessPage'
 import Candidate from './interviewPortal/CandidteLoading'
+import CodeEditor from './interviewPortal/CodeEditor'
 const appRouter = createBrowserRouter([
   
   {
@@ -197,8 +198,11 @@ const appRouter = createBrowserRouter([
   {
     path: '/candidate/:interviweID',
     element: <UserProtectedRoute><Candidate /></UserProtectedRoute>
-  }
-
+  },
+{
+  path:'/codeEditor/:interviweID',
+  element:<CodeEditor/>
+}
 
   // admin ke liye yha se start hoga
   // {

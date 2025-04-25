@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import updateInterviewStatuses from './util/updateInterviewStatuses.js'
 dotenv.config({
     path: './.env'
 })

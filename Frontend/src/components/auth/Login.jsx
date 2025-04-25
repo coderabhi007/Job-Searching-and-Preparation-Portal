@@ -14,6 +14,7 @@ import { Loader2 } from 'lucide-react'
 import { login } from '@/axios/api/auth.api';
 import { Exist } from '@/axios/api/company.api'
 import { isUserExist } from '@/axios/api/user.api'
+import { getProfile } from '@/axios/api/interviewer.api'
 
 const Login = () => {
 
@@ -69,6 +70,9 @@ const Login = () => {
                 navigate("/companyInfo");
 
             } else {
+                const response=await getProfile();
+                console.log(response);
+                dispatch(setData(response?.data?.data))
                 navigate("/interviewer");
             }
 
