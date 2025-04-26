@@ -7,7 +7,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Editor from "@monaco-editor/react";
 import { MonacoBinding } from "y-monaco";
 import socket from "./socket"; // Your socket.io client
-
+import { useParams } from "react-router-dom";
 const languages = {
   python: { id: 71, label: "Python", value: "python", defaultCode: 'print("Hello, Python!")' },
   c: { id: 50, label: "C", value: "c", defaultCode: '#include <stdio.h>\nint main() { printf("Hello, C!"); return 0; }' },
@@ -24,6 +24,7 @@ export function CollaborativeEditor() {
   const yProvider = getYjsProviderForRoom(room);
   const yDocRef = useRef(null);
 
+  // Setup Monaco Binding
   useEffect(() => {
     if (!editorRef || !yProvider) return;
 
@@ -40,7 +41,9 @@ export function CollaborativeEditor() {
 
     return () => binding.destroy();
   }, [editorRef, yProvider]);
-
+const {interviweID}=useParams();
+const interviewId=interviweID;
+  // Listen for output from socket
   useEffect(() => {
     socket.on("code-result", (data) => {
       setOutput(data.output);
@@ -67,6 +70,8 @@ export function CollaborativeEditor() {
   };
 
   const runCode = async () => {
+    if (!editorRef) return;
+
     const code = editorRef.getValue();
     setOutput("⏳ Creating Submission...\n");
 
@@ -112,7 +117,9 @@ export function CollaborativeEditor() {
         }
 
         setOutput(finalOutput);
-        socket.emit("code-result", { output: finalOutput });
+        // Send the final output to all users via socket
+        socket.emit("code-result", { output: finalOutput,interviewId });
+        console.log('result sent')
       }
     };
 
@@ -123,9 +130,15 @@ export function CollaborativeEditor() {
     <div style={{ backgroundColor: "#1e1e1e", color: "#fff", padding: "20px", fontFamily: "monospace" }}>
       <div style={{ marginBottom: "10px" }}>
         <label style={{ marginRight: "10px" }}>Select Language:</label>
-        <select value={selectedLang.value} onChange={handleLanguageChange} style={{ padding: "5px", backgroundColor: "black", color: "white" }}>
+        <select
+          value={selectedLang.value}
+          onChange={handleLanguageChange}
+          style={{ padding: "5px", backgroundColor: "black", color: "white" }}
+        >
           {Object.entries(languages).map(([key, lang]) => (
-            <option key={key} value={lang.value}>{lang.label}</option>
+            <option key={key} value={lang.value}>
+              {lang.label}
+            </option>
           ))}
         </select>
       </div>
