@@ -17,6 +17,7 @@ const UpcomingInterviews = () => {
             try {
                 const res = await axiosInstance.get('/interview/getInterviweInterviwer')
                 const responseData = Array.isArray(res.data.data) ? res.data.data : []
+                console.log("responseData",responseData);
                 setUpcomingInterviews(responseData)
                 setFilteredInterviews(responseData)
             } catch (err) {
