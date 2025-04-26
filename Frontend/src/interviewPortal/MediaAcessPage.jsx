@@ -6,13 +6,16 @@ import { useLocation, useParams } from 'react-router-dom';
 import socket from './socket.js';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
+
 const MediaAccessPage = () => {
   const { user, data } = useSelector(store => store.auth);
   const navigate=useNavigate()
   const videoRef = useRef(null);
   const [mediaStream, setMediaStream] = useState(null);
   const [accessStatus, setAccessStatus] = useState('idle');
-  const location=useLocation()
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const skill = queryParams.get('skill'); 
   //const role=location.state?.role;
   const {intervieweID}=useParams()
   const interviewId=intervieweID
@@ -50,6 +53,7 @@ const MediaAccessPage = () => {
       }
     }
   }, [mediaStream]);
+  
 
   const handleJoin = () => {
     console.log(user);
@@ -58,7 +62,9 @@ const MediaAccessPage = () => {
        navigate(`/candidate/${interviewId}`)
       }
       else{
-        navigate(`/interviwer/${interviewId}`)
+        //navigate(`/interviwer/${interviewId}`)
+        navigate(`/interviwer/${interviewId}?skill=${encodeURIComponent(skill)}`)
+
       }
   };
  

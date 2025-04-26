@@ -1,5 +1,5 @@
 import {io} from 'socket.io-client';
-const socket=io('http://localhost:3001')
+const socket=io('https://abundant-forgiveness-production.up.railway.app/')
 socket.on('connect',()=>{
     console.log();
     console.log('Connected');

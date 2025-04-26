@@ -153,7 +153,7 @@ const UpcomingInterviews = () => {
                                 {isOngoing && (
                                   <button className="bg-[#6A38C2] text-white px-4 py-2 rounded-lg shadow hover:bg-[#5731a0] transition"
                                   onClick={()=>{
-                                    navigate(`/instruction/${interview._id}`)
+                                    navigate(`/instruction/${interview._id}?skill=${encodeURIComponent(interview.skill)}`)
                                   }}
                                   >
                                     Join Interview

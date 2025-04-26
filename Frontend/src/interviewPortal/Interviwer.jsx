@@ -1,8 +1,9 @@
 import { useRef, useState, useEffect } from "react";
 import socket from "./socket.js";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import CodeEditor from "./codeEditor.jsx";
 import axios from 'axios'
+
 export default function Interviwer() {
   const localRef = useRef(null);
   const remoteVideoRef = useRef(null);
@@ -11,7 +12,7 @@ export default function Interviwer() {
   const remoteAudioStreamRef = useRef(null);
   const [subpoint, setSubpoints] = useState([]);
   const [data, setData] = useState(null);
-
+  const navigate=useNavigate();
   const { interviweID } = useParams();
 
   const [waitingForAnswer, setWaitingForAnswer] = useState(false);
@@ -19,10 +20,15 @@ export default function Interviwer() {
   const [connectionStatus, setConnectionStatus] = useState("Initializing...");
   const [marks, setMarks] = useState({});
   const myPeerConnection = useRef(null);
+   const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const skill = queryParams.get('skill'); 
+    //const role=location.state?.role;
+    const {intervieweID}=useParams()
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8001/api/v1/getData/DSA');
+        const response = await axios.get(`http://localhost:8001/api/v1/getData/${skill}`);
         //console.log("dta",response.data.data.subpoints);
         setData(response?.data);
 
@@ -185,17 +191,26 @@ export default function Interviwer() {
     Invite();
   }, []);
 
+  const handleClick=()=>{
+   navigate("/Dashboard");
+    
+  }
+
   return (
     <div className="flex h-screen w-screen bg-gray-50 text-gray-800">
       {/* Left Panel: Code Editor */}
-      <div className="flex-[5]   border-r border-gray-200 p-6 flex flex-col overflow-hidden">
+      <div className="flex-[5] border-r border-gray-200 p-6 flex flex-col overflow-hidden">
         <div className="flex-1 bg-white rounded-2xl shadow-lg p-4 overflow-x-hidden border border-gray-100 max-h-[85vh] scrollbar-hide">
           <CodeEditor />
         </div>
       </div>
-
+  
       {/* Right Panel: Remote Video Feed */}
       <div className="flex-[2] p-6 flex flex-col justify-between">
+        
+        {/* Top actions */}
+        
+  
         <div className="grid grid-cols-1 gap-6">
           {/* Remote Camera */}
           <div className="bg-white rounded-2xl shadow-lg p-2 flex flex-col items-center border border-gray-100">
@@ -216,7 +231,7 @@ export default function Interviwer() {
               </div>
             )}
           </div>
-
+          
           {/* Marking System */}
           <div className="bg-white rounded-2xl shadow-lg p-5 border border-gray-100 max-h-[300px] overflow-y-auto">
             <h3 className="text-xl font-semibold mb-3 text-gray-700">Mark Candidate on {data?.data?.name}</h3>
@@ -251,12 +266,19 @@ export default function Interviwer() {
             </button>
           </div>
         </div>
-
+  
         {/* Remote Audio (Hidden) */}
         <div className="hidden">
           <audio ref={remoteAudioRef} autoPlay controls />
         </div>
-
+        <div  className="flex justify-end mt-4 ml-auto mr-auto">
+          <button onClick={handleClick}
+            className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg shadow transition"
+          >
+            Leave Interview
+          </button>
+        </div>
+  
         {/* Hidden Local Feed for Media Capture */}
         <video
           ref={localRef}
@@ -266,8 +288,8 @@ export default function Interviwer() {
           style={{ display: "none" }}
         />
       </div>
-
+      
     </div>
-
   );
+  
 }

@@ -1,120 +1,197 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axiosInstance from '@/axios/axiosConfig';
-import Navbar from './shared/Navbar';
-import { toast } from 'sonner';
 import NavbarCompany from './shared/NavbarCompany';
+import { toast } from 'sonner';
+import { CreditCard, Calendar, CheckCircle } from "lucide-react";
 
 const loadRazorpayScript = () => {
-  return new Promise((resolve) => {
-    if (window.Razorpay) return resolve(true);
-    const script = document.createElement("script");
-    script.src = "https://checkout.razorpay.com/v1/checkout.js";
-    script.onload = () => resolve(true);
-    script.onerror = () => resolve(false);
-    document.body.appendChild(script);
-  });
+    return new Promise((resolve) => {
+        if (window.Razorpay) return resolve(true);
+        const script = document.createElement("script");
+        script.src = "https://checkout.razorpay.com/v1/checkout.js";
+        script.onload = () => resolve(true);
+        script.onerror = () => resolve(false);
+        document.body.appendChild(script);
+    });
 };
 
 const plans = [
-  { id: 1, name: "Starter", price: 99, features: ["1 Interview Slot", "Basic Support"] },
-  { id: 2, name: "Basic", price: 199, features: ["3 Interview Slots", "Priority Support"] },
-  { id: 3, name: "Pro", price: 499, features: ["5 Interview Slots", "Dedicated Support"] },
-  { id: 4, name: "Premium", price: 999, features: ["10 Interview Slots","Mock Interviews"] },
-  { id: 5, name: "Elite", price: 1499, features: ["Unlimited Slots ", "Career Counselling"] },
+    { id: 1, name: "Starter", price: 99, features: ["1 Interview Slot", "Basic Support"] },
+    { id: 2, name: "Basic", price: 199, features: ["3 Interview Slots", "Priority Support"] },
+    { id: 3, name: "Pro", price: 499, features: ["5 Interview Slots", "Dedicated Support"] },
+    { id: 4, name: "Premium", price: 999, features: ["10 Interview Slots", "Mock Interviews"] },
+    { id: 5, name: "Elite", price: 1499, features: ["Unlimited Slots ", "Career Counselling"] },
+];
+
+// Dummy history (you can replace with real API call)
+const dummyHistory = [
+    {
+        _id: "680c8c687bbd603dac8224f2",
+        orderId: "order_QNba1MutlNXa64",
+        paymentId: "pay_QNba9G9nI8ieJC",
+        status: "success",
+        amount: 50000,
+        email: "shindevaibhav0711@gmail.com",
+        createdAt: "2025-04-26T07:34:00.229Z",
+    },
+    {
+        _id: "680c8c317bbd603dac8224ee",
+        orderId: "order_QNbZ1zKqFCVMaT",
+        paymentId: "pay_QNbZC3gl5jZCkL",
+        status: "success",
+        amount: 50000,
+        email: "shindevaibhav0711@gmail.com",
+        createdAt: "2025-04-26T07:33:05.641Z",
+    },
+    {
+        _id: "680c8c317bbd603dac8224ee",
+        orderId: "order_QNbZ1zKqFCVMaT",
+        paymentId: "pay_QNbZC3gl5jZCkL",
+        status: "success",
+        amount: 50000,
+        email: "shindevaibhav0711@gmail.com",
+        createdAt: "2025-04-26T07:33:05.641Z",
+    },
+
 ];
 
 const PaymentCompany = () => {
-  const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [paymentHistory, setPaymentHistory] = useState([]);
 
-  const handlePayment = async (amount) => {
-    const isLoaded = await loadRazorpayScript();
-    if (!isLoaded) {
-      alert("Failed to load Razorpay SDK. Please try again.");
-      return;
-    }
+    useEffect(() => {
+        // Replace with actual API call if needed
+        setPaymentHistory(dummyHistory);
+    }, []);
 
-    try {
-      setLoading(true);
+    const handlePayment = async (amount) => {
+        const isLoaded = await loadRazorpayScript();
+        if (!isLoaded) {
+            alert("Failed to load Razorpay SDK. Please try again.");
+            return;
+        }
 
-      const { data } = await axiosInstance.post("payment/create-order", { amount: amount * 100 }); // ₹ -> paise
-      const order = data.data; // assuming inside data.data
-      
-      const options = {
-        key: "rzp_test_8QaSVEOkXKJiK9",
-        amount: order.amount,
-        currency: "INR",
-        name: "HireHustle",
-        description: "Subscription Payment",
-        order_id: order.id,
-        handler: async function (response) {
-          const { razorpay_payment_id, razorpay_order_id, razorpay_signature } = response;
-          const result = await axiosInstance.post("payment/verify", {
-            razorpay_order_id,
-            razorpay_payment_id,
-            razorpay_signature,
-          });
-          //alert(result.data.message);
-          toast.success(result?.data?.message);
-        },
-        prefill: {
-          name: "Student",
-          email: "student@example.com",
-          contact: "9999999999",
-        },
-        theme: {
-          color: "#4f46e5",
-        },
-      };
+        try {
+            setLoading(true);
+            const { data } = await axiosInstance.post("payment/create-order", { amount: amount * 100 });
 
-      const rzp1 = new window.Razorpay(options);
+            const order = data.data;
+            const options = {
+                key: "rzp_test_8QaSVEOkXKJiK9",
+                amount: order.amount,
+                currency: "INR",
+                name: "HireHustle",
+                description: "Subscription Payment",
+                order_id: order.id,
+                handler: async function (response) {
+                    const result = await axiosInstance.post("payment/verify", {
+                        razorpay_order_id: response.razorpay_order_id,
+                        razorpay_payment_id: response.razorpay_payment_id,
+                        razorpay_signature: response.razorpay_signature,
+                    });
+                    toast.success(result?.data?.message);
+                },
+                prefill: {
+                    name: "Student",
+                    email: "student@example.com",
+                    contact: "9999999999",
+                },
+                theme: {
+                    color: "#4f46e5",
+                },
+            };
 
-      rzp1.on("payment.failed", async function (response) {
-        await axiosInstance.post("payment/payment-failed", {
-          orderId: response.error.metadata.order_id,
-          status: "failed",
-          reason: response.error.description,
-        });
-        alert("Payment failed: " + response.error.description);
-      });
+            const rzp1 = new window.Razorpay(options);
+            rzp1.on("payment.failed", async function (response) {
+                await axiosInstance.post("payment/payment-failed", {
+                    orderId: response.error.metadata.order_id,
+                    status: "failed",
+                    reason: response.error.description,
+                });
+                alert("Payment failed: " + response.error.description);
+            });
 
-      rzp1.open();
-    } catch (error) {
-      console.error("Payment Error:", error);
-      alert("Something went wrong. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
+            rzp1.open();
+        } catch (error) {
+            console.error("Payment Error:", error);
+            alert("Something went wrong. Please try again.");
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  return (
-    <>
-    <NavbarCompany/>
-    <div className="bg-gray-100 min-h-screen p-8 flex flex-col items-center">
-      <h1 className="text-3xl font-bold text-gray-800 mb-8">Choose Your Subscription Plan</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 w-full max-w-6xl">
-        {plans.map((plan) => (
-          <div key={plan.id} className="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center hover:shadow-2xl transition">
-            <h2 className="text-xl font-semibold text-gray-700 mb-4">{plan.name}</h2>
-            <p className="text-3xl font-bold text-blue-600 mb-4">₹{plan.price}</p>
-            <ul className="text-gray-600 mb-6 space-y-2 text-center">
-              {plan.features.map((feature, idx) => (
-                <li key={idx}>✔️ {feature}</li>
-              ))}
-            </ul>
-            <button
-              onClick={() => handlePayment(plan.price/100)}
-              disabled={loading}
-              className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded-lg font-semibold transition-all disabled:opacity-50"
-            >
-              {loading ? "Processing..." : "Choose Plan"}
-            </button>
-          </div>
-        ))}
-      </div>
-    </div>
-    </>
-    
-  );
+    return (
+        <>
+            <NavbarCompany />
+            <div className="bg-gray-50 min-h-screen p-2 flex flex-col items-center">
+                <h1 className="text-3xl font-bold text-gray-800 mb-4 mt-4">Subscription Plans</h1>
+
+                <div className="flex flex-col lg:flex-row w-full max-w-7xl gap-8">
+
+                    {/* Payment History */}
+                    <div className="w-full lg:w-1/3 bg-white rounded-2xl shadow-sm border p-2">
+                        <h2 className="text-xl font-semibold text-gray-700 mb-6 flex items-center gap-2">
+                            <CreditCard className="w-5 h-5 text-blue-500" />
+                            Payment History
+                        </h2>
+
+                        <div className="space-y-4 max-h-[500px] overflow-y-auto pr-2">
+                            {paymentHistory.length === 0 ? (
+                                <p className="text-gray-500 text-sm">No payment records found.</p>
+                            ) : (
+                                paymentHistory.map((payment) => (
+                                    <div key={payment._id} className="p-2 bg-gray-50 rounded-xl border flex flex-col gap-1">
+                                        <p className="text-sm text-gray-700 flex items-center gap-1">
+                                            <CreditCard className="w-4 h-4 text-gray-400" />
+                                            <span className="font-medium">Order ID:</span> {payment.orderId}
+                                        </p>
+                                        <p className="text-sm text-gray-700">
+                                            <span className="font-medium">Amount:</span> ₹{payment.amount / 100}
+                                        </p>
+                                        <p className={`text-sm font-medium ${payment.status === 'success' ? 'text-green-600' : 'text-red-500'}`}>
+                                            {payment.status === 'success' ? "✓ Successful" : "✕ Failed"}
+                                        </p>
+                                        <p className="text-xs text-gray-500 flex items-center gap-1">
+                                            <Calendar className="w-3 h-3" />
+                                            {new Date(payment.createdAt).toLocaleString()}
+                                        </p>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Plans */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+                        {plans.map((plan) => (
+                            <div
+                                key={plan.id}
+                                className="bg-white p-6 rounded-2xl border shadow-sm hover:shadow-md transition flex flex-col items-center text-center"
+                            >
+                                <h2 className="text-xl font-semibold text-gray-800 mb-2">{plan.name}</h2>
+                                <p className="text-3xl font-bold text-gray-700 mb-4">₹{plan.price}</p>
+                                <ul className="text-gray-600 text-sm mb-6 space-y-2">
+                                    {plan.features.map((feature, idx) => (
+                                        <li key={idx} className="flex items-center justify-center gap-2">
+                                            <CheckCircle className="w-4 h-4 text-green-500" />
+                                            {feature}
+                                        </li>
+                                    ))}
+                                </ul>
+                                <button
+                                    onClick={() => handlePayment(plan.price / 100)}
+                                    disabled={loading}
+                                    className="bg-[#645087] hover:bg-[#756e81] text-white py-2 px-6 rounded-lg font-medium transition disabled:opacity-50"
+                                >
+                                    {loading ? "Processing..." : "Choose Plan"}
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </>
+    );
 };
 
 export default PaymentCompany;

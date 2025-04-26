@@ -1,13 +1,13 @@
 import { useRef, useState, useEffect } from "react";
 import socket from "./socket.js";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import CodeEditor from "./codeEditor.jsx";
 
 export default function Candidate() {
   const localRef = useRef(null);
   const remoteAudioRef = useRef(null);
   const remoteAudioStreamRef = useRef(null);
-
+const navigate=useNavigate();
   const { interviweID } = useParams();
 
   const [connectionStatus, setConnectionStatus] = useState("Initializing...");
@@ -185,6 +185,10 @@ export default function Candidate() {
     }
   };
 
+  const handleClick=()=>{
+    navigate("/");
+     
+   }
   return (
     <div className="flex h-screen w-screen bg-gray-50 text-gray-800">
       {/* Fullscreen Overlay Prompt */}
@@ -227,6 +231,13 @@ export default function Candidate() {
             {!loading && connection && <p>Connected to interviewer ✅</p>}
             {!connection && !loading && <p>{connectionStatus}</p>}
           </div>
+        </div>
+         <div className="flex  mb-28 ml-auto mr-auto">
+          <button onClick={handleClick}
+            className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg shadow transition"
+          >
+            Leave Interview
+          </button>
         </div>
 
         <div className="hidden">
