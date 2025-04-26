@@ -3,6 +3,7 @@ import socket from "./socket.js";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import CodeEditor from "./codeEditor.jsx";
 import axios from 'axios'
+import { toast } from "sonner";
 
 export default function Interviwer() {
   const localRef = useRef(null);
@@ -12,7 +13,7 @@ export default function Interviwer() {
   const remoteAudioStreamRef = useRef(null);
   const [subpoint, setSubpoints] = useState([]);
   const [data, setData] = useState(null);
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const { interviweID } = useParams();
 
   const [waitingForAnswer, setWaitingForAnswer] = useState(false);
@@ -20,11 +21,11 @@ export default function Interviwer() {
   const [connectionStatus, setConnectionStatus] = useState("Initializing...");
   const [marks, setMarks] = useState({});
   const myPeerConnection = useRef(null);
-   const location = useLocation();
-    const queryParams = new URLSearchParams(location.search);
-    const skill = queryParams.get('skill'); 
-    //const role=location.state?.role;
-    const {intervieweID}=useParams()
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const skill = queryParams.get('skill');
+  //const role=location.state?.role;
+  const { intervieweID } = useParams()
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -45,12 +46,44 @@ export default function Interviwer() {
     const val = Math.max(0, Math.min(10, Number(value))); // clamp between 0-10
     setMarks((prev) => ({ ...prev, [point]: val }));
   };
-  const handleSubmit = () => {
-    console.log("Submitted Marks:", marks);
-    // TODO: Send to backend with axios.post(...)
+  const handleSubmit = async () => {
+    //console.log("Submitted Marks:", marks);
+    const subtopicMarks = {};
+
+    // Loop through marks and only add entries that have a valid score
+    Object.entries(marks).forEach(([subtopic, score]) => {
+      if (score !== "" && score !== null && score !== undefined) {
+        subtopicMarks[subtopic] = Number(score); // convert score to number if needed
+      }
+    });
+   
+    if(Object.keys(subtopicMarks).length === 0){
+      toast.error("Fill the data properly");
+      return;
+      
+    }
+    console.log("subtopicMarks",subtopicMarks)
+
+    try {
+      const response = await axios.post(`http://localhost:8001/api/v1/setData/${skill}`, {
+        interviewId: interviweID,
+        subtopicMarks
+      });
+      //console.log("dta",response.data.data.subpoints);
+      setData(response?.data);
+
+      // setSubpoints(response?.data)
+      //setSubpoints(response?.data?.data?.subpoints);
+      toast.success(response?.data?.message);
+      console.log(response);
+    } catch (err) {
+      console.error("Error fetching data:", err);
+      toast.success(response?.error);
+    }
+
   };
 
-  console.log("data", subpoint);
+ // console.log("data", subpoint);
   async function createPeerConnection() {
     if (myPeerConnection.current) return;
 
@@ -191,9 +224,9 @@ export default function Interviwer() {
     Invite();
   }, []);
 
-  const handleClick=()=>{
-   navigate("/Dashboard");
-    
+  const handleClick = () => {
+    navigate("/Dashboard");
+
   }
 
   return (
@@ -204,13 +237,13 @@ export default function Interviwer() {
           <CodeEditor />
         </div>
       </div>
-  
+
       {/* Right Panel: Remote Video Feed */}
       <div className="flex-[2] p-6 flex flex-col justify-between">
-        
+
         {/* Top actions */}
-        
-  
+
+
         <div className="grid grid-cols-1 gap-6">
           {/* Remote Camera */}
           <div className="bg-white rounded-2xl shadow-lg p-2 flex flex-col items-center border border-gray-100">
@@ -231,7 +264,7 @@ export default function Interviwer() {
               </div>
             )}
           </div>
-          
+
           {/* Marking System */}
           <div className="bg-white rounded-2xl shadow-lg p-5 border border-gray-100 max-h-[300px] overflow-y-auto">
             <h3 className="text-xl font-semibold mb-3 text-gray-700">Mark Candidate on {data?.data?.name}</h3>
@@ -266,19 +299,19 @@ export default function Interviwer() {
             </button>
           </div>
         </div>
-  
+
         {/* Remote Audio (Hidden) */}
         <div className="hidden">
           <audio ref={remoteAudioRef} autoPlay controls />
         </div>
-        <div  className="flex justify-end mt-4 ml-auto mr-auto">
+        <div className="flex justify-end mt-4 ml-auto mr-auto">
           <button onClick={handleClick}
             className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg shadow transition"
           >
             Leave Interview
           </button>
         </div>
-  
+
         {/* Hidden Local Feed for Media Capture */}
         <video
           ref={localRef}
@@ -288,8 +321,8 @@ export default function Interviwer() {
           style={{ display: "none" }}
         />
       </div>
-      
+
     </div>
   );
-  
+
 }

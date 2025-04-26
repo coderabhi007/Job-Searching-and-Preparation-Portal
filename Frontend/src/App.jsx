@@ -50,6 +50,7 @@ import CodeEditor from './interviewPortal/CodeEditor'
 import RazorpayButton from './Razorpay/RazorpayButton'
 import PaymentStudent from './components/PaymentStudent'
 import PaymentCompany from './components/PaymentCompany'
+import PerformancePage from './components/PerformancePage'
 const appRouter = createBrowserRouter([
   
   {
@@ -218,6 +219,10 @@ const appRouter = createBrowserRouter([
 {
   path:'/paymentCompany',
   element:<PaymentCompany/>
+},
+{
+  path:'/performance',
+  element:<PerformancePage/>
 }
 
   // admin ke liye yha se start hoga

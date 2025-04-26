@@ -3,6 +3,7 @@ import axiosInstance from '@/axios/axiosConfig';
 import NavbarCompany from './shared/NavbarCompany';
 import { toast } from 'sonner';
 import { CreditCard, Calendar, CheckCircle } from "lucide-react";
+import Navbar from './shared/Navbar';
 
 const loadRazorpayScript = () => {
     return new Promise((resolve) => {
@@ -23,45 +24,23 @@ const plans = [
     { id: 5, name: "Elite", price: 1499, features: ["Unlimited Slots ", "Career Counselling"] },
 ];
 
-// Dummy history (you can replace with real API call)
-const dummyHistory = [
-    {
-        _id: "680c8c687bbd603dac8224f2",
-        orderId: "order_QNba1MutlNXa64",
-        paymentId: "pay_QNba9G9nI8ieJC",
-        status: "success",
-        amount: 50000,
-        email: "shindevaibhav0711@gmail.com",
-        createdAt: "2025-04-26T07:34:00.229Z",
-    },
-    {
-        _id: "680c8c317bbd603dac8224ee",
-        orderId: "order_QNbZ1zKqFCVMaT",
-        paymentId: "pay_QNbZC3gl5jZCkL",
-        status: "success",
-        amount: 50000,
-        email: "shindevaibhav0711@gmail.com",
-        createdAt: "2025-04-26T07:33:05.641Z",
-    },
-    {
-        _id: "680c8c317bbd603dac8224ee",
-        orderId: "order_QNbZ1zKqFCVMaT",
-        paymentId: "pay_QNbZC3gl5jZCkL",
-        status: "success",
-        amount: 50000,
-        email: "shindevaibhav0711@gmail.com",
-        createdAt: "2025-04-26T07:33:05.641Z",
-    },
-
-];
-
 const PaymentCompany = () => {
     const [loading, setLoading] = useState(false);
     const [paymentHistory, setPaymentHistory] = useState([]);
 
+    const fetchApi = async () => {
+        try {
+            const res = await axiosInstance.get('payment/get-payment-history');
+            console.log(res.data); // or set your data into a state if needed
+            setPaymentHistory(res.data.data || []);
+        } catch (err) {
+            console.error('Error fetching payment history', err);
+            // Handle error properly, maybe show a toast or set error state
+        }
+    };
+    
     useEffect(() => {
-        // Replace with actual API call if needed
-        setPaymentHistory(dummyHistory);
+        fetchApi();
     }, []);
 
     const handlePayment = async (amount) => {
@@ -73,9 +52,9 @@ const PaymentCompany = () => {
 
         try {
             setLoading(true);
-            const { data } = await axiosInstance.post("payment/create-order", { amount: amount * 100 });
-
+            const { data } = await axiosInstance.post("payment/create-order", { amount: amount });
             const order = data.data;
+            
             const options = {
                 key: "rzp_test_8QaSVEOkXKJiK9",
                 amount: order.amount,
@@ -84,10 +63,12 @@ const PaymentCompany = () => {
                 description: "Subscription Payment",
                 order_id: order.id,
                 handler: async function (response) {
+                    // Send amount along with other payment details to verify API
                     const result = await axiosInstance.post("payment/verify", {
                         razorpay_order_id: response.razorpay_order_id,
                         razorpay_payment_id: response.razorpay_payment_id,
                         razorpay_signature: response.razorpay_signature,
+                        amount: order.amount/100,   // Add amount here
                     });
                     toast.success(result?.data?.message);
                 },
@@ -179,7 +160,7 @@ const PaymentCompany = () => {
                                     ))}
                                 </ul>
                                 <button
-                                    onClick={() => handlePayment(plan.price / 100)}
+                                    onClick={() => handlePayment(plan.price)}
                                     disabled={loading}
                                     className="bg-[#645087] hover:bg-[#756e81] text-white py-2 px-6 rounded-lg font-medium transition disabled:opacity-50"
                                 >

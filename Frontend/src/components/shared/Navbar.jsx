@@ -13,7 +13,8 @@ import {
     Mail,
     ClipboardList,
     Building2,
-    CheckCircle
+    CheckCircle,
+    BarChart2,
 } from 'lucide-react'
 import { CreditCard } from "lucide-react";
 import { CalendarCheck } from "lucide-react";
@@ -99,7 +100,7 @@ const Navbar = () => {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link  to="/about" className="flex items-center gap-1 hover:text-[#6A38C2] transition">
+                                    <Link to="/about" className="flex items-center gap-1 hover:text-[#6A38C2] transition">
                                         <Info size={16} /> About Us
                                     </Link>
                                 </li>
@@ -110,12 +111,12 @@ const Navbar = () => {
                                 </li>
                                 <li>
                                     <Link onClick={handleClick} to="/upcomming" className="flex items-center gap-1 hover:text-[#6A38C2] transition">
-                                    <CalendarCheck size={18} /> Upcoming Interviews
+                                        <CalendarCheck size={18} /> Your Interviews
                                     </Link>
                                 </li>
                                 <li>
                                     <Link onClick={handleClick} to="/payment" className="flex items-center gap-1 hover:text-[#6A38C2] transition">
-                                    <CreditCard size={18} /> Payment
+                                        <CreditCard size={18} /> Payment
                                     </Link>
                                 </li>
 
@@ -158,18 +159,34 @@ const Navbar = () => {
                                             <div>
                                                 <h4 className="font-semibold text-gray-800">{user?.fullname}</h4>
                                                 <p className="text-md text-muted-foreground">{user?.profile?.bio}</p>
+
+                                                {/* My Profile */}
+
+                                                <Button
+                                                    variant="link"
+                                                    className="p-0 h-auto mb-3 flex items-center gap-1 text-md text-[#6A38C2]"
+                                                >
+                                                    <BarChart2 size={16} />
+                                                    <Link to="/performance">See Performance</Link>
+                                                </Button>
+
                                                 <Button
                                                     variant="link"
                                                     className="p-0 h-auto mt-1 flex items-center gap-1 text-md text-[#6A38C2]"
                                                 >
-                                                    <FileText size={14} />
+                                                    <FileText size={16} />
                                                     <Link to="/profile">My Profile</Link>
                                                 </Button>
+
+                                                {/* See Performance */}
+                                                
                                             </div>
                                         </div>
-                                        <div className="flex flex-col mt-4 text-gray-600">
+
+                                        {/* Logout Section */}
+                                        <div className="flex flex-col mt-3 text-gray-600">
                                             <div className="flex items-center gap-2 cursor-pointer">
-                                                <LogOut />
+                                                <LogOut size={18} />
                                                 <Button
                                                     onClick={logoutHandler}
                                                     variant="link"
@@ -181,6 +198,7 @@ const Navbar = () => {
                                         </div>
                                     </div>
                                 </PopoverContent>
+
                             </Popover>
                         </>
                     )}
