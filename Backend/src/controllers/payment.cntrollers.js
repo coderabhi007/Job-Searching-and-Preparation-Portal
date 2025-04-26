@@ -25,7 +25,7 @@ const createOrder = async (req, res) => {
 }
 const verify = async (req, res) => {
   try {
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature,amount } = req.body;
     const AuthId = req.user._id;
     console.log("Auth" + AuthId)
     if (!AuthId) {
@@ -35,7 +35,7 @@ const verify = async (req, res) => {
     if (!auth) {
       return res.status(404).json(new ApiError("User not found"));
     }
-    if (!razorpay_order_id || !razorpay_payment_id) {
+    if (!razorpay_order_id || !razorpay_payment_id ||!amount || !razorpay_signature) {
       return res.status(400).json(new ApiError("Missing required parameters"));
     }
     const email = auth.email;
@@ -51,7 +51,7 @@ const verify = async (req, res) => {
       paymentId: razorpay_payment_id,
       signature: razorpay_signature,
       status: isAuthentic ? "success" : "failed",
-      amount: 50000, // you can pass this in body or query
+      amount: amount*100, // you can pass this in body or query
       email, // you can pass these from frontend
 
     });
