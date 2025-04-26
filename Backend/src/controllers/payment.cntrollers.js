@@ -85,4 +85,18 @@ const createOrder=async (req, res) => {
     
    }
   }
-  export { createOrder, verify, paymentFailed };
+  const getPaymentHistory=async (req, res) => {
+    try {
+        const authId=req.user._id;
+        const auth=await Auth.findById(authId);
+        if(!auth){
+            return res.status(404).json(new ApiError("User not found"));
+        }
+        const email=auth.email;
+        const payments = await Payment.find({ email }).sort({ createdAt: -1 });
+        res.status(200).json(new ApiResponse(true, payments, "Payment history fetched successfully"));
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Failed to save payment" });
+    }
+  }
+  export { createOrder, verify, paymentFailed,getPaymentHistory };
