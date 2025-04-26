@@ -1,5 +1,8 @@
 import {ApiError} from '../util/ApiError.js';
 import {ApiResponse} from '../util/ApiResponse.js';
+import Interview from '../models/interviwe.model.js';
+import StudentInterview from '../models/StudenInterview.model.js'
+import User from '../models/user.model.js';
 const skills=[
     {
       "name": "DSA",
@@ -139,24 +142,29 @@ const skills=[
    }
 
   }  
-  function average(arr) {
-    if (arr.length === 0) return 0;
-    return arr.reduce((sum, val) => sum + val, 0) / arr.length;
+  function average(values) {
+    const numericValues = values.filter(val => typeof val === 'number' && !isNaN(val));
+    if (numericValues.length === 0) return 0;
+    const sum = numericValues.reduce((acc, val) => acc + val, 0);
+    return sum / numericValues.length;
   }
   
   async function setData(req, res) {
     try {
-      const { studentId } = req.body;
+    const { interviewId } = req.body;
       const skillName = req.params.skill;
       const incomingSubtopicMarks = req.body.subtopicMarks;
-  
-      if (!studentId || !skillName || !incomingSubtopicMarks) {
+      
+      if ( !skillName || !incomingSubtopicMarks) {
         return res.status(400).json(new ApiError(400, "Missing required data"));
       }
+      const interview=await Interview.findById(interviewId)
+     if(!interview)
+      return res.status(400).json(new ApiError(400,"wrong data"));
+    const studentId=interview.userId;
+    const student=await StudentInterview.findOne({studentId})
   
-      let student = await StudentInterview.findOne({ studentId });
-  
-      if (!student) {
+      if(!student) {
         const totalMarks = average(Object.values(incomingSubtopicMarks));
         const newStudent = await StudentInterview.create({
           studentId,
@@ -215,6 +223,30 @@ const skills=[
       return res.status(500).json(new ApiError(500, "Internal Server Error"));
     }
   }
+  async function getMarks(req, res) {
+    try {
+      const authId = req.user._id;
   
+      // Fetch user
+      const user = await User.findOne({ authId });
+      if (!user) {
+        return res.status(404).json(new ApiError(404, "User not found"));
+      }
+  
+      // Await the student data
+      const student = await StudentInterview.find({ studentId: user._id }).lean(); // Use .lean() to avoid circular refs
+  
+      if (!student || student.length === 0) {
+        return res.status(200).json(new ApiResponse(200, {}, "No data available"));
+      }
+  
+      return res.status(200).json(new ApiResponse(200, student, "Data fetched successfully"));
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json(new ApiError(500, "Internal Server Error"));
+    }
+  }
+  
+
   export { setData };
-export {getData};
+export {getData,getMarks};
