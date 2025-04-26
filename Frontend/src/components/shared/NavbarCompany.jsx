@@ -65,6 +65,10 @@ const NavbarCompany = () => {
                             <FileText className="w-4 h-4" />
                             <Link to="/company/getAlljob">My Jobs</Link>
                         </li>
+                        <li className='flex items-center gap-1 hover:text-[#6A38C2] transition'>
+                            <FileText className="w-4 h-4" />
+                            <Link to="/paymentCompany">Payment</Link>
+                        </li>
 
                         {/* <li className='flex items-center gap-1 hover:text-[#6A38C2] transition'>
                             <DollarSign className="w-4 h-4" />

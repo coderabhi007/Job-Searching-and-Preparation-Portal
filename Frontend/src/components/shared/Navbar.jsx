@@ -15,6 +15,7 @@ import {
     Building2,
     CheckCircle
 } from 'lucide-react'
+import { CreditCard } from "lucide-react";
 import { CalendarCheck } from "lucide-react";
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -98,18 +99,23 @@ const Navbar = () => {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="/about" className="flex items-center gap-1 hover:text-[#6A38C2] transition">
+                                    <Link  to="/about" className="flex items-center gap-1 hover:text-[#6A38C2] transition">
                                         <Info size={16} /> About Us
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="/book-slot" className="flex items-center gap-1 hover:text-[#6A38C2] transition">
+                                    <Link onClick={handleClick} to="/book-slot" className="flex items-center gap-1 hover:text-[#6A38C2] transition">
                                         <CheckCircle size={16} /> Book Slot
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="/upcomming" className="flex items-center gap-1 hover:text-[#6A38C2] transition">
+                                    <Link onClick={handleClick} to="/upcomming" className="flex items-center gap-1 hover:text-[#6A38C2] transition">
                                     <CalendarCheck size={18} /> Upcoming Interviews
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link onClick={handleClick} to="/payment" className="flex items-center gap-1 hover:text-[#6A38C2] transition">
+                                    <CreditCard size={18} /> Payment
                                     </Link>
                                 </li>
 

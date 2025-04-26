@@ -47,6 +47,9 @@ import Interviwer from './interviewPortal/Interviwer'
 import MediaAccessPage from './interviewPortal/MediaAcessPage'
 import Candidate from './interviewPortal/CandidteLoading'
 import CodeEditor from './interviewPortal/CodeEditor'
+import RazorpayButton from './Razorpay/RazorpayButton'
+import PaymentStudent from './components/PaymentStudent'
+import PaymentCompany from './components/PaymentCompany'
 const appRouter = createBrowserRouter([
   
   {
@@ -202,6 +205,19 @@ const appRouter = createBrowserRouter([
 {
   path:'/codeEditor/:interviweID',
   element:<CodeEditor/>
+},
+// {
+//   path:'/payment',
+//   element:<RazorpayButton/>
+// }
+{
+  path:'/payment',
+  element:<PaymentStudent/>
+},
+
+{
+  path:'/paymentCompany',
+  element:<PaymentCompany/>
 }
 
   // admin ke liye yha se start hoga
