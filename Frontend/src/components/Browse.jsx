@@ -5,15 +5,19 @@ import { useSelector } from 'react-redux';
 import useGetAllJobs from '@/hooks/useGetAllJobs';
 import JobCardShimmer from './JobCardShimmer';
 import { Allposts } from '@/axios/api/job.api';
+import { useNavigate } from 'react-router-dom';
 
 const Browse = () => {
   const [allJobs, setAlljobs] = useState([]);
   const { searchedQuery } = useSelector((store) => store.job);
-
+  const navigate=useNavigate();
   const fetchJobs = async () => {
     try {
       const response = await Allposts();
       setAlljobs(response?.data?.data || []);
+      if(response?.message=="Unauthorized"){
+        navigate("/error");
+    }
     } catch (err) {
       console.error('Company Update Error:', err);
     }

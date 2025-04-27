@@ -34,6 +34,7 @@ const CompanyInfo = () => {
             //console.log(jobs);
         } catch (err) {
             console.error('Company Update Error:', err)
+            
         }
     }
 

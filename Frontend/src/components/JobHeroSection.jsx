@@ -2,63 +2,70 @@ import React from "react";
 
 const JobHeroSection = () => {
   return (
-    <div className="w-full bg-white">
+    <div className="w-full">
       {/* Hero Banner */}
       <div
-        className="relative w-full h-[540px] bg-cover bg-center bg-no-repeat"
+        className="relative w-full h-[560px] bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url('https://media.istockphoto.com/id/1364929981/photo/welcome-the-new-business-partner.jpg?s=612x612&w=0&k=20&c=xqaiLniG8GL5rHYtQjCk9PrePkndKoC4i1eLqhmV7q4=')`,
+          backgroundImage: `url('https://www.investopedia.com/thmb/ejUMpcr5pOzEIkw5FekHv4E5-f0=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/GettyImages-1210536688-f8aa4c9c1ace4e348e2bcd5e267fdbb3.jpg')`,
+          backgroundPosition: "center",
+          backgroundSize: "cover",
         }}
       >
-        <div className="absolute inset-0 bg-black/50 flex items-center justify-center px-4">
-          <div className="max-w-3xl text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight drop-shadow-md">
-              Find, attract, and <span className="text-[#FFCD1D]">hire</span>
-              <br />
-              top talent with <span className="text-[#6A38C2]">HireHustle</span>
+        <div className="absolute inset-0 flex bg-black/70 items-center justify-center px-4">
+          {/* Decreased darkness from bg-black/20 to bg-black/10 */}
+          <div className="max-w-4xl text-center">
+            <h1 className="text-4xl md:text-6xl font-extrabold text-white leading-tight drop-shadow-lg">
+              Hire Smarter. <br /> Build Faster. <br />
+              <span className="text-[#FFCD1D]">Grow</span> with{" "}
+              <span className="text-[#ff4b4b]">HireHustle</span>.
             </h1>
-            <p className="mt-4 text-lg text-white/90">
-              Your all-in-one hiring and career solution.
+            <p className="mt-6 text-lg md:text-xl text-white/90 font-light">
+              Unlock thousands of top-tier professionals and take your hiring journey to the next level.
             </p>
-            <button className="mt-6 px-6 py-3 bg-[#6A38C2] text-white rounded-xl font-semibold hover:bg-[#5931a6] transition-shadow shadow-md hover:shadow-lg">
-              Explore Plans
-            </button>
+            
+            <p className="mt-3 text-sm text-white/70">
+              No hidden charges. Cancel anytime.
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Features */}
-      <div className="flex flex-col md:flex-row justify-center items-center gap-8 px-6 py-14 bg-gradient-to-b from-white via-gray-50 to-white">
+      {/* Features Section */}
+      <div className="flex flex-col md:flex-row justify-center items-stretch gap-8 px-6 md:px-20 py-20 bg-gradient-to-b from-white via-gray-50 to-white">
         {/* Card 1 */}
-        <div className="bg-white shadow-xl hover:shadow-2xl transition rounded-2xl px-6 py-6 text-center max-w-sm border border-gray-100">
-          <div className="text-5xl mb-4">👤✅</div>
-          <h3 className="text-xl font-bold text-gray-800 mb-1">
-            Hire Skilled Candidates
-          </h3>
-          <p className="text-gray-600 text-sm">
-            Discover and hire pre-screened talent perfect for your business.
+        <div className="bg-white shadow-xl hover:shadow-2xl transition rounded-3xl px-8 py-10 text-center max-w-sm border-t-4 border-[#6A38C2]">
+          <div className="text-5xl mb-6">🔍</div>
+          <h3 className="text-2xl font-bold text-gray-800 mb-3">Explore Opportunities</h3>
+          <p className="text-gray-600 text-base">
+            Discover top jobs across industries tailored to your skills, passion, and location.
           </p>
         </div>
 
         {/* Card 2 */}
-        <div className="bg-white shadow-xl hover:shadow-2xl transition rounded-2xl px-6 py-6 text-center max-w-sm border border-gray-100">
-          <div className="text-5xl mb-4">🏭</div>
-          <h3 className="text-xl font-bold text-gray-800 mb-1">
-            Industry-Relevant Talent
-          </h3>
-          <p className="text-gray-600 text-sm">
-            Find candidates with hands-on experience in your sector.
+        <div className="bg-white shadow-xl hover:shadow-2xl transition rounded-3xl px-8 py-10 text-center max-w-sm border-t-4 border-[#FFCD1D]">
+          <div className="text-5xl mb-6">📝</div>
+          <h3 className="text-2xl font-bold text-gray-800 mb-3">Apply with Ease</h3>
+          <p className="text-gray-600 text-base">
+            Fast-track your application process with a few clicks and real-time status tracking.
           </p>
         </div>
 
         {/* Card 3 */}
-        <div className="bg-white shadow-xl hover:shadow-2xl transition rounded-2xl px-6 py-6 text-center max-w-sm border border-gray-100">
-          <div className="text-5xl mb-4">💵</div>
-          <h3 className="text-xl font-bold text-gray-800 mb-1">
-            Affordable Plans
-          </h3>
-          <p className="text-gray-600 text-sm">
-            Flexible pricing starting from just ₹400 — hiring made affordable.
+        <div className="bg-white shadow-xl hover:shadow-2xl transition rounded-3xl px-8 py-10 text-center max-w-sm border-t-4 border-[#6A38C2]">
+          <div className="text-5xl mb-6">🎯</div>
+          <h3 className="text-2xl font-bold text-gray-800 mb-3">Prepare for Success</h3>
+          <p className="text-gray-600 text-base">
+            Sharpen your edge with curated resources, expert career advice, and mock interviews.
+          </p>
+        </div>
+
+        {/* Card 4 */}
+        <div className="bg-white shadow-xl hover:shadow-2xl transition rounded-3xl px-8 py-10 text-center max-w-sm border-t-4 border-[#FFCD1D]">
+          <div className="text-5xl mb-6">🚀</div>
+          <h3 className="text-2xl font-bold text-gray-800 mb-3">Succeed & Grow</h3>
+          <p className="text-gray-600 text-base">
+            Land your dream job and unlock career milestones faster with HireHustle by your side.
           </p>
         </div>
       </div>

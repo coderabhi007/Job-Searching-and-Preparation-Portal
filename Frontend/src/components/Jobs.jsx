@@ -6,19 +6,23 @@ import { useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import { Allposts } from '@/axios/api/job.api';
 import Loader from './ui/Loader';
+import { useNavigate } from 'react-router-dom';
 // const jobsArray = [1, 2, 3, 4, 5, 6, 7, 8];
 
 const Jobs = () => {
     const {searchedQuery } = useSelector(store => store.job);
     const [allJobs,setAlljobs]=useState([]);
     const [filterJobs, setFilterJobs] = useState(allJobs);
-    
+    const navigate=useNavigate();
     const AddJob = async () => {
         try {
             const response = await Allposts();
             console.log("response", response);
             //dispatch(setAllJobs(response?.data?.data));
             console.log("response?.data?.data",response?.data?.data);
+            if(response?.message=="Unauthorized"){
+                navigate("/error");
+            }
             setAlljobs(response?.data?.data);
         } catch (err) {
             console.error('Company Update Error:', err)

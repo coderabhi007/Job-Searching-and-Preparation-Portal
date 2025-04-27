@@ -4,8 +4,11 @@ import { Badge } from './ui/badge'
 import { useSelector } from 'react-redux'
 import { getAppliedJobsByUser } from '@/axios/api/job.api'
 import Navbar from './shared/Navbar'
+import { useNavigate } from 'react-router-dom'
 
 const AppliedHistroy = () => {
+
+    const navigate=useNavigate();
     const [appliedJobs, setAppliedJobs] = useState([]);
     const fetchJobs = async () => {
         try {
@@ -13,6 +16,7 @@ const AppliedHistroy = () => {
             console.log("response", response);
             setAppliedJobs(response?.data?.data || []);
         } catch (err) {
+            navigate("/error");
             console.error('Company Update Error:', err);
         }
     };

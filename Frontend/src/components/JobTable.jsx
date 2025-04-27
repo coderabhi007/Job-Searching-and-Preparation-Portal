@@ -10,10 +10,12 @@ import NavbarCompany from './shared/NavbarCompany';
 import axiosInstance from '@/axios/axiosConfig';
 import { AppliedUsers, updateApllicationStatus } from '@/axios/api/company.api';
 import { toast } from 'sonner'
+
 const JobTable = () => {
     const [users, setUsers] = useState([]);
     const { jobId } = useParams();
     const [selectedUser, setSelectedUser] = useState(null);
+    const navigate=useNavigate();
 
     // Close popup
     const closePopup = () => setSelectedUser(null);
@@ -24,6 +26,9 @@ const JobTable = () => {
                 const res = await AppliedUsers(jobId);
                 console.log("res.data", res);
                 setUsers(res.data?.data ?? []); // Safe fallback to empty array
+                if(res?.message=="Unauthorized"){
+                    navigate("/error");
+                }
             } catch (err) {
                 console.error('Error fetching users:', err);
             }

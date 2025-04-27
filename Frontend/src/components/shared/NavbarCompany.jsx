@@ -74,11 +74,11 @@ const NavbarCompany = () => {
                             <DollarSign className="w-4 h-4" />
                             <Link to="/company/billing">Billing</Link>
                         </li> */}
-                        <li className='relative group'>
+                        {/* <li className='relative group'>
                             <Bell className='w-5 h-5 text-gray-600 group-hover:text-[#6A38C2] cursor-pointer transition' />
-                            {/* Notification dot example */}
+                          
                             <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white"></span>
-                        </li>
+                        </li> */}
                     </ul>
 
                     {/* Auth Buttons / Avatar */}

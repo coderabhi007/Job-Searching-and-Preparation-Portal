@@ -13,7 +13,6 @@ const CompanyJobs = () => {
   const [input, setInput] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(setSearchJobByText(input));
   }, [input]);

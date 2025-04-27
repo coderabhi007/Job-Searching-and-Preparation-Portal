@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useNavigation, useParams } from 'react-router-dom';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from './ui/table';
@@ -11,9 +11,11 @@ import axiosInstance from '@/axios/axiosConfig';
 import { AppliedUsers, updateApllicationStatus } from '@/axios/api/company.api';
 import { toast } from 'sonner'
 import { RejectedCandidates, SelectedCandidates } from '@/axios/api/job.api';
+
 const RejectedCandidate = () => {
     const [users, setUsers] = useState([]);
     const { jobId } = useParams();
+    const navigate=useNavigate();
 
 
     console.log("jobId", jobId);
@@ -21,6 +23,9 @@ const RejectedCandidate = () => {
         const fetchProfiles = async () => {
             try {
                 const res = await RejectedCandidates(jobId);
+                if(res?.message=="Unauthorized"){
+                    navigate("/error");
+                }
                 console.log("res.data", res);
                 setUsers(res.data?.data);
             } catch (err) {

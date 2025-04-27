@@ -28,9 +28,13 @@ const JobDescription = () => {
         setJob(res.data.data);
         console.log(res.data.data)
         setEditJob(res.data.data);
+        if(res?.message=="Unauthorized"){
+          navigate("/error");
+      }
       } catch (err) {
         toast.error('Error fetching job');
         console.error(err);
+        
       }
     };
     fetchJob();

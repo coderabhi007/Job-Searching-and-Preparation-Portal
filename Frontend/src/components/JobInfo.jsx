@@ -26,6 +26,9 @@ const JobInfo = () => {
                 const res = await axiosInstance.get(`job/getJobById/${jobId}`)
                 setJob(res.data.data)
                 console.log(res);
+                if(res?.message=="Unauthorized"){
+                    navigate("/error");
+                }
                 
                 setEditJob(res.data.data) // Create editable state
             } catch (err) {

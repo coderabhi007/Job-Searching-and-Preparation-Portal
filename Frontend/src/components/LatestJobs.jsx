@@ -4,16 +4,23 @@ import { Allposts } from '@/axios/api/job.api';
 import JobCardShimmer from './JobCardShimmer';
 import { getAllJobs } from '@/axios/api/company.api';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
 const LatestJobs = () => {
     const [allJobs, setAlljobs] = useState([]);
     const [loading, setLoading] = useState(true);
     const {user } = useSelector(store => store.auth);
+    const navigate=useNavigate();
 
     const AddJob = async () => {
         try {
             const response = await Allposts();
             setAlljobs(response?.data?.data);
+            // if(response?.message=="Unauthorized"){
+            //     navigate("/error");
+            // }
             setLoading(false);
+
         } catch (err) {
             console.error('Error fetching jobs:', err);
             setLoading(false);

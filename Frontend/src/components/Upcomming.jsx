@@ -2,19 +2,25 @@ import { useEffect, useState } from "react";
 import Navbar from "./shared/Navbar";
 import axiosInstance from "@/axios/axiosConfig";
 import { useNavigate } from "react-router-dom";
+
 const Upcomming = () => {
     const [upcomingInterviews, setUpcomingInterviews] = useState([])
+      const navigate=useNavigate();
+
     const fetchUpcomingInterviews = async () => {
         try {
             const res = await axiosInstance.get('/interview/getInterviweStudent')
             const responseData = res.data.data
             setUpcomingInterviews(Array.isArray(responseData) ? responseData : [])
+            if(res?.message=="Unauthorized"){
+                navigate("/error");
+            }
         } catch (err) {
             console.error('Error fetching upcoming interviews', err)
             setUpcomingInterviews([])
         }
     }
-    const navigate=useNavigate();
+   // const navigate=useNavigate();
     useEffect(() => {
 
         fetchUpcomingInterviews()

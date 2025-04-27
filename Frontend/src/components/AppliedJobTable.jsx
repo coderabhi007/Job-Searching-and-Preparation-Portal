@@ -4,14 +4,19 @@ import { Badge } from './ui/badge'
 import { useSelector } from 'react-redux'
 import { getAppliedJobsByUser } from '@/axios/api/job.api'
 import Navbar from './shared/Navbar'
+import { useNavigate } from 'react-router-dom'
 
 const AppliedJobTable = () => {
     const [appliedJobs, setAppliedJobs] = useState([]);
+    const navigate=useNavigate();
     const fetchJobs = async () => {
         try {
             const response = await getAppliedJobsByUser();
             console.log("response", response);
             setAppliedJobs(response?.data?.data || []);
+            if(response?.message=="Unauthorized"){
+                navigate("/error");
+            }
         } catch (err) {
             console.error('Company Update Error:', err);
         }

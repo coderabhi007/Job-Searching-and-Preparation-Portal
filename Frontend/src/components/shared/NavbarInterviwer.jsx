@@ -48,12 +48,9 @@ const NavbarInterviewer = () => {
           </li>
           <li className='flex items-center gap-1 hover:text-[#6A38C2] transition'>
             <Calendar className="w-4 h-4" />
-            <Link to="/interviewer/interviews">Upcomming Interviews</Link>
+            <Link to="/interviewer/interviews">Interview History</Link>
           </li>
-          <li className='flex items-center gap-1 hover:text-[#6A38C2] transition'>
-            <Users className="w-4 h-4" />
-            <Link to="/interviewer/candidates">Interview History</Link>
-          </li>
+          
         </ul>
 
         {/* Auth Buttons / Avatar */}

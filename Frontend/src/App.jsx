@@ -8,13 +8,6 @@ import Jobs from './components/Jobs'
 import Browse from './components/Browse'
 import Profile from './components/Profile'
 import JobDescription from './components/JobDescription'
-import Companies from './components/admin/Companies'
-import CompanyCreate from './components/admin/CompanyCreate'
-import CompanySetup from './components/admin/CompanySetup'
-import AdminJobs from "./components/admin/AdminJobs";
-import PostJob from './components/admin/PostJob'
-import Applicants from './components/admin/Applicants'
-import ProtectedRoute from './components/admin/ProtectedRoute'
 import Company from './components/Company'
 import Interviewer from './components/Interviewer/Interviewer'
 import CompanyProtectedRoute from './components/admin/CompanyProtectedRoute'
@@ -51,6 +44,9 @@ import RazorpayButton from './Razorpay/RazorpayButton'
 import PaymentStudent from './components/PaymentStudent'
 import PaymentCompany from './components/PaymentCompany'
 import PerformancePage from './components/PerformancePage'
+import ErrorPage from './components/ErrorPage'
+import ProfileInterviwer from './components/Interviewer/ProfileInterviwer'
+
 const appRouter = createBrowserRouter([
   
   {
@@ -223,33 +219,15 @@ const appRouter = createBrowserRouter([
 {
   path:'/performance',
   element:<PerformancePage/>
+},
+{
+  path:'/error',
+  element:<ErrorPage/>
+},
+{
+  path:'/interviewer/profile',
+  element:<ProfileInterviwer/>
 }
-
-  // admin ke liye yha se start hoga
-  // {
-  //   path: "/admin/companies",
-  //   element: <Companies />
-  // },
-  // {
-  //   path: "/admin/companies/create",
-  //   element: <CompanyCreate />
-  // },
-  // {
-  //   path: "/admin/companies/:id",
-  //   element: <CompanySetup />
-  // },
-  // {
-  //   path: "/admin/jobs",
-  //   element: <AdminJobs />
-  // },
-  // {
-  //   path: "/admin/jobs/create",
-  //   element: <PostJob />
-  // },
-  // {
-  //   path: "/admin/jobs/:id/applicants",
-  //   element: <Applicants />
-  // },
 
 ])
 function App() {
