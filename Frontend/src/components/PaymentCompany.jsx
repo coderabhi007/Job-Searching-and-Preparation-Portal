@@ -17,12 +17,13 @@ const loadRazorpayScript = () => {
 };
 
 const plans = [
-    { id: 1, name: "Starter", price: 99, features: ["1 Interview Slot", "Basic Support"] },
-    { id: 2, name: "Basic", price: 199, features: ["3 Interview Slots", "Priority Support"] },
-    { id: 3, name: "Pro", price: 499, features: ["5 Interview Slots", "Dedicated Support"] },
-    { id: 4, name: "Premium", price: 999, features: ["10 Interview Slots", "Mock Interviews"] },
-    { id: 5, name: "Elite", price: 1499, features: ["Unlimited Slots ", "Career Counselling"] },
+    { id: 1, name: "Starter", price: 499, features: ["Access to 5 Top-Rated Students", "Basic Support"] },
+    { id: 2, name: "Standard", price: 999, features: ["Access to 15 Top-Rated Students", "Priority Support", "Early Access to New Candidates"] },
+    { id: 3, name: "Pro", price: 1999, features: ["Access to 40 Top-Rated Students", "Candidate Shortlisting Assistance", "Dedicated Support Manager"] },
+    { id: 4, name: "Premium", price: 2999, features: ["Unlimited Access to Top-Rated Students", "Premium Branding on Portal", "Priority Shortlisting"] },
+    { id: 5, name: "Elite", price: 4999, features: ["Unlimited Access + Exclusive Talent Pool", "Custom Hiring Solutions", "Dedicated Account Manager & Advanced Analytics"] },
 ];
+
 
 const PaymentCompany = () => {
     const [loading, setLoading] = useState(false);
