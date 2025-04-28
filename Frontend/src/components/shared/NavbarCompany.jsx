@@ -4,7 +4,7 @@ import { Button } from '../ui/button'
 import { Avatar, AvatarImage } from '../ui/avatar'
 import {
     LogOut, Bell, Mail, Users, Briefcase, User2, PlusCircle, FileText, DollarSign,
-    Search, LayoutDashboard
+    Search, LayoutDashboard ,GraduationCap
 } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -16,8 +16,8 @@ const NavbarCompany = () => {
     const { user } = useSelector(store => store.auth)
     const dispatch = useDispatch()
     const navigate = useNavigate()
-      const [logoFile, setLogoFile] = useState(null)
-      const { data } = useSelector(store => store.auth)
+    const [logoFile, setLogoFile] = useState(null)
+    const { data } = useSelector(store => store.auth)
 
     const logoutHandler = async () => {
         const res = await Logout()
@@ -35,7 +35,7 @@ const NavbarCompany = () => {
             }
         }
     }
-    console.log("data",data);
+    console.log("data", data);
 
     return (
         <div className='bg-white shadow-sm border-b'>
@@ -43,11 +43,11 @@ const NavbarCompany = () => {
                 {/* Logo */}
                 <div>
                     <Link to="/" className="flex items-center space-x-2 text-2xl font-bold tracking-tight text-gray-800">
-                                        {/* <img src="/logo.png" alt="HireHustle Logo" className="h-20 w-20" /> */}
-                                        <span>
-                                            Hire<span className="text-[#F83002]">Hustle</span>
-                                        </span>
-                                    </Link>
+                        {/* <img src="/logo.png" alt="HireHustle Logo" className="h-20 w-20" /> */}
+                        <span>
+                            Hire<span className="text-[#F83002]">Hustle</span>
+                        </span>
+                    </Link>
                 </div>
 
                 {/* Nav Links */}
@@ -69,6 +69,11 @@ const NavbarCompany = () => {
                             <FileText className="w-4 h-4" />
                             <Link to="/paymentCompany">Payment</Link>
                         </li>
+                        <li className='flex items-center gap-1 hover:text-[#6A38C2] transition'>
+                            <GraduationCap className="w-4 h-4" />
+                            <Link to="/getTop">Top Students</Link>
+                        </li>
+
 
                         {/* <li className='flex items-center gap-1 hover:text-[#6A38C2] transition'>
                             <DollarSign className="w-4 h-4" />
@@ -101,7 +106,7 @@ const NavbarCompany = () => {
                             <PopoverContent className="w-80 shadow-lg border">
                                 <div className='p-4 rounded'>
                                     <div className='flex gap-3 items-center'>
-                
+
                                         <div>
                                             <h4 className='font-medium'>{user?.fullname}</h4>
                                             <p className='text-sm text-muted-foreground'>{user?.profile?.bio}</p>

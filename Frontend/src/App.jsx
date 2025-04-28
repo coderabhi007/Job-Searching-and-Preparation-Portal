@@ -46,6 +46,7 @@ import PaymentCompany from './components/PaymentCompany'
 import PerformancePage from './components/PerformancePage'
 import ErrorPage from './components/ErrorPage'
 import ProfileInterviwer from './components/Interviewer/ProfileInterviwer'
+import GetTopStudents from './components/GetTopStudents'
 
 const appRouter = createBrowserRouter([
   
@@ -227,6 +228,10 @@ const appRouter = createBrowserRouter([
 {
   path:'/interviewer/profile',
   element:<ProfileInterviwer/>
+},
+{
+  path:'/getTop',
+  element:<GetTopStudents/>
 }
 
 ])
