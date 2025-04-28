@@ -246,7 +246,80 @@ const skills=[
       return res.status(500).json(new ApiError(500, "Internal Server Error"));
     }
   }
-  
+  function filterAndSortStudents(students, requiredSkills) {
+    const qualifiedStudents = [];
+
+    students.forEach(student => {
+        if (!student.interviewRecords || !Array.isArray(student.interviewRecords)) {
+            console.log(`Skipping student ${student.studentId || student._id} due to missing interviewRecords`);
+            return; // skip students without interviewRecords
+        }
+
+        // Create a map of skill => totalMarks
+        const skillMap = {};
+        student.interviewRecords.forEach(record => {
+            if (record.skill && typeof record.skill === 'string' && typeof record.totalMarks === 'number') {
+                skillMap[record.skill] = record.totalMarks;
+            }
+        });
+
+        // Check if student has all required skills
+        const hasAllSkills = requiredSkills.every(skill => skillMap.hasOwnProperty(skill));
+
+        if (hasAllSkills) {
+            // Calculate total score for only required skills
+            const totalScore = requiredSkills.reduce((sum, skill) => sum + skillMap[skill], 0);
+
+            qualifiedStudents.push({
+                name: student.name || student.studentId || student._id.toString(),
+                total_score: totalScore
+            });
+        }
+    });
+
+    // Sort by total_score in descending order
+    qualifiedStudents.sort((a, b) => b.total_score - a.total_score);
+
+    return qualifiedStudents;
+}
+
+async function getTopRankedStudents(req, res) {
+    try {
+        const { requiredSkills } = req.body; // Example: { "requiredSkills": ["DSA"] }
+
+        if (!requiredSkills || !Array.isArray(requiredSkills) || requiredSkills.length === 0) {
+            return res.status(400).json(new ApiError(400, "requiredSkills must be a non-empty array"));
+        }
+
+        const students = await StudentInterview.find({}).lean(); // Fetch all students
+
+        if (!students || students.length === 0) {
+            return res.status(200).json(new ApiResponse(200, [], "No students found"));
+        }
+
+        const qualifiedStudents = filterAndSortStudents(students, requiredSkills);
+        let responseData=[];
+        for (const student of qualifiedStudents) {
+          // Get additional user data using studentId
+          console.log(student.name)
+          const userData = await User.findById(student.name) // Fetch user data based on studentId
+          console.log(userData)
+          // Add user info to the student's data
+          responseData.push({
+              ...student,  // Copy the original student info (name, score, skills)
+             ...userData._doc
+          });
+      }
+
+      // Sort the response data based on total_score in descending order
+      responseData.sort((a, b) => b.total_score - a.total_score);
+      console.log(responseData)
+        return res.status(200).json(new ApiResponse(200, responseData, "Top ranked students fetched successfully"));
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json(new ApiError(500, "Internal Server Error"));
+    }
+}
 
   export { setData };
-export {getData,getMarks};
+export {getData,getMarks,getTopRankedStudents};
