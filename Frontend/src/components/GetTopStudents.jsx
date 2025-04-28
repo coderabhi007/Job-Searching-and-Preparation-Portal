@@ -54,68 +54,87 @@ const GetTopStudents = () => {
   return (
     <>
       <NavbarCompany />
-      <div className="min-h-screen p-8 bg-gray-50">
-        <h1 className="text-2xl font-bold mb-6 flex items-center gap-2">
-          <GraduationCap className="w-6 h-6 text-purple-600" />
+      <div className="min-h-screen p-6 md:p-10 bg-gray-50">
+        {/* Heading */}
+        <h1 className="text-3xl font-bold mb-8 flex items-center gap-3 text-purple-700">
+          <GraduationCap className="w-8 h-8 text-purple-600" />
           Top Students
         </h1>
-
-        {/* Skill Selection (Checkboxes) */}
-        <div className="mb-6">
-          <h2 className="text-xl font-semibold text-purple-700">Select Skills</h2>
-          <div className="mt-4">
+  
+        {/* Skills Section */}
+        <div className="mb-10 bg-white p-6 rounded-lg shadow-md">
+          <h2 className="text-2xl font-semibold text-purple-700 mb-4">Select Skills</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {skills.map((skill) => (
-              <div key={skill} className="flex items-center mb-2">
+              <div key={skill} className="flex items-center">
                 <input
                   type="checkbox"
                   id={skill}
                   value={skill}
                   checked={selectedSkills.includes(skill)}
                   onChange={handleSkillChange}
-                  className="mr-2"
+                  className="h-5 w-5 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
                 />
-                <label htmlFor={skill} className="text-gray-700">{skill}</label>
+                <label htmlFor={skill} className="ml-2 text-gray-700 capitalize">{skill}</label>
               </div>
             ))}
           </div>
         </div>
-
+  
         {/* Submit Button */}
-        <button
-          onClick={fetchStudents}
-          className="mt-4 p-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
-        >
-          Submit
-        </button>
-
-        {loading && <div className="mt-4">Loading...</div>}
-
+        <div className="text-center">
+          <button
+            onClick={fetchStudents}
+            className="px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition shadow-md"
+          >
+            Submit
+          </button>
+        </div>
+  
+        {/* Loading */}
+        {loading && <div className="mt-6 text-center text-purple-600 text-lg">Loading...</div>}
+  
         {/* Students Data */}
         {students.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10">
             {students.map((student) => (
-              <div key={student._id} className="p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition">
-                <h2 className="text-xl font-semibold text-purple-700 capitalize">{student.name}</h2>
-                <p className="text-gray-600">Score: {student.total_score ? student.total_score.toFixed(2) : 'N/A'}</p>
-                <p className="text-gray-600">Email: {student.email}</p>
-                <p className="text-gray-600">Contact: {student.contact}</p>
-                <p className="text-gray-600">Address: {student.address}</p>
-                <p className="text-gray-600">Skills: {student.skills ? student.skills.join(', ') : 'No skills listed'}</p>
+              <div
+                key={student._id}
+                className="p-6 bg-white rounded-2xl shadow-lg hover:shadow-2xl transition border border-gray-100"
+              >
+                <h2 className="text-xl font-bold text-purple-700 capitalize mb-2">{student.name}</h2>
+                <p className="text-gray-600 mb-1">
+                  <span className="font-semibold">Score:</span> {student.total_score ? student.total_score.toFixed(2) : 'N/A'}
+                </p>
+                <p className="text-gray-600 mb-1">
+                  <span className="font-semibold">Email:</span> {student.email}
+                </p>
+                <p className="text-gray-600 mb-1">
+                  <span className="font-semibold">Contact:</span> {student.contact}
+                </p>
+                <p className="text-gray-600 mb-1">
+                  <span className="font-semibold">Address:</span> {student.address}
+                </p>
+                <p className="text-gray-600 mt-2">
+                  <span className="font-semibold">Skills:</span> {student.skills ? student.skills.join(', ') : 'No skills listed'}
+                </p>
               </div>
             ))}
           </div>
         ) : (
-          <p className="text-gray-600 mt-4">No students available.</p>
+          <p className="text-gray-600 mt-8 text-center">No students available.</p>
         )}
-
-        <div className="mt-8">
-          <Link to="/" className="text-purple-600 hover:underline">
+  
+        {/* Back Link */}
+        <div className="mt-12 text-center">
+          <Link to="/" className="text-purple-600 font-semibold hover:underline">
             ← Back to Home
           </Link>
         </div>
       </div>
     </>
   );
+  
 };
 
 export default GetTopStudents;
