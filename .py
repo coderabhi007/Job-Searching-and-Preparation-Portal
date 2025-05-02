@@ -5,6 +5,7 @@ from sklearn.preprocessing import StandardScaler
 import requests
 import matplotlib.pyplot as plt
 
+
 # Step 1: Fetch students' data from the API
 def fetch_students_data(api_url):
     try:
