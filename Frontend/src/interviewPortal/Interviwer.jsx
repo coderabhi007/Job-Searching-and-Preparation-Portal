@@ -4,7 +4,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import CodeEditor from "./codeEditor.jsx";
 import axios from 'axios'
 import { toast } from "sonner";
-
+import InterviewerScreenRecorder from "./InterviweRecording.jsx";
 export default function Interviwer() {
   const localRef = useRef(null);
   const remoteVideoRef = useRef(null);
@@ -269,7 +269,7 @@ export default function Interviwer() {
           <div className="bg-white rounded-2xl shadow-lg p-5 border border-gray-100 max-h-[300px] overflow-y-auto">
             <h3 className="text-xl font-semibold mb-3 text-gray-700">Mark Candidate on {data?.data?.name}</h3>
             <div className="grid grid-cols-2 gap-4">
-              {subpoint.length > 0 ? (
+              {subpoint?.length > 0 ? (
                 subpoint.map((point, index) => (
                   <div key={index} className="flex flex-col">
                     <label htmlFor={`point-${index}`} className="text-sm text-gray-700 mb-1">
@@ -321,7 +321,7 @@ export default function Interviwer() {
           style={{ display: "none" }}
         />
       </div>
-
+<InterviewerScreenRecorder/>
     </div>
   );
 

@@ -23,6 +23,8 @@ const PerformancePage = () => {
       try {
         const res = await axiosInstance.get("/getMarks");
         setPerformanceData(res.data.data || []);
+        // if(performanceData)
+        console.log(res.data.data)
       } catch (error) {
         console.error("Error fetching performance data:", error);
       }
@@ -63,7 +65,7 @@ const PerformancePage = () => {
       <div className="flex-1 space-y-12">
         <h1 className="text-3xl font-bold mb-8 text-center text-[#6A38C2]">Performance Overview</h1>
 
-        {performanceData.map((student) => (
+        {Array.isArray(performanceData)&& performanceData.map((student) => (
           <div key={student._id} className="space-y-12">
             {student.interviewRecords.map((record, i) => {
               const chartData = Object.entries(record.subtopicMarks)

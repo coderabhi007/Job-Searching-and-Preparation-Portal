@@ -47,7 +47,7 @@ import PerformancePage from './components/PerformancePage'
 import ErrorPage from './components/ErrorPage'
 import ProfileInterviwer from './components/Interviewer/ProfileInterviwer'
 import GetTopStudents from './components/GetTopStudents'
-
+import InterviewVideos from './interviewPortal/InterviewVideos'
 const appRouter = createBrowserRouter([
   
   {
@@ -68,7 +68,10 @@ const appRouter = createBrowserRouter([
     element: <BookSlot />
 
   },
-
+{
+  path:'/admin',
+  element:<InterviewVideos/>
+},
   {
     path: '/contact',
     element: <ContactUs />

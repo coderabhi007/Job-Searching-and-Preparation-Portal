@@ -3,6 +3,8 @@ import {ApiResponse} from '../util/ApiResponse.js';
 import Interview from '../models/interviwe.model.js';
 import StudentInterview from '../models/StudenInterview.model.js'
 import User from '../models/user.model.js';
+import {uploadOnCloudinary} from '../util/Cloudnary.js';
+import InterviewRecording from '../models/InteviweRecording.Model.js';
 const skills=[
     {
       "name": "DSA",
@@ -320,6 +322,62 @@ async function getTopRankedStudents(req, res) {
         return res.status(500).json(new ApiError(500, "Internal Server Error"));
     }
 }
+async function addInterviewRecording(req, res) {
+  try {
+    const { interviweID } = req.body;
+    const file = req.files.video[0]; // Assuming field name is "video"
+    
+    // Upload the video to Cloudinary
+    const result = await uploadOnCloudinary(file.path, "interviewRecordings");
 
+    if (!result || !result.secure_url) {
+      return res.status(500).json(new ApiError(500, "Video upload failed."));
+    }
+
+    // Log Cloudinary URL to console
+    console.log("✅ Cloudinary video URL:", result.secure_url);
+
+    // Check if a recording already exists for the given interviewId
+    const existingRecording = await InterviewRecording.findOne({ interviewId: interviweID });
+
+    if (existingRecording) {
+      // If a recording already exists, add the new video URL to the existing video array
+      existingRecording.video.push(result.secure_url); // Add new video URL to the existing array
+
+      await existingRecording.save(); // Save the updated recording
+
+      return res.status(200).json(
+        new ApiResponse(200, { videoUrl: result.secure_url }, "New interview video added successfully")
+      );
+    } else {
+      // If no recording exists for the interviewId, create a new one
+      const newRecording = new InterviewRecording({
+        interviewId: interviweID,
+        video: [result.secure_url], // Store the first video URL in an array
+      });
+
+      await newRecording.save(); // Save the new recording to the database
+
+      return res.status(200).json(
+        new ApiResponse(200, { videoUrl: result.secure_url }, "Interview video uploaded successfully")
+      );
+    }
+  } catch (error) {
+    console.error("Upload error:", error);
+    return res.status(500).json(new ApiError(500, "Internal Server Error", error.message));
+  }
+}
+export const getAllInterviewRecordings = async (req, res) => {
+  try {
+    const recordings = await InterviewRecording.find().sort({ createdAt: -1 }); // Optional: latest first
+
+    return res.status(200).json(
+      new ApiResponse(200, recordings, "All interview recordings fetched successfully")
+    );
+  } catch (error) {
+    console.error("Fetch error:", error);
+    return res.status(500).json(new ApiError(500, "Internal Server Error", error.message));
+  }
+};
   export { setData };
-export {getData,getMarks,getTopRankedStudents};
+export {getData,getMarks,getTopRankedStudents,addInterviewRecording};
