@@ -93,7 +93,7 @@ export default function InterviewerScreenRecorder() {
       {/* Optional button to manually start recording */}
       <button
         onClick={startScreenRecording}
-        className="px-4 py-2 bg-blue-600 text-white rounded-md shadow"
+        className="px-4 py-2 bg-blue-600 text-white rounded-md shadow hidden"
       >
         Start Interview (and Record Screen)
       </button>
