@@ -13,43 +13,9 @@ const ContactUs = () => {
         Have questions, suggestions, or need help? We'd love to hear from you. Fill out the form below or reach us directly.
       </p>
 
-      <div className="grid md:grid-cols-2 gap-10">
+      <div className="flex flex-row gap-4">
         {/* Contact Form */}
-        <form className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-            <input
-              type="text"
-              placeholder="Your Name"
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#6A38C2]"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-            <input
-              type="email"
-              placeholder="you@example.com"
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#6A38C2]"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
-            <textarea
-              rows="5"
-              placeholder="Your Message..."
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#6A38C2]"
-            ></textarea>
-          </div>
-
-          <button
-            type="submit"
-            className="bg-[#6A38C2] text-white px-6 py-2 rounded-lg hover:bg-[#5931a6] transition"
-          >
-            Send Message
-          </button>
-        </form>
+       
 
         {/* Contact Information */}
         <div className="space-y-6">
